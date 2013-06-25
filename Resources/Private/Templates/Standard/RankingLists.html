@@ -1,0 +1,40 @@
+<f:layout name="Default" />
+
+<f:section name="Title">RankingLists view of Standard controller</f:section>
+
+<f:section name="Content">
+	<h1>Ranking Lists</h1>
+	
+	<ul>
+			<f:for each="{rankingLists}" as="rankingList">
+					<li>
+							{rankingList.name}<br>
+							{rankingList.description}<br>
+							<ul>
+								<f:for each="{rankingList.supervisoryBoard}" as="sBoard">
+									<li>
+										{sBoard.name}<br>
+										{sBoard.seats}<br>
+										<ul>
+											<f:for each="{sBoard.listOfCandidates}" as="listOfCandidates">
+												<li>
+													{listOfCandidates.name}<br>
+													<ul>
+														<f:for each="{listOfCandidates.candidateInList}" as="candidateInList">
+															<li>
+																{candidateInList.name}<br>
+																{candidateInList.votesRegional}<br>
+																{candidateInList.votesInternational}<br>
+															</li>
+														</f:for>
+													</ul>
+												</li>
+											</f:for>
+										</ul>
+									</li>
+								</f:for>
+							</ul>
+					</li>
+			</f:for>
+	</ul>
+</f:section>
