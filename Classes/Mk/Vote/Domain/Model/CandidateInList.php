@@ -6,13 +6,13 @@ namespace Mk\Vote\Domain\Model;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * A Candidate in list
  *
- * @FLOW3\Entity
+ * @Flow\Entity
  */
 class CandidateInList {
 

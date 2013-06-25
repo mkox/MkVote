@@ -9,7 +9,7 @@ namespace Mk\Vote\Tests\Unit\Domain\Model;
 /**
  * Testcase for Overview
  */
-class OverviewTest extends \TYPO3\FLOW3\Tests\UnitTestCase {
+class OverviewTest extends \TYPO3\Flow\Tests\UnitTestCase {
 
 	/**
 	 * @test

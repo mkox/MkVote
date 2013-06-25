@@ -6,23 +6,23 @@ namespace Mk\Vote\Controller;
  *                                                                        *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * Setup controller for the Mk.Vote package 
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
-class SetupController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
+class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \Mk\Vote\Domain\Repository\RankingListRepository
 	 */
 	protected $rankingListRepository;
 	
 	/**
-	 * @FLOW3\Inject
+	 * @Flow\Inject
 	 * @var \Mk\Vote\Domain\Repository\PartyRepository
 	 */
 	protected $partyRepository;
@@ -373,8 +373,8 @@ print_r('<br>$rankingList:<br>');
 //var_dump(xdebug_get_code_coverage());
 //
 //print_r('<br>before repository<br>');
-print_r('\TYPO3\FLOW3\var_dump($rankingList): ');
-\TYPO3\FLOW3\var_dump($rankingList);
+print_r('\TYPO3\Flow\var_dump($rankingList): ');
+\TYPO3\Flow\var_dump($rankingList);
 xdebug_start_code_coverage();
 		$this->rankingListRepository->add($rankingList);
 xdebug_print_function_stack('Test message 1');
@@ -412,8 +412,8 @@ exit;
 print_r('<br>$rankingList:<br>');
 \Doctrine\Common\Util\Debug::dump($rankingList);
 
-print_r('\TYPO3\FLOW3\var_dump($rankingList): ');
-\TYPO3\FLOW3\var_dump($rankingList);
+print_r('\TYPO3\Flow\var_dump($rankingList): ');
+\TYPO3\Flow\var_dump($rankingList);
 xdebug_start_code_coverage();
 		$this->rankingListRepository->add($rankingList);
 xdebug_print_function_stack('Test message 1');

@@ -9,7 +9,7 @@ namespace Mk\Vote\Tests\Unit\Domain\Model;
 /**
  * Testcase for Supervisory board
  */
-class SupervisoryBoardTest extends \TYPO3\FLOW3\Tests\UnitTestCase {
+class SupervisoryBoardTest extends \TYPO3\Flow\Tests\UnitTestCase {
 
 	/**
 	 * @test
