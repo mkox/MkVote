@@ -42,6 +42,13 @@ class Party {
 	 */
 	protected $listOfCandidates;
 
+	/**
+	 * Constructs this party
+	 */
+	public function __construct() {
+		$this->candidateInList = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->listOfCandidates = new \Doctrine\Common\Collections\ArrayCollection();
+	}
 
 	/**
 	 * Get the Party's name

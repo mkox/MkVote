@@ -38,6 +38,31 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$startArray = $startArrayObject->getContent();
 		
 		$this->setParties($startArray);
+        $this->persistenceManager->persistAll();
+        $allParties = $this->partyRepository->findAll();
+        
+//$allPartiesCount = $this->partyRepository->countAll();
+//print_r('y $allPartiesCount: ');
+//\Doctrine\Common\Util\Debug::dump($allPartiesCount);
+//        
+//        $allParties = $this->partyRepository->findAll();
+//print_r('<br><br>y $allParties: ');
+//\Doctrine\Common\Util\Debug::dump($allParties);
+////\TYPO3\Flow\var_dump($allParties);
+//
+//        foreach ($allParties as $key => $value) {
+//            print_r('<br>MMM-$key: ');
+//            print_r(\Doctrine\Common\Util\Debug::dump($key));
+//            print_r('<br>MMM-$value: ');
+//            print_r(\Doctrine\Common\Util\Debug::dump($value));
+//            print_r('<br>MMM-$value->getName(): ');
+//            print_r($value->getName());
+//            print_r('<br>');
+////            print_r('<br>' . $key . '<br>' . $value);
+////            print_r('<br>' . $allParties->$key->getName());
+//        }
+//
+//exit();
 		
 		$rankingList = new \Mk\Vote\Domain\Model\RankingList();
 		$rankingList->setName($startArray['name']);
@@ -76,10 +101,11 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 //z								$partiesOfList->add($partiesOfList2);
 //z								$singleListOfCandidates['parties'] = $partiesOfList;
 								
-								$sbPartiesWithJoinedEntitiy = $this->listOfPartiesWithJoinedEntity($lValue2, $singleListOfCandidates);
-								if(is_array($sbPartiesWithJoinedEntitiy)){
-									$sbParties = array_merge($sbParties, $sbPartiesWithJoinedEntitiy);
-								}
+								
+//								$sbPartiesWithJoinedEntitiy = $this->listOfPartiesWithJoinedEntity($lValue2, $singleListOfCandidates);
+//								if(is_array($sbPartiesWithJoinedEntitiy)){
+//									$sbParties = array_merge($sbParties, $sbPartiesWithJoinedEntitiy);
+//								}
 								
 							} else if($lKey2 == 'candidates') {
 								foreach($lValue2 as $cKey => $cValue){
@@ -90,12 +116,17 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 									$candidateInList->setVotesRegional($lValue2[$cKey]['votes']['regional']);
 									$candidateInList->setListOfCandidates($singleListOfCandidates);
 									
+									if(trim($cValue['parties']) != ''){
+										$partyObjectsOfThisCandidate = $this->filterPartyObjects($allParties, $cValue['parties']);
+										foreach($partyObjectsOfThisCandidate as $partyObject){
+											$candidateInList->getParties()->add($partyObject);
+										}
+									//to be done: accept candidate party only, if it is among the parties of the list of this candididate
+									}
+									
 									$singleListOfCandidates->getCandidateInList()->add($candidateInList);
 									
-									$candidatePartiesWithJoinedEntitiy = $this->listOfPartiesWithJoinedEntity($cValue['parties'], $candidateInList);
-									if(is_array($candidatePartiesWithJoinedEntitiy)){
-										$candidateParties = array_merge($sbParties, $candidatePartiesWithJoinedEntitiy);
-									}
+									
 								}
 							}
 						}
@@ -170,12 +201,30 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		/**
 	 * Set parties
 	 *
-	 * @param string $parties The parties
-	 * @param 
+	 * @param array $allParties
+	 * @param array $selectedParties
 	 * @return void
 	 */
-	public function listOfPartiesWithJoinedEntity($parties, $joinedEntity) {
+	public function filterPartyObjects($allParties, $selectedParties) {
 		
+		$filteredParties = array();
+		$selectedParties = explode(',', $selectedParties);
+		
+		$counter = 0;
+		$numberSelectedParties = count($selectedParties);
+		foreach($allParties as $key => $party){
+			foreach($selectedParties as $selectedParty){
+				if ($party->getName() == trim($selectedParty)){
+					$filteredParties[] = $party;
+					$counter++;
+					break;
+				}
+			}
+			if($counter == $numberSelectedParties){
+				break;
+			}
+		}
+		return $filteredParties;
 	}
 	
 	/**
