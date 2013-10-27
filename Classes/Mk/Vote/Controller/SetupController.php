@@ -93,19 +93,12 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 						foreach($startArray['supervisoryBoards'][$sbKey]['votesPerList'][$list] as $lKey2 => $lValue2){
 							if($lKey2 == 'parties'){
 								
-//z								$singleListOfCandidates['parties']['name'] = $lValue2;
-//z								$singleListOfCandidates['parties']['parentParty'] = 10;
-								
-//z								$partiesOfList = new \Doctrine\Common\Collections\ArrayCollection();
-//z								$partiesOfList2 = array('name' => $lValue2, 'parentParty' => 10);
-//z								$partiesOfList->add($partiesOfList2);
-//z								$singleListOfCandidates['parties'] = $partiesOfList;
-								
-								
-//								$sbPartiesWithJoinedEntitiy = $this->listOfPartiesWithJoinedEntity($lValue2, $singleListOfCandidates);
-//								if(is_array($sbPartiesWithJoinedEntitiy)){
-//									$sbParties = array_merge($sbParties, $sbPartiesWithJoinedEntitiy);
-//								}
+								if(trim($lValue2) != ''){
+									$partyObjectsOfThisList = $this->filterPartyObjects($allParties, $lValue2);
+									foreach($partyObjectsOfThisList as $partyObject){
+										$singleListOfCandidates->getParties()->add($partyObject);
+									}
+								}
 								
 							} else if($lKey2 == 'candidates') {
 								foreach($lValue2 as $cKey => $cValue){
