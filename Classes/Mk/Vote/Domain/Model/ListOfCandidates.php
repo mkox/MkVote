@@ -37,9 +37,9 @@ class ListOfCandidates {
 	protected $candidateInList;
 
 	/**
-	 * The parties
+	 * @ORM\ManyToMany
+	 * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\Party>
-	 * @ORM\ManyToMany(inversedBy="listOfCandidates")
 	 */
 	protected $parties;
 	

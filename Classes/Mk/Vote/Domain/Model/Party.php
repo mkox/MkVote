@@ -29,25 +29,10 @@ class Party {
 	protected $parentParty;
 
 	/**
-	 * The candidate in list
-	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\CandidateInList>
-	 * @ORM\ManyToMany(mappedBy="parties")
-	 */
-	protected $candidateInList;
-
-	/**
-	 * The list of candidates
-	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\ListOfCandidates>
-	 * @ORM\ManyToMany(mappedBy="parties")
-	 */
-	protected $listOfCandidates;
-
-	/**
 	 * Constructs this party
 	 */
 	public function __construct() {
-		$this->candidateInList = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->listOfCandidates = new \Doctrine\Common\Collections\ArrayCollection();
+		
 	}
 
 	/**
@@ -88,24 +73,6 @@ class Party {
 		$this->parentParty = $parentParty;
 	}
 
-	/**
-	 * Get the Party's candidate in list
-	 *
-	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\CandidateInList> The Party's candidate in list
-	 */
-	public function getCandidateInList() {
-		return $this->candidateInList;
-	}
-
-
-	/**
-	 * Get the Party's list of candidates
-	 *
-	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\ListOfCandidates> The Party's list of candidates
-	 */
-	public function getListOfCandidates() {
-		return $this->listOfCandidates;
-	}
 
 }
 ?>
