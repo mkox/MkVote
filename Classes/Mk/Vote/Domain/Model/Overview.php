@@ -21,16 +21,18 @@ class Overview {
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\RankingList>
 	 * @ORM\OneToMany(mappedBy="overview")
 	 */
-	protected $rankingList;
+	protected $rankingLists;
 
 
 	/**
-	 * Get the Overview's ranking list
+	 * Get the Overview's ranking lists
 	 *
 	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\RankingList> The Overview's ranking list
 	 */
-	public function getRankingList() {
-		return $this->rankingList;
+	public function getRankingLists() {
+print_r("<br>Rankinglists from Overview: ");
+\Doctrine\Common\Util\Debug::dump($this->rankingLists);
+		return $this->rankingLists;
 	}
 
 }

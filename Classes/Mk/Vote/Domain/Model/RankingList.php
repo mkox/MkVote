@@ -19,7 +19,7 @@ class RankingList {
 	/**
 	 * The overview
 	 * @var \Mk\Vote\Domain\Model\Overview
-	 * @ORM\ManyToOne(inversedBy="rankingList")
+	 * @ORM\ManyToOne(inversedBy="rankingLists")
 	 */
 	protected $overview;
 

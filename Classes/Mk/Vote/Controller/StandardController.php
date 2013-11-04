@@ -28,6 +28,13 @@ class StandardController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
+		
+$Overview = new \Mk\Vote\Domain\Model\Overview;
+$Overview->getRankingLists();
+
+print_r("<br>Rankinglists more directly: ");
+\Doctrine\Common\Util\Debug::dump($this->rankingListRepository->findAll());
+		
 		$this->view->assign('foos', array(
 			'bar', 'baz'
 		));

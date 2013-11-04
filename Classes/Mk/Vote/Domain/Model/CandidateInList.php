@@ -43,7 +43,7 @@ class CandidateInList {
 
 	/**
 	 * @ORM\ManyToMany
-	 * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(unique=true)})
+	 * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn()})
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\Party>
 	 */
 	protected $parties;
