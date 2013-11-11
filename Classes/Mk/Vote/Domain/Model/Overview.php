@@ -30,6 +30,19 @@ class Overview {
 	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\RankingList> The Overview's ranking list
 	 */
 	public function getRankingLists() {
+
+
+//print_r('OV $allParties for $this->rankingLists');
+//$allParties = $this->rankingLists;
+//$m = 0;
+//		foreach($allParties as $key => $party){
+//print_r('<br>OV $m: ' . $m++ . '<br>');
+//					$filteredParties[] = $party;
+//
+//		}
+//print_r('$filteredParties');
+//\Doctrine\Common\Util\Debug::dump($filteredParties);
+
 print_r("<br>Rankinglists from Overview: ");
 \Doctrine\Common\Util\Debug::dump($this->rankingLists);
 		return $this->rankingLists;

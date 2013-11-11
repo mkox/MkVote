@@ -30,8 +30,19 @@ class StandardController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 	public function indexAction() {
 		
 $Overview = new \Mk\Vote\Domain\Model\Overview;
-$Overview->getRankingLists();
+$overViewRL = $Overview->getRankingLists();
 
+print_r('<br>$allParties for this->rankingListRepository->findAll()');
+$allParties = $this->rankingListRepository->findAll();
+$m = 0;
+		foreach($allParties as $key => $party){
+print_r('<br>$m: ' . $m++ . '<br>');
+					$filteredParties[] = $party;
+
+		}
+print_r('$filteredParties');
+\Doctrine\Common\Util\Debug::dump($filteredParties);
+		
 print_r("<br>Rankinglists more directly: ");
 \Doctrine\Common\Util\Debug::dump($this->rankingListRepository->findAll());
 		
