@@ -3,13 +3,15 @@
 <f:section name="Title">Index view of Standard controller</f:section>
 
 <f:section name="Content">
-	<h1>A freshly created Fluid template!</h1>
-	<p>Some data set by the controller:</p>
+	<h1>Mk.Vote - Central View</h1>
+	<p>Ranking Lists</p>
 	<ul>
-		
-		<f:for each="{foos}" as="foo">
-			<li>{foo}</li>
-		</f:for>
-		
+			<f:for each="{rankingLists}" as="rankingList">
+					<li>
+							<f:link.action action="show" controller="RankingList" arguments="{rankingList: rankingList}">{rankingList.name}</f:link.action><br>
+							{rankingList.description}<br>
+
+					</li>
+			</f:for>
 	</ul>
 </f:section>
