@@ -67,7 +67,7 @@ class startArray1{
 											'international' => 411,
 											'regional' => 31
 										),
-										'parties' => '',
+										'parties' => 'XX',
 									),
 									'c7' => array(
 										'votes' => array(
@@ -188,7 +188,7 @@ class startArray1{
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
-								'parties' => '',
+								'parties' => 'p XZ',
 								//'votes' => 775,
 								'candidates' => array(
 									'c21' => array(

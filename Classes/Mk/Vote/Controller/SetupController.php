@@ -36,6 +36,9 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		
 		$startArrayObject = new \Mk\Vote\Service\Setup\startArray1;
 		$startArray = $startArrayObject->getContent();
+		$adjustData = new \Mk\Vote\Service\adjustData;
+		$startArray = $adjustData->chooseStartArray(1, 4, $startArray);
+		$startArray = $adjustData->addListNameAsPartyName($startArray);
 		
 		$this->setParties($startArray);
         $this->persistenceManager->persistAll();
