@@ -49,6 +49,12 @@ class SupervisoryBoard {
 	protected $regionalCode;
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votesPerSB;
+	
+	/**
 	 * Constructs this supervisory board
 	 */
 	public function __construct() {
@@ -140,6 +146,25 @@ class SupervisoryBoard {
 	 */
 	public function setRegionalCode($regionalCode) {
 		$this->regionalCode = $regionalCode;
+	}
+	
+	/**
+	 * Get votes per supervisory board
+	 *
+	 * @return string The votes per supervisory board
+	 */
+	public function getVotesPerSB() {
+		return $this->votesPerSB;
+	}
+
+	/**
+	 * Sets the votes per supervisory board
+	 *
+	 * @param array $xxxx The votes per supervisory board
+	 * @return void
+	 */
+	public function setVotesPerSB($xxxx) {
+//		$this->name = $name;
 	}
 
 }

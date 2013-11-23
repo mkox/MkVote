@@ -43,6 +43,42 @@ class RankingList {
 	protected $description;
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $area = array('regional', 'international');
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votesPerPartyForAllConnectedSB;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $allConnectedSB;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $listOfVotesFilteredInBothAreas;
+
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $listOfVoteDifferences;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $filteredListOfVoteDifferences;
+	
+	/**
 	 * Constructs this ranking list
 	 */
 	public function __construct() {
@@ -95,6 +131,108 @@ class RankingList {
 	public function setDescription($description) {
 		$this->description = $description;
 	}
+	
+	
+	
+	/**
+	 * Get the votes per party for all connected supervisory boards
+	 *
+	 * @return array The votes per party for all connected supervisory boards
+	 */
+	public function getVotesPerPartyForAllConnectedSB() {
+		return $this->votesPerPartyForAllConnectedSB;
+	}
+	
+	/**
+	 * Get all connected supervisory boards
+	 *
+	 * @return array All connected supervisory boards
+	 */
+	public function getAllConnectedSB() {
+		return $this->allConnectedSB;
+	}
+	
+	/**
+	 * Get list of votes filtered in both areas
+	 *
+	 * @return array The list of votes filtered in both areas
+	 */
+	public function getListOfVotesFilteredInBothAreas() {
+		return $this->listOfVotesFilteredInBothAreas;
+	}
+	
+	/**
+	 * Get the list of vote differences
+	 *
+	 * @return string The list of vote differences
+	 */
+	public function getListOfVoteDifferences() {
+		return $this->listOfVoteDifferences;
+	}
 
+	/**
+	 * Sets the list of vote differences
+	 *
+	 * @param string $xxxx The Ranking list's name
+	 * @return void
+	 */
+	public function setListOfVoteDifferences($xxxx) {
+//		$this->name = $name;
+	}
+	
+		/**
+	 * Get the filtered list of vote differences
+	 *
+	 * @return string The filtered list of vote differences
+	 */
+	public function getFilteredListOfVoteDifferences() {
+		return $this->listOfVoteDifferences;
+	}
+
+	/**
+	 * Sets the filtered list of vote differences
+	 *
+	 * @param string $xxxx The Ranking list's name
+	 * @return void
+	 */
+	public function setFilteredListOfVoteDifferences($xxxx) {
+//		$this->name = $name;
+	}
+	
 }
+	
+/**
+ * Get sorted list from voteBySainteLague()
+ *
+ * @return array Sorted list from voteBySainteLague
+ */
+function compare($valueA, $valueB){
+
+	$a = $valueA['dividedValue'];
+	$b = $valueB['dividedValue'];
+
+	if ($a == $b) {
+		return 0;
+	}
+
+	return ($a < $b) ? +1 : -1;
+}
+
+/**
+ * Get sorted list of vote differences
+ *
+ * @return array Sorted list of vote differences
+ */
+function compareForListOfVoteDifferences($valueA, $valueB){
+
+	$a = $valueA['difference'];
+	$b = $valueB['difference'];
+
+	if ($a == $b) {
+		return 0;
+	}
+
+	return ($a > $b) ? +1 : -1;
+}
+
 ?>

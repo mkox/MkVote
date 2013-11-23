@@ -44,6 +44,19 @@ class ListOfCandidates {
 	protected $parties;
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $seats;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votes;
+
+	
+	/**
 	 * Constructs this list of candidates
 	 */
 	public function __construct() {
@@ -52,7 +65,7 @@ class ListOfCandidates {
 	}
 
 	/**
-	 * Get the name of the list of canndidates
+	 * Get the name of the list of candidates
 	 *
 	 * @return string The name of the list of canndidates
 	 */
@@ -61,7 +74,7 @@ class ListOfCandidates {
 	}
 
 	/**
-	 * Sets the name of the list of canndidates
+	 * Sets the name of the list of candidates
 	 *
 	 * @param string $name The name of the list of canndidates
 	 * @return void
@@ -106,6 +119,44 @@ class ListOfCandidates {
 	 */
 	public function getParties() {
 		return $this->parties;
+	}
+	
+	/**
+	 * Get the name of the list of canndidates
+	 *
+	 * @return array The seats of the list of candidates
+	 */
+	public function getSeats() {
+		return $this->seats;
+	}
+
+	/**
+	 * Sets the name of the list of candidates
+	 *
+	 * @param string $xxxx The name of the list of candidates
+	 * @return void
+	 */
+	public function setSeats($xxxx) {
+//		$this->name = $name;
+	}
+	
+	/**
+	 * Get the votes of the list of candidates
+	 *
+	 * @return array The votes of the list of candidates
+	 */
+	public function getVotes() {
+		return $this->votes;
+	}
+
+	/**
+	 * Sets the votes of the list of candidates
+	 *
+	 * @param string $xxxx The name of the list of candidates
+	 * @return void
+	 */
+	public function setVotes($xxxx) {
+//		$this->name = $name;
 	}
 
 }

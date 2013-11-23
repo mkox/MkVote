@@ -30,6 +30,11 @@ class RankingListController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(RankingList $rankingList) {
+		\Doctrine\Common\Util\Debug::dump($rankingList);
+		print_r('<br><br>');
+//		\Doctrine\Common\Util\Debug::dump($rankingList->getSupervisoryBoard());
+		$supervisoryBoards = $rankingList->getSupervisoryBoard();
+		\Doctrine\Common\Util\Debug::dump($supervisoryBoards[0]);
 		$this->view->assign('rankingList', $rankingList);
 	}
 
