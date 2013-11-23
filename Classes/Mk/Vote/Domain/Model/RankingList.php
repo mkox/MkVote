@@ -28,7 +28,7 @@ class RankingList {
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\SupervisoryBoard>
 	 * @ORM\OneToMany(mappedBy="rankingList")
 	 */
-	protected $supervisoryBoard;
+	protected $supervisoryBoards;
 
 	/**
 	 * The name
@@ -82,16 +82,16 @@ class RankingList {
 	 * Constructs this ranking list
 	 */
 	public function __construct() {
-		$this->supervisoryBoard = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->supervisoryBoards = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
 	 * Get the Ranking list's supervisory board
 	 *
-	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\SupervisoryBoard> The Ranking list's supervisory board
+	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\SupervisoryBoards> The Ranking list's supervisory board
 	 */
-	public function getSupervisoryBoard() {
-		return $this->supervisoryBoard;
+	public function getSupervisoryBoards() {
+		return $this->supervisoryBoards;
 	}
 
 	/**
@@ -169,16 +169,80 @@ class RankingList {
 	 */
 	public function calculateSeatsDistribution(){
 		
+//	$startData = $this->addBasicsToStartData();
+	$this->addBasicsToStartData();
+			//print_r('<pre>' . $startArray . '</pre>');
+			//print_r($startArray);
+			//$votesPerPartyForAllConnectedSB = $main->votesPerPartyForAllConnectedSB($startArray);
+			//print_r('<br>$votesPerPartyForAllConnectedSB: ');
+			//print_r($votesPerPartyForAllConnectedSB);
+//	$sbList = $this->beforeListCompare($startData);
+//			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
+//			//print_r($main->votesPerPartyForAllConnectedSB);
+//print_r('<br>$sbList: ');
+//print_r($sbList);
+//	$this->beforeListCompare2($sbList);
+//			//print_r($main->votesPerPartyForAllConnectedSB);
+//			//print_r('<br>$main->allConnectedSB: ');
+//			//print_r($main->allConnectedSB);
+//	$this->tooManyOrTooLessSeats();
+//print_r('<br>$this->allConnectedSB: ');
+//print_r($this->allConnectedSB);
+//print_r('<br>after tooManyOrTooLessSeats(), $this->votesPerPartyForAllConnectedSB: ');
+//print_r($this->votesPerPartyForAllConnectedSB);
+//	$listOfVoteDifferences = $this->setListOfVoteDifferences($sbList);
+//			//print_r('<br>$listOfVoteDifferences: ');			
+//			//print_r($listOfVoteDifferences);
+//	$filteredVoteDifferences = $this->setFilteredListOfVoteDifferences($listOfVoteDifferences, $sbList);
+//print_r('<br>$filteredVoteDifferences: ');			
+//print_r($filteredVoteDifferences);
+//print_r('<br>$this->listOfVotesFilteredInBothAreas: ');			
+//print_r($this->listOfVotesFilteredInBothAreas);
+			//$changeSeats = $main->correctionOfSeatDistribution($filteredVoteDifferences, $sbList);
+			//print_r('<br>$correctionOfSeatDistribution: ');			
+			//print_r($correctionOfSeatDistribution);
+		
 	}
 	
 	/**
-	 * adds 0-value for: seats per list
 	 * adds votes per list
 	 *
-	 * @param array $startArray The start array of the ranking list
 	 * @return void
 	 */
-	protected function addBasicsToStartArray($startArray){
+	protected function addBasicsToStartData(){
+		
+		foreach($this->supervisoryBoards as $sb => $value){
+//\Doctrine\Common\Util\Debug::dump($supervisoryBoards[0]);
+			$listsOfCandidates = $this->supervisoryBoards[$sb]->getListsOfCandidates();
+			foreach($listsOfCandidates as $list => $lvalue){
+				$listsOfCandidates[$list]->setVotes();
+//				$candidatesInList = $listsOfCandidates[$list]->getCandidatesInList();
+//				foreach($candidatesInList as $candidate => $cvalue){
+//					for($i=0;$i<count($this->area);$i++){
+//						if($this->area[$i] == 'regional'){
+//							$votes = $candidatesInList[$candidate]->getVotesRegional();
+//						} else {
+//							$votes = $candidatesInList[$candidate]->getVotesInternational();
+//						}
+//						$listsOfCandidates[$list]->setVotes($votes, $this->area[$i]);
+//					}
+//				}
+			}
+		}
+		
+//		foreach($rankingList['supervisoryBoards'] as $sb => $value){
+//			foreach($value['votesPerList'] as $list => $lvalue){
+//				for($i=0;$i<count($this->area);$i++){
+//					$rankingList['supervisoryBoards'][$sb]['votesPerList'][$list]['seats'][$this->area[$i]]['first'] = 0;
+//				}
+//				foreach($lvalue['candidates'] as $candidate => $cvalue){
+//					for($i=0;$i<count($this->area);$i++){
+//						$rankingList['supervisoryBoards'][$sb]['votesPerList'][$list]['votes'][$this->area[$i]] += $cvalue['votes'][$this->area[$i]];
+//					}
+//				}
+//			}
+//		}
+//		return $rankingList;
 		
 	}
 	

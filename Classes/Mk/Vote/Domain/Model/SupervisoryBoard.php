@@ -19,7 +19,7 @@ class SupervisoryBoard {
 	/**
 	 * The ranking list
 	 * @var \Mk\Vote\Domain\Model\RankingList
-	 * @ORM\ManyToOne(inversedBy="supervisoryBoard")
+	 * @ORM\ManyToOne(inversedBy="supervisoryBoards")
 	 */
 	protected $rankingList;
 
@@ -28,7 +28,7 @@ class SupervisoryBoard {
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\ListOfCandidates>
 	 * @ORM\OneToMany(mappedBy="supervisoryBoard")
 	 */
-	protected $listOfCandidates;
+	protected $listsOfCandidates;
 
 	/**
 	 * The name
@@ -58,7 +58,7 @@ class SupervisoryBoard {
 	 * Constructs this supervisory board
 	 */
 	public function __construct() {
-		$this->listOfCandidates = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->listsOfCandidates = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -85,8 +85,8 @@ class SupervisoryBoard {
 	 *
 	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\ListOfCandidates> The Supervisory board's list of candidates
 	 */
-	public function getListOfCandidates() {
-		return $this->listOfCandidates;
+	public function getListsOfCandidates() {
+		return $this->listsOfCandidates;
 	}
 
 

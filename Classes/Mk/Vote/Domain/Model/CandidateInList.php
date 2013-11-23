@@ -19,7 +19,7 @@ class CandidateInList {
 	/**
 	 * The list of candidates
 	 * @var \Mk\Vote\Domain\Model\ListOfCandidates
-	 * @ORM\ManyToOne(inversedBy="candidateInList")
+	 * @ORM\ManyToOne(inversedBy="candidatesInList")
 	 */
 	protected $listOfCandidates;
 

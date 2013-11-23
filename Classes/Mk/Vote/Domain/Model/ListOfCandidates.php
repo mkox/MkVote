@@ -25,7 +25,7 @@ class ListOfCandidates {
 	/**
 	 * The supervisory board
 	 * @var \Mk\Vote\Domain\Model\SupervisoryBoard
-	 * @ORM\ManyToOne(inversedBy="listOfCandidates")
+	 * @ORM\ManyToOne(inversedBy="listsOfCandidates")
 	 */
 	protected $supervisoryBoard;
 
@@ -34,7 +34,7 @@ class ListOfCandidates {
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\CandidateInList>
 	 * @ORM\OneToMany(mappedBy="listOfCandidates")
 	 */
-	protected $candidateInList;
+	protected $candidatesInList;
 
 	/**
 	 * @ORM\ManyToMany
@@ -47,20 +47,26 @@ class ListOfCandidates {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats;
+	protected $area = array('regional', 'international');
 	
 	/**
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $votes;
+	protected $seats = array('regional' => array('first' => 0), 'international' => array('first' => 0));
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votes = array('regional' => 0, 'international' => 0);
 
 	
 	/**
 	 * Constructs this list of candidates
 	 */
 	public function __construct() {
-		$this->candidateInList = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->candidatesInList = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->parties = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
@@ -107,8 +113,8 @@ class ListOfCandidates {
 	 *
 	 * @return \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\CandidateInList> The List of candidates's candidate in list
 	 */
-	public function getCandidateInList() {
-		return $this->candidateInList;
+	public function getCandidatesInList() {
+		return $this->candidatesInList;
 	}
 
 
@@ -131,13 +137,13 @@ class ListOfCandidates {
 	}
 
 	/**
-	 * Sets the name of the list of candidates
+	 * Sets the seats of a list of candidates
 	 *
-	 * @param string $xxxx The name of the list of candidates
+	 * @param array $seats The seats of a list of candidates
 	 * @return void
 	 */
-	public function setSeats($xxxx) {
-//		$this->name = $name;
+	public function setSeats($seats) {
+		$this->seats = $seats;
 	}
 	
 	/**
@@ -152,12 +158,24 @@ class ListOfCandidates {
 	/**
 	 * Sets the votes of the list of candidates
 	 *
-	 * @param string $xxxx The name of the list of candidates
+	 * @param int $votes The votes of the list of candidates, for 1 area
 	 * @return void
 	 */
-	public function setVotes($xxxx) {
-//		$this->name = $name;
+	public function setVotes() {
+		foreach($this->candidatesInList as $candidate => $cvalue){
+			for($i=0;$i<count($this->area);$i++){
+				if($this->area[$i] == 'regional'){
+					$votes = $this->candidatesInList[$candidate]->getVotesRegional();
+				} else {
+					$votes = $this->candidatesInList[$candidate]->getVotesInternational();
+				}
+				$this->votes[$this->area[$i]] += $votes;
+			}
+		}
 	}
+//	public function setVotes($votes, $area) {
+//		$this->votes[$area] += $votes;
+//	}
 
 }
 ?>

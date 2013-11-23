@@ -30,11 +30,15 @@ class RankingListController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(RankingList $rankingList) {
+		$rankingList->calculateSeatsDistribution();
 		\Doctrine\Common\Util\Debug::dump($rankingList);
 		print_r('<br><br>');
-//		\Doctrine\Common\Util\Debug::dump($rankingList->getSupervisoryBoard());
-		$supervisoryBoards = $rankingList->getSupervisoryBoard();
+//		\Doctrine\Common\Util\Debug::dump($rankingList->getSupervisoryBoards());
+		$supervisoryBoards = $rankingList->getSupervisoryBoards();
 		\Doctrine\Common\Util\Debug::dump($supervisoryBoards[0]);
+		$listsOfCandidates = $supervisoryBoards[0]->getListsOfCandidates();
+		print_r('<br><br>A List of Candidates: ');
+		\Doctrine\Common\Util\Debug::dump($listsOfCandidates[0]);
 		$this->view->assign('rankingList', $rankingList);
 	}
 
