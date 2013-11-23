@@ -162,6 +162,58 @@ class RankingList {
 	}
 	
 	/**
+	 * Calculates the distribution of seats
+	 *
+	 * @param string $xxxx The Ranking list's name
+	 * @return void
+	 */
+	public function calculateSeatsDistribution(){
+		
+	}
+	
+	/**
+	 * adds 0-value for: seats per list
+	 * adds votes per list
+	 *
+	 * @param array $startArray The start array of the ranking list
+	 * @return void
+	 */
+	protected function addBasicsToStartArray($startArray){
+		
+	}
+	
+	/**
+	 * adds seats for a list in a SB (before correction)
+	 * counts all votes of a single SB (for all connected SB, stored in $this->votesPerPartyForAllConnectedSB)
+	 * counts the votes of a party for all connected SBs together ($this->allConnectedSB)
+	 *
+	 * @param array $sbList The Ranking list
+	 * @return void
+	 */
+	protected function beforeListCompare($sbList){
+		
+	}
+	
+	/**
+	 * counts the seats of a party for all connected SBs together (before correction)
+	 *
+	 * @param array $sbList The Ranking list
+	 * @return void
+	 */
+	protected function beforeListCompare2($sbList){
+		
+	}
+	
+	/**
+	 * add in $this->votesPerPartyForAllConnectedSB: seatsCorrected, seatsDifference, seatsDifference
+	 *
+	 * @return void
+	 */
+	protected function tooManyOrTooLessSeats(){
+		
+	}
+	
+	/**
 	 * Get the list of vote differences
 	 *
 	 * @return string The list of vote differences
@@ -176,7 +228,7 @@ class RankingList {
 	 * @param string $xxxx The Ranking list's name
 	 * @return void
 	 */
-	public function setListOfVoteDifferences($xxxx) {
+	protected function setListOfVoteDifferences($xxxx) {
 //		$this->name = $name;
 	}
 	
@@ -195,29 +247,21 @@ class RankingList {
 	 * @param string $xxxx The Ranking list's name
 	 * @return void
 	 */
-	public function setFilteredListOfVoteDifferences($xxxx) {
+	protected function setFilteredListOfVoteDifferences($xxxx) {
 //		$this->name = $name;
 	}
 	
+	/**
+	 * Transfers first seats to corrected seats in all lists of a supervisory board
+	 *
+	 * @param array $sbList The Ranking list
+	 * @return void
+	 */
+	protected function transferFirstSeatsToCorrectedSeats($rankingList){
+		
+	}
 }
 	
-/**
- * Get sorted list from voteBySainteLague()
- *
- * @return array Sorted list from voteBySainteLague
- */
-function compare($valueA, $valueB){
-
-	$a = $valueA['dividedValue'];
-	$b = $valueB['dividedValue'];
-
-	if ($a == $b) {
-		return 0;
-	}
-
-	return ($a < $b) ? +1 : -1;
-}
-
 /**
  * Get sorted list of vote differences
  *
