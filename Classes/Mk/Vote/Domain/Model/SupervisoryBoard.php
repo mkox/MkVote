@@ -160,11 +160,11 @@ class SupervisoryBoard {
 	/**
 	 * Sets the votes per supervisory board
 	 *
-	 * @param array $xxxx The votes per supervisory board
+	 * @param int $votes The votes per supervisory board
 	 * @return void
 	 */
-	public function setVotesPerSB($xxxx) {
-//		$this->name = $name;
+	public function setVotesPerSB($votes) {
+		$this->votes = $votes;
 	}
 
 }

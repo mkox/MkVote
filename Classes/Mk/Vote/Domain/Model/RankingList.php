@@ -58,7 +58,8 @@ class RankingList {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $allConnectedSB;
+	protected $allConnectedSB = array('regional' => array('votes'=>0, 'seats'=>0,'seatsToCorrect'=>0),
+									'international' => array('votes'=>0, 'seats'=>0,'seatsToCorrect'=>0));
 	
 	/**
 	 * @var array
@@ -177,6 +178,8 @@ class RankingList {
 			//print_r('<br>$votesPerPartyForAllConnectedSB: ');
 			//print_r($votesPerPartyForAllConnectedSB);
 //	$sbList = $this->beforeListCompare($startData);
+	$this->beforeListCompare();
+$x=1;
 //			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
 //			//print_r($main->votesPerPartyForAllConnectedSB);
 //print_r('<br>$sbList: ');
@@ -212,50 +215,88 @@ class RankingList {
 	protected function addBasicsToStartData(){
 		
 		foreach($this->supervisoryBoards as $sb => $value){
-//\Doctrine\Common\Util\Debug::dump($supervisoryBoards[0]);
+
 			$listsOfCandidates = $this->supervisoryBoards[$sb]->getListsOfCandidates();
 			foreach($listsOfCandidates as $list => $lvalue){
 				$listsOfCandidates[$list]->setVotes();
-//				$candidatesInList = $listsOfCandidates[$list]->getCandidatesInList();
-//				foreach($candidatesInList as $candidate => $cvalue){
-//					for($i=0;$i<count($this->area);$i++){
-//						if($this->area[$i] == 'regional'){
-//							$votes = $candidatesInList[$candidate]->getVotesRegional();
-//						} else {
-//							$votes = $candidatesInList[$candidate]->getVotesInternational();
-//						}
-//						$listsOfCandidates[$list]->setVotes($votes, $this->area[$i]);
-//					}
-//				}
+
 			}
 		}
-		
-//		foreach($rankingList['supervisoryBoards'] as $sb => $value){
-//			foreach($value['votesPerList'] as $list => $lvalue){
-//				for($i=0;$i<count($this->area);$i++){
-//					$rankingList['supervisoryBoards'][$sb]['votesPerList'][$list]['seats'][$this->area[$i]]['first'] = 0;
-//				}
-//				foreach($lvalue['candidates'] as $candidate => $cvalue){
-//					for($i=0;$i<count($this->area);$i++){
-//						$rankingList['supervisoryBoards'][$sb]['votesPerList'][$list]['votes'][$this->area[$i]] += $cvalue['votes'][$this->area[$i]];
-//					}
-//				}
-//			}
-//		}
-//		return $rankingList;
 		
 	}
 	
 	/**
 	 * adds seats for a list in a SB (before correction)
-	 * counts all votes of a single SB (for all connected SB, stored in $this->votesPerPartyForAllConnectedSB)
-	 * counts the votes of a party for all connected SBs together ($this->allConnectedSB)
+	 * counts all votes of a single party/list for all connected SB (stored in $this->votesPerPartyForAllConnectedSB)
+	 * counts the votes and seats for all connected SBs together ($this->allConnectedSB)
 	 *
-	 * @param array $sbList The Ranking list
 	 * @return void
 	 */
-	protected function beforeListCompare($sbList){
+	protected function beforeListCompare(){
 		
+		$allVotesOfParty = array();
+
+		foreach($this->supervisoryBoards as $sb => $value){
+			$votesPerSBInternational = 0;
+			$votesPerSBRegional = 0;
+			$listsOfCandidates = $this->supervisoryBoards[$sb]->getListsOfCandidates();
+			foreach($listsOfCandidates as $list => $lvalue){
+				$votesOfAListOfCandidates = $lvalue->getVotes();
+				$nameOfAListOfCandidates = $lvalue->getName();
+				for($i=0;$i<count($this->area);$i++){
+					if(isset($allVotesOfParty[$this->area[$i]][$list])){
+						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
+					} else {
+						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
+					}
+//					if(isset($allVotesOfParty[$this->area[$i]][$list])){
+//						$allVotesOfParty[$this->area[$i]][$list]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
+//					} else {
+//						$allVotesOfParty[$this->area[$i]][$list]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
+//					}
+				}
+
+				$votesPerSBInternational += $votesOfAListOfCandidates['international'];
+				$votesPerSBRegional += $votesOfAListOfCandidates['regional'];
+				
+			}
+
+			$this->supervisoryBoards[$sb]->setVotesPerSB($votesPerSBInternational);
+			
+			$this->allConnectedSB['international']['votes'] += $votesPerSBInternational;
+			$this->allConnectedSB['regional']['votes'] += $votesPerSBRegional;
+
+			$seatsOfSB = $value->getSeats();
+			$regionalSeats = floor($seatsOfSB / 2);
+			$internationalSeats = ceil($seatsOfSB / 2);
+			$this->allConnectedSB['regional']['seats'] += $regionalSeats;
+			$this->allConnectedSB['international']['seats'] += $internationalSeats;
+			
+			for($i=0;$i<count($this->area);$i++){
+				if($this->area[$i] == 'regional'){
+					$votesPerSB = $votesPerSBRegional;
+					$areaSeats = $regionalSeats;
+				} else {
+					$votesPerSB = $votesPerSBInternational;
+					$areaSeats = $internationalSeats;
+				}
+//print_r('<br>in beforeListCompare(), $areaSeats: ');
+//print_r($areaSeats);
+				$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($listsOfCandidates, $votesPerSB, $areaSeats, $this->area[$i], '');
+//print_r('<br>$sainteLague:');	
+//print_r($sainteLague);
+				foreach($sainteLague as $list => $seats){
+					foreach($listsOfCandidates as $list2 => $value2){
+						if($list == $list2){
+							$listsOfCandidates[$list2]->setSeats($seats, $this->area[$i], 'first');
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		$this->votesPerPartyForAllConnectedSB = $allVotesOfParty;
 	}
 	
 	/**

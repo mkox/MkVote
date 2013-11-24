@@ -139,11 +139,13 @@ class ListOfCandidates {
 	/**
 	 * Sets the seats of a list of candidates
 	 *
-	 * @param array $seats The seats of a list of candidates
+	 * @param int $seats The number of seats of a list of candidates for a certain mode
+	 * @param string $area The area for the seats (regional or international)
+	 * @param string $mode The mode of the seats (first or corrected)
 	 * @return void
 	 */
-	public function setSeats($seats) {
-		$this->seats = $seats;
+	public function setSeats($seats, $area, $mode) {
+		$this->seats[$area][$mode] = $seats;
 	}
 	
 	/**

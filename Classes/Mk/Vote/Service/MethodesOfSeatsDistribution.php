@@ -19,9 +19,10 @@ class MethodesOfSeatsDistribution{
 //print_r('<br>$lists -> $value: ');	
 //print_r($value);
 				$counter ++;
+				$getVotes = $value->getVotes();
 				if($mode == ''){
-				//	$votesOfList = $value['votes']['international'];
-					$votesOfList = $value['votes'][$area];
+				//	$votesOfList = $getVotes['international'];
+					$votesOfList = $getVotes[$area];
 				} else {
 					$votesOfList = $value['votes'];
 				}
@@ -36,13 +37,20 @@ class MethodesOfSeatsDistribution{
 //print_r('<br>$resultList10: ');	
 //print_r($resultList);
 
-		usort($resultList, 'compare');
+		usort($resultList, function ($valueA, $valueB){
+			$a = $valueA['dividedValue'];
+			$b = $valueB['dividedValue'];
+			if ($a == $b) {
+				return 0;
+			}
+			return ($a < $b) ? +1 : -1;
+		});
 //print_r('<br>$resultList20: ');	
 //print_r($resultList);
 		$seatsResult = array();
 		for($i=0;$i<$seats;$i++){
 			
-			if($seatsResult[$resultList[$i]['list']]){
+			if(isset($seatsResult[$resultList[$i]['list']])){
 				
 				$seatsResult[$resultList[$i]['list']] += 1;
 			} else {
@@ -61,23 +69,6 @@ class MethodesOfSeatsDistribution{
 		
 	}
 	
-}
-
-/**
- * Get sorted list from voteBySainteLague()
- *
- * @return array Sorted list from voteBySainteLague
- */
-function compare($valueA, $valueB){
-
-	$a = $valueA['dividedValue'];
-	$b = $valueB['dividedValue'];
-
-	if ($a == $b) {
-		return 0;
-	}
-
-	return ($a < $b) ? +1 : -1;
 }
 
 ?>
