@@ -244,16 +244,17 @@ $x=1;
 				$votesOfAListOfCandidates = $lvalue->getVotes();
 				$nameOfAListOfCandidates = $lvalue->getName();
 				for($i=0;$i<count($this->area);$i++){
-					if(isset($allVotesOfParty[$this->area[$i]][$list])){
-						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
-					} else {
-						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
-					}
+					
+					$parties = $listsOfCandidates[$list]->getParties();
+					// $partyName = $parties[0]->getName(); 
+					$parties[0]->setVotes($votesOfAListOfCandidates[$this->area[$i]], $this->area[$i]);
+						// So at the moment int only works with one party in a list of candidates.
 //					if(isset($allVotesOfParty[$this->area[$i]][$list])){
-//						$allVotesOfParty[$this->area[$i]][$list]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
+//						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
 //					} else {
-//						$allVotesOfParty[$this->area[$i]][$list]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
+//						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
 //					}
+					
 				}
 
 				$votesPerSBInternational += $votesOfAListOfCandidates['international'];

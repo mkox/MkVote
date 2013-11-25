@@ -27,6 +27,30 @@ class Party {
 	 * @var integer
 	 */
 	protected $parentParty;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votes = array('regional' => 0, 'international' => 0);
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $seats = array('regional' => 0, 'international' => 0);
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $seatsCorrected = array('regional' => 0, 'international' => 0);
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $seatsDifference = array('regional' => 0, 'international' => 0);
 
 	/**
 	 * Constructs this party
@@ -73,6 +97,82 @@ class Party {
 		$this->parentParty = $parentParty;
 	}
 
+		/**
+	 * Get the Party's votes
+	 *
+	 * @return array The Party's votes
+	 */
+	public function getVotes() {
+		return $this->votes;
+	}
+
+	/**
+	 * Sets this Party's votes
+	 *
+	 * @param int $votes The Party's votes
+	 * @param string $area The area of the votes
+	 * @return void
+	 */
+	public function setVotes($votes, $area) {
+		$this->votes[$area] += $votes;
+	}
+		
+//	/**
+//	 * Get the Party's seats
+//	 *
+//	 * @return array The Party's seats
+//	 */
+//	public function getSeats() {
+//		return $this->seats;
+//	}
+//
+//	/**
+//	 * Sets this Party's seats
+//	 *
+//	 * @param array $xxxx The Party's seats
+//	 * @return void
+//	 */
+//	public function setSeats($xxxx) {
+////		$this->name = $name;
+//	}
+//	
+//	/**
+//	 * Get the Party's corrected seats
+//	 *
+//	 * @return array The Party's corrected seats
+//	 */
+//	public function getSeatsCorrected() {
+//		return $this->seatsCorrected;
+//	}
+//
+//	/**
+//	 * Sets this Party's corrected seats
+//	 *
+//	 * @param string $xxxx The Party's name
+//	 * @return void
+//	 */
+//	public function setSeatsCorrected($xxxx) {
+////		$this->name = $name;
+//	}
+//	
+//	/**
+//	 * Get the Party's difference of seats
+//	 *
+//	 * @return array The Party's difference of seats
+//	 */
+//	public function getSeatsDifference() {
+//		return $this->seatsDifference;
+//	}
+//
+//	/**
+//	 * Sets this Party's difference of seats
+//	 *
+//	 * @param string $xxxx The Party's name
+//	 * @return void
+//	 */
+//	public function setSeatsDifference($xxxx) {
+////		$this->name = $name;
+//	}
 
 }
 ?>
