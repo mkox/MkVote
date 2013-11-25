@@ -52,12 +52,6 @@ class RankingList {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $votesPerPartyForAllConnectedSB;
-	
-	/**
-	 * @var array
-	 * @Flow\Transient
-	 */
 	protected $allConnectedSB = array('regional' => array('votes'=>0, 'seats'=>0,'seatsToCorrect'=>0),
 									'international' => array('votes'=>0, 'seats'=>0,'seatsToCorrect'=>0));
 	
@@ -131,17 +125,6 @@ class RankingList {
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
-	}
-	
-	
-	
-	/**
-	 * Get the votes per party for all connected supervisory boards
-	 *
-	 * @return array The votes per party for all connected supervisory boards
-	 */
-	public function getVotesPerPartyForAllConnectedSB() {
-		return $this->votesPerPartyForAllConnectedSB;
 	}
 	
 	/**
@@ -249,12 +232,6 @@ $x=1;
 					// $partyName = $parties[0]->getName(); 
 					$parties[0]->setVotes($votesOfAListOfCandidates[$this->area[$i]], $this->area[$i]);
 						// So at the moment int only works with one party in a list of candidates.
-//					if(isset($allVotesOfParty[$this->area[$i]][$list])){
-//						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] += $votesOfAListOfCandidates[$this->area[$i]];
-//					} else {
-//						$allVotesOfParty[$this->area[$i]][$nameOfAListOfCandidates]['votes'] = $votesOfAListOfCandidates[$this->area[$i]];
-//					}
-					
 				}
 
 				$votesPerSBInternational += $votesOfAListOfCandidates['international'];
@@ -296,8 +273,6 @@ $x=1;
 				}
 			}
 		}
-		
-		$this->votesPerPartyForAllConnectedSB = $allVotesOfParty;
 	}
 	
 	/**
