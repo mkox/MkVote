@@ -182,6 +182,8 @@ class SupervisoryBoard {
 		$votesPerSBInternational = 0;
 		$votesPerSBRegional = 0;
 		foreach($this->listsOfCandidates as $list => $lvalue){
+			
+			$lvalue->setVotes();
 			$lvalue->addVotesOfThisListToPartyTotalVotes();
 			
 			$votesOfAListOfCandidates = $lvalue->getVotes();

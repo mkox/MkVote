@@ -145,7 +145,7 @@ class RankingList {
 	public function calculateSeatsDistribution(){
 		
 //	$startData = $this->addBasicsToStartData();
-	$this->addBasicsToStartData();
+//	$this->addBasicsToStartData();
 			//print_r('<pre>' . $startArray . '</pre>');
 			//print_r($startArray);
 			//$votesPerPartyForAllConnectedSB = $main->votesPerPartyForAllConnectedSB($startArray);
@@ -182,27 +182,7 @@ $x=1;
 	}
 	
 	/**
-	 * adds votes per list
-	 *
-	 * @return void
-	 */
-	protected function addBasicsToStartData(){
-		
-		foreach($this->supervisoryBoards as $sb => $value){
-
-			$listsOfCandidates = $this->supervisoryBoards[$sb]->getListsOfCandidates();
-			foreach($listsOfCandidates as $list => $lvalue){
-				$listsOfCandidates[$list]->setVotes();
-
-			}
-		}
-		
-	}
-	
-	/**
-	 * counts all votes of a single party for all connected supervisory boards and add it to the Party model
-	 * counts the votes and seats for all connected SBs together ($this->allConnectedSB)
-	 * adds seats for a list in a SB (before correction)
+	 * Do some calculations before comparing lists of supervisory bords.
 	 *
 	 * @return void
 	 */
