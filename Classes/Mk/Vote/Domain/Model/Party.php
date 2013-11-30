@@ -34,11 +34,18 @@ class Party {
 	 */
 	protected $votes = array('regional' => 0, 'international' => 0);
 	
+//	/**
+//	 * @var array
+//	 * @Flow\Transient
+//	 */
+//	protected $seats = array('regional' => 0, 'international' => 0);
+	
 	/**
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats = array('regional' => 0, 'international' => 0);
+	protected $seats = array('regional' => array('first' => 0), 
+						'international' => array('first' => 0));
 	
 	/**
 	 * @var array
@@ -117,25 +124,26 @@ class Party {
 		$this->votes[$area] += $votes;
 	}
 		
-//	/**
-//	 * Get the Party's seats
-//	 *
-//	 * @return array The Party's seats
-//	 */
-//	public function getSeats() {
-//		return $this->seats;
-//	}
-//
-//	/**
-//	 * Sets this Party's seats
-//	 *
-//	 * @param array $xxxx The Party's seats
-//	 * @return void
-//	 */
-//	public function setSeats($xxxx) {
-////		$this->name = $name;
-//	}
-//	
+	/**
+	 * Get the Party's seats
+	 *
+	 * @return array The Party's seats
+	 */
+	public function getSeats() {
+		return $this->seats;
+	}
+
+	/**
+	 * Sets this Party's seats
+	 *
+	 * @param int $seats The Party's seats
+	 * @param string $area The area of the votes
+	 * @return void
+	 */
+	public function setSeats($seats, $area, $context) {
+		$this->seats[$area][$context] += $seats;
+	}
+	
 //	/**
 //	 * Get the Party's corrected seats
 //	 *
@@ -162,16 +170,6 @@ class Party {
 //	 */
 //	public function getSeatsDifference() {
 //		return $this->seatsDifference;
-//	}
-//
-//	/**
-//	 * Sets this Party's difference of seats
-//	 *
-//	 * @param string $xxxx The Party's name
-//	 * @return void
-//	 */
-//	public function setSeatsDifference($xxxx) {
-////		$this->name = $name;
 //	}
 
 }

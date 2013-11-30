@@ -194,6 +194,9 @@ class SupervisoryBoard {
 		$this->setVotes($votesPerSBRegional, 'regional');
 
 		$this->setSeatsOfListsThroughSainteLague();
+		foreach($this->listsOfCandidates as $list => $lvalue){
+			$lvalue->addSeatsOfThisListToPartyTotalSeats();
+		}
 	}
 	
 	/**

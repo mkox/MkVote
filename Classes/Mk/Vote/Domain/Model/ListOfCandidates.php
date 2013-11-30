@@ -53,7 +53,8 @@ class ListOfCandidates {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats = array('regional' => array('first' => 0), 'international' => array('first' => 0));
+	protected $seats = array('regional' => array('first' => 0), 
+						'international' => array('first' => 0));
 	
 	/**
 	 * @var array
@@ -193,6 +194,26 @@ class ListOfCandidates {
 			$parties = $this->getParties();
 			// $partyName = $parties[0]->getName(); 
 			$parties[0]->setVotes($votes[$this->area[$i]], $this->area[$i]);
+				// So at the moment it only works with one party in a list of candidates.
+		}
+	}
+	
+	/**
+	 * Adds the seats of a party of this list to the total seats of a party 
+	 * (at the moment: to the total seats of a party from all lists from all supervisory boards within a ranking list)
+	 * 
+	 * AT THE MOMENT this can be done because there is only 1 party in a list. Later this has to be changed.
+	 *
+	 * @return void
+	 */
+	public function addSeatsOfThisListToPartyTotalSeats() {
+		
+		$seats = $this->getSeats();
+		for($i=0;$i<count($this->area);$i++){
+
+			$parties = $this->getParties();
+			// $partyName = $parties[0]->getName(); 
+			$parties[0]->setSeats($seats[$this->area[$i]]['first'], $this->area[$i], 'first') ;
 				// So at the moment it only works with one party in a list of candidates.
 		}
 	}
