@@ -52,7 +52,13 @@ class SupervisoryBoard {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $votesPerSB;
+	protected $area = array('regional', 'international');
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votes = array('regional' => 0, 'international' => 0);
 	
 	/**
 	 * Constructs this supervisory board
@@ -111,22 +117,40 @@ class SupervisoryBoard {
 	}
 
 	/**
-	 * Get the Supervisory board's seats
+	 * Get the Supervisory board's number of seats
 	 *
-	 * @return string The Supervisory board's seats
+	 * @return int The Supervisory board's number of seats
 	 */
 	public function getSeats() {
 		return $this->seats;
 	}
 
 	/**
-	 * Sets this Supervisory board's seats
+	 * Sets this Supervisory board's number of seats
 	 *
-	 * @param string $seats The Supervisory board's seats
+	 * @param int $seats The Supervisory board's number of seats
 	 * @return void
 	 */
 	public function setSeats($seats) {
 		$this->seats = $seats;
+	}
+	
+	/**
+	 * Get the Supervisory board's number of regional seats
+	 *
+	 * @return int The Supervisory board's number regional of seats
+	 */
+	public function getRegionalSeats() {
+		return floor($this->seats / 2);
+	}
+	
+	/**
+	 * Get the Supervisory board's number of international seats
+	 *
+	 * @return int The Supervisory board's number of international seats
+	 */
+	public function getInternationalSeats() {
+		return ceil($this->seats / 2);
 	}
 
 	/**
@@ -149,22 +173,80 @@ class SupervisoryBoard {
 	}
 	
 	/**
-	 * Get votes per supervisory board
+	 * Calculate some basic values from the given data of this supervisory board.
 	 *
-	 * @return string The votes per supervisory board
+	 * @return void
 	 */
-	public function getVotesPerSB() {
-		return $this->votesPerSB;
+	public function basicCalculations(){
+		
+		$votesPerSBInternational = 0;
+		$votesPerSBRegional = 0;
+		foreach($this->listsOfCandidates as $list => $lvalue){
+			$lvalue->addVotesOfThisListToPartyTotalVotes();
+			
+			$votesOfAListOfCandidates = $lvalue->getVotes();
+			$votesPerSBInternational += $votesOfAListOfCandidates['international'];
+			$votesPerSBRegional += $votesOfAListOfCandidates['regional'];
+
+		}
+
+		$this->setVotes($votesPerSBInternational, 'international');
+		$this->setVotes($votesPerSBRegional, 'regional');
+
+		$this->setSeatsOfListsThroughSainteLague();
+	}
+	
+	/**
+	 * Set seats of the lists of candidates of this supervisory board,
+	 * with the help of the Sainte Lague method.
+	 *
+	 * @return void
+	 */
+	protected function setSeatsOfListsThroughSainteLague(){
+		
+		$votes = $this->getVotes();
+		for($i=0;$i<count($this->area);$i++){
+			$areaVotes = $votes[$this->area[$i]];
+			if($this->area[$i] == 'regional'){
+				$areaSeats = $this->getRegionalSeats();
+			} else {
+				$areaSeats = $this->getInternationalSeats();
+			}
+//print_r('<br>in setSeatsOfListsThroughSainteLague(), $areaSeats: ');
+//print_r($areaSeats);
+			$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($this->listsOfCandidates, $areaVotes, $areaSeats, $this->area[$i], '');
+//print_r('<br>$sainteLague:');	
+//print_r($sainteLague);
+			foreach($sainteLague as $list => $seats){
+				foreach($this->listsOfCandidates as $list2 => $value2){
+					if($list == $list2){
+						$this->listsOfCandidates[$list2]->setSeats($seats, $this->area[$i], 'first');
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Get the votes of this supervisory board
+	 *
+	 * @return array The votes  of this supervisory board
+	 */
+	public function getVotes() {
+		return $this->votes;
 	}
 
 	/**
-	 * Sets the votes per supervisory board
+	 * Sets the votes of this supervisory board
 	 *
-	 * @param int $votes The votes per supervisory board
+	 * @param int $votes The votes of this supervisory board
+	 * @param string $area The area of the votes
 	 * @return void
 	 */
-	public function setVotesPerSB($votes) {
-		$this->votes = $votes;
+	public function setVotes($votes, $area) {
+		$this->votes[$area] += $votes;
 	}
 
 }

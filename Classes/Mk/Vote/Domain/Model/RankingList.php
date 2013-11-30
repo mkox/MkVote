@@ -128,15 +128,6 @@ class RankingList {
 	}
 	
 	/**
-	 * Get all connected supervisory boards
-	 *
-	 * @return array All connected supervisory boards
-	 */
-	public function getAllConnectedSB() {
-		return $this->allConnectedSB;
-	}
-	
-	/**
 	 * Get list of votes filtered in both areas
 	 *
 	 * @return array The list of votes filtered in both areas
@@ -209,69 +200,46 @@ $x=1;
 	}
 	
 	/**
-	 * adds seats for a list in a SB (before correction)
-	 * counts all votes of a single party/list for all connected SB (stored in $this->votesPerPartyForAllConnectedSB)
+	 * counts all votes of a single party for all connected supervisory boards and add it to the Party model
 	 * counts the votes and seats for all connected SBs together ($this->allConnectedSB)
+	 * adds seats for a list in a SB (before correction)
 	 *
 	 * @return void
 	 */
 	protected function beforeListCompare(){
-		
-		$allVotesOfParty = array();
 
 		foreach($this->supervisoryBoards as $sb => $value){
-			$votesPerSBInternational = 0;
-			$votesPerSBRegional = 0;
-			$listsOfCandidates = $this->supervisoryBoards[$sb]->getListsOfCandidates();
-			foreach($listsOfCandidates as $list => $lvalue){
-				$votesOfAListOfCandidates = $lvalue->getVotes();
-				$nameOfAListOfCandidates = $lvalue->getName();
-				for($i=0;$i<count($this->area);$i++){
-					
-					$parties = $listsOfCandidates[$list]->getParties();
-					// $partyName = $parties[0]->getName(); 
-					$parties[0]->setVotes($votesOfAListOfCandidates[$this->area[$i]], $this->area[$i]);
-						// So at the moment int only works with one party in a list of candidates.
-				}
-
-				$votesPerSBInternational += $votesOfAListOfCandidates['international'];
-				$votesPerSBRegional += $votesOfAListOfCandidates['regional'];
-				
-			}
-
-			$this->supervisoryBoards[$sb]->setVotesPerSB($votesPerSBInternational);
 			
-			$this->allConnectedSB['international']['votes'] += $votesPerSBInternational;
-			$this->allConnectedSB['regional']['votes'] += $votesPerSBRegional;
-
-			$seatsOfSB = $value->getSeats();
-			$regionalSeats = floor($seatsOfSB / 2);
-			$internationalSeats = ceil($seatsOfSB / 2);
-			$this->allConnectedSB['regional']['seats'] += $regionalSeats;
-			$this->allConnectedSB['international']['seats'] += $internationalSeats;
+			$this->supervisoryBoards[$sb]->basicCalculations();
 			
+		}
+		
+		$this->setAllConnectedSB();
+	}
+	
+	/**
+	 * Get all connected supervisory boards
+	 *
+	 * @return array All connected supervisory boards
+	 */
+	public function getAllConnectedSB() {
+		return $this->allConnectedSB;
+	}
+	
+	/**
+	 * Sets data together for all supervisory boards of this ranking list.
+	 *
+	 * @return void
+	 */
+	protected function setAllConnectedSB(){
+		
+		foreach($this->supervisoryBoards as $sb => $value){
+			$votesOfSB = $this->supervisoryBoards[$sb]->getVotes();
 			for($i=0;$i<count($this->area);$i++){
-				if($this->area[$i] == 'regional'){
-					$votesPerSB = $votesPerSBRegional;
-					$areaSeats = $regionalSeats;
-				} else {
-					$votesPerSB = $votesPerSBInternational;
-					$areaSeats = $internationalSeats;
-				}
-//print_r('<br>in beforeListCompare(), $areaSeats: ');
-//print_r($areaSeats);
-				$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($listsOfCandidates, $votesPerSB, $areaSeats, $this->area[$i], '');
-//print_r('<br>$sainteLague:');	
-//print_r($sainteLague);
-				foreach($sainteLague as $list => $seats){
-					foreach($listsOfCandidates as $list2 => $value2){
-						if($list == $list2){
-							$listsOfCandidates[$list2]->setSeats($seats, $this->area[$i], 'first');
-							break;
-						}
-					}
-				}
+				$this->allConnectedSB[$this->area[$i]]['votes'] += $votesOfSB[$this->area[$i]];
 			}
+			$this->allConnectedSB['regional']['seats'] += $this->supervisoryBoards[$sb]->getRegionalSeats();
+			$this->allConnectedSB['international']['seats'] += $this->supervisoryBoards[$sb]->getInternationalSeats();
 		}
 	}
 	

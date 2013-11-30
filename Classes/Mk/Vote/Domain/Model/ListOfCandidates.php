@@ -178,6 +178,24 @@ class ListOfCandidates {
 //	public function setVotes($votes, $area) {
 //		$this->votes[$area] += $votes;
 //	}
+	
+	/**
+	 * Adds the votes of a party of this list to the total votes of a party 
+	 * (at the moment: to the total votes of a party from all lists from all supervisory boards within a ranking list)
+	 *
+	 * @return void
+	 */
+	public function addVotesOfThisListToPartyTotalVotes() {
+		
+		$votes = $this->getVotes();
+		for($i=0;$i<count($this->area);$i++){
+
+			$parties = $this->getParties();
+			// $partyName = $parties[0]->getName(); 
+			$parties[0]->setVotes($votes[$this->area[$i]], $this->area[$i]);
+				// So at the moment it only works with one party in a list of candidates.
+		}
+	}
 
 }
 ?>

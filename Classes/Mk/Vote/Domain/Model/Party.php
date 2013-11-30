@@ -97,7 +97,7 @@ class Party {
 		$this->parentParty = $parentParty;
 	}
 
-		/**
+	/**
 	 * Get the Party's votes
 	 *
 	 * @return array The Party's votes
