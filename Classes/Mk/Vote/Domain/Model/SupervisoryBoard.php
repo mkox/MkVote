@@ -61,6 +61,12 @@ class SupervisoryBoard {
 	protected $votes = array('regional' => 0, 'international' => 0);
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $parties = array();
+	
+	/**
 	 * Constructs this supervisory board
 	 */
 	public function __construct() {
@@ -181,12 +187,12 @@ class SupervisoryBoard {
 		
 		$votesPerSBInternational = 0;
 		$votesPerSBRegional = 0;
-		foreach($this->listsOfCandidates as $list => $lvalue){
+		foreach($this->listsOfCandidates as $list){
 			
-			$lvalue->setVotes();
-			$lvalue->addVotesOfThisListToPartyTotalVotes();
+			$list->setVotes();
+			$list->addVotesOfThisListToPartyTotalVotes();
 			
-			$votesOfAListOfCandidates = $lvalue->getVotes();
+			$votesOfAListOfCandidates = $list->getVotes();
 			$votesPerSBInternational += $votesOfAListOfCandidates['international'];
 			$votesPerSBRegional += $votesOfAListOfCandidates['regional'];
 
@@ -196,8 +202,9 @@ class SupervisoryBoard {
 		$this->setVotes($votesPerSBRegional, 'regional');
 
 		$this->setSeatsOfListsThroughSainteLague();
-		foreach($this->listsOfCandidates as $list => $lvalue){
-			$lvalue->addSeatsOfThisListToPartyTotalSeats();
+		foreach($this->listsOfCandidates as $list){
+			$list->addSeatsOfThisListToPartyTotalSeats();
+			$this->setParties($list);
 		}
 	}
 	
@@ -254,5 +261,26 @@ class SupervisoryBoard {
 		$this->votes[$area] += $votes;
 	}
 
+	/**
+	 * Get the list of the parties connected with this supervisory board
+	 *
+	 * @return array The list of the parties connected with this supervisory board
+	 */
+	public function getParties() {
+		return $this->parties;
+	}
+	
+	/**
+	 * Sets the votes of this supervisory board
+	 * WORKS NOT GOOD ENOUGH, when a party is in 2 or more lists of this supervisory board.
+	 *		This also would not make sense (so in this method is no filtering), but so far is not prevented from happening.
+	 *
+	 * @return void
+	 */
+	protected function setParties($list) {
+		$partiesOfList = $list->getParties();
+//		$this->parties = array_merge($this->parties, $partiesOfList);
+		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
+	}
 }
 ?>

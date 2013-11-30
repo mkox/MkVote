@@ -73,12 +73,35 @@ class RankingList {
 	 */
 	protected $filteredListOfVoteDifferences;
 	
+//	/**
+//	 * @var \Mk\Vote\Domain\Repository\PartyRepository
+//	 * @Flow\Transient
+//	 */
+//	protected $parties;
+	
+//	/**
+//	 * @Flow\Inject
+//	 * @var \Mk\Vote\Domain\Repository\PartyRepository
+//	 */
+//	protected $parties;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $parties = array();
+	
 	/**
 	 * Constructs this ranking list
 	 */
 	public function __construct() {
 		$this->supervisoryBoards = new \Doctrine\Common\Collections\ArrayCollection();
+//		$this->parties = new \Doctrine\Common\Collections\ArrayCollection();
 	}
+	
+//	public function injectParties(\MyCompany\MyPackage\PartyInterface $parties) {
+//			$this->parties = $parties;
+//	}
 
 	/**
 	 * Get the Ranking list's supervisory board
@@ -153,6 +176,14 @@ class RankingList {
 			//print_r($votesPerPartyForAllConnectedSB);
 //	$sbList = $this->beforeListCompare($startData);
 	$this->beforeListCompare();
+//$myObjectInstance = $this->objectManager->get('Mk\Vote\Domain\Model\Party');
+
+//print_r('<br><br>$this->parties in calculateSeatsDistribution():');
+//\Doctrine\Common\Util\Debug::dump($this->parties);
+//$theParties = $this->parties->findAll();
+//print_r('<br><br>$this->parties->findAll() in calculateSeatsDistribution():');
+//\Doctrine\Common\Util\Debug::dump($this->parties->findAll());
+//print_r('<br><br>');
 $x=1;
 //			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
 //			//print_r($main->votesPerPartyForAllConnectedSB);
@@ -188,10 +219,11 @@ $x=1;
 	 */
 	protected function beforeListCompare(){
 
-		foreach($this->supervisoryBoards as $sb => $value){
+		foreach($this->supervisoryBoards as $sb){
 			
-			$this->supervisoryBoards[$sb]->basicCalculations();
-			
+//			$this->supervisoryBoards[$sb]->basicCalculations();
+			$sb->basicCalculations();
+			$this->setParties($sb);
 		}
 		
 		$this->setAllConnectedSB();
@@ -224,21 +256,33 @@ $x=1;
 	}
 	
 	/**
-	 * counts the seats of a party for all connected SBs together (before correction)
-	 *
-	 * @param array $sbList The Ranking list
-	 * @return void
-	 */
-	protected function beforeListCompare2($sbList){
-		
-	}
-	
-	/**
 	 * add in $this->votesPerPartyForAllConnectedSB: seatsCorrected, seatsDifference, seatsDifference
 	 *
 	 * @return void
 	 */
 	protected function tooManyOrTooLessSeats(){
+		
+//print_r('<br>in tooManyOrTooLessSeats, before $sainteLague: ');	
+		for($i=0;$i<count($this->area);$i++){
+		//	$sainteLague = $this->voteBySainteLague($this->votesPerPartyForAllConnectedSB, $this->allConnectedSB['international']['votes'], $this->allConnectedSB['international']['seats']);
+			$sainteLague = $this->voteBySainteLague($this->votesPerPartyForAllConnectedSB[$this->area[$i]], $this->allConnectedSB[$this->area[$i]]['votes'], $this->allConnectedSB[$this->area[$i]]['seats'], '', 'tooManyOrTooLessSeats');
+print_r('<br>in tooManyOrTooLessSeats, $sainteLague: ');
+print_r($sainteLague);
+
+			foreach($this->votesPerPartyForAllConnectedSB[$this->area[$i]] as $party => $value){
+				if(!isset($this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'])){
+					$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'] = 0;
+				}
+			//	$this->votesPerPartyForAllConnectedSB[$party]['seatsCorrected'] = floor($value['votes'] / $votesPerSeat);
+				$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsCorrected'] = $sainteLague[$party];
+				$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'] = $sainteLague[$party] - $this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'];
+				if($this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'] > 0){
+
+					$this->allConnectedSB[$this->area[$i]]['seatsToCorrect'] += $this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'];
+				}
+
+			}
+		}
 		
 	}
 	
@@ -289,6 +333,30 @@ $x=1;
 	protected function transferFirstSeatsToCorrectedSeats($rankingList){
 		
 	}
+	
+	/**
+	 * Get the list of the parties connected with this ranking list
+	 *
+	 * @return array The list of the parties connected with this ranking list
+	 */
+	public function getParties() {
+		return $this->parties;
+	}
+	
+	/**
+	 * Sets the parties of this ranking list
+	 *
+	 * @return void
+	 */
+	protected function setParties($supervisoryBoard) {
+		$sbParties = $supervisoryBoard->getParties();
+		$this->parties = array_merge($this->parties, $supervisoryBoard->getParties());
+//		for($i=0; $i<$sbParties; $i++){
+//			$this->parties[] = $sbParties[$i];
+//		}
+//		array_unique($this->parties);
+	}
+	
 }
 	
 /**
