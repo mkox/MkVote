@@ -185,6 +185,7 @@ class RankingList {
 //\Doctrine\Common\Util\Debug::dump($this->parties->findAll());
 //print_r('<br><br>');
 	$this->tooManyOrTooLessSeats();
+	$this->setListOfVoteDifferences();
 $x=1;
 //			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
 //			//print_r($main->votesPerPartyForAllConnectedSB);
@@ -311,11 +312,122 @@ $x=1;
 	/**
 	 * Sets the list of vote differences
 	 *
-	 * @param string $xxxx The Ranking list's name
 	 * @return void
 	 */
-	protected function setListOfVoteDifferences($xxxx) {
-//		$this->name = $name;
+	protected function setListOfVoteDifferences() {
+
+		
+		$listOfVoteDifferences = array();
+		for($i=0;$i<count($this->area);$i++){
+			$partiesWithTooFewSeats = array();
+			$partiesWithTooMuchSeats = array();
+
+			foreach($this->parties as $party){
+				$seats = $party->getSeats();
+				if($seats[$this->area[$i]]['difference'] > 0){
+					$partiesWithTooFewSeats[] = $party->getPersistenceObjectIdentifier();
+				} else if($seats[$this->area[$i]]['difference'] < 0){
+					$partiesWithTooMuchSeats[] = $party->getPersistenceObjectIdentifier();
+				}
+			}
+			unset($seats);
+
+			$j = 0;
+//			foreach($sbList['supervisoryBoards'] as $sb => $value){
+			foreach($this->supervisoryBoards as $sb){
+				$lists = $sb->getListsOfCandidates();
+//				foreach($sb['votesPerList'] as $list => $lvalue){
+				foreach($lists as $listKey => $list){
+					$listParties = $list->getParties();
+					$listVotes = $list->getVotes();
+					$listSeats = $list->getSeats();
+					foreach($listParties as $listParty){ //2013-12-01: At the moment there is only 1 party per list but later it will change.
+
+						if(in_array($listParty->getPersistenceObjectIdentifier(), $partiesWithTooFewSeats)){
+
+//							$votesToGetASeat = $sb['votesPerList'][$listKey]['votes'][$this->area[$i]];
+							$votesOfAListRaw = $list->getVotes();
+							$votesToGetASeat = $votesOfAListRaw[$this->area[$i]];
+							
+//							$seatsOfAList = $sb['votesPerList'][$listKey]['seats']['regional']['first'] + $sb['votesPerList'][$listKey]['seats']['international']['first'];
+							$seatsOfAListRaw = $list->getSeats();
+							$seatsOfAList = $seatsOfAListRaw['regional']['first'] + $seatsOfAListRaw['international']['first'];
+
+							//if($sbe['votesPerList'][$listKey]['seats'] > 0){  //!!!
+							if($seatsOfAList > 0){
+
+//								$votesToGetASeat = $sb['votesPerList'][$listKey]['votes'][$this->area[$i]] / ($sb['votesPerList'][$listKey]['seats'][$this->area[$i]]['first'] + 1);
+								$votesToGetASeat = $votesOfAListRaw[$this->area[$i]] / ($seatsOfAListRaw[$this->area[$i]]['first'] + 1);
+								//(2013-12-01) "+ 1": 
+									// So that the division can not be by 0 
+										// This is still possible when "$seatsOfAList > 0", because the code before "+ 1" only refers to 1 of 2 areas.
+									// So that when there is already a seat, the division does not begin with "1", which would not change the number of votes to get a seat ($votesToGetASeat).
+									// IS THIS PART OF C.1?
+										// No! If a party has already a seat in a SB, it can not an additional seat there through correction of seat distribution.
+										// But this code makes possible: If this list/party has already a seat in this SB, it can get an other one under harder conditions than if it had not.
+										// Because it is not part of C.1: This should be OPTIONAL.
+							}
+
+
+							foreach($partiesWithTooMuchSeats as $mParty){
+								//if($sb['votesPerList'][$listKey]['seats'] < 1){  //really make this? The big party C in startArray1() does not the seat more it deserves
+																					//because it has already a seat in every SB.
+								//if($mParty == $listParty->getPersistenceObjectIdentifier()){  //KANN ICH SO WOHL NICHT MACHEN!
+								foreach($lists as $listForTooMuch){
+									$listPartiesForTooMuch = $listForTooMuch->getParties();
+									$listSeatsForTooMuch = $listForTooMuch->getSeats();
+									foreach($listPartiesForTooMuch as $listPartyForTooMuch){
+										if($mParty == $listPartyForTooMuch->getPersistenceObjectIdentifier()){
+		//									$usedVotesOfMParty = $sb['votesPerList'][$mParty]['votes'][$this->area[$i]];
+//											$usedVotesOfMParty = $listVotes[$this->area[$i]];
+											$usedVotesOfMPartyRaw = $listPartyForTooMuch->getVotes();
+											$usedVotesOfMParty = $usedVotesOfMPartyRaw[$this->area[$i]];
+
+
+		//									if($sb['votesPerList'][$mParty]['seats'][$this->area[$i]]['first'] > 1){
+											if($listSeats[$this->area[$i]]['first'] > 1){
+
+												$usedVotesOfMParty = $usedVotesOfMParty / $listSeatsForTooMuch[$this->area[$i]]['first'];
+											}
+
+											$listOfVoteDifferences[$this->area[$i]][$j]['sbid'] = $sb->getPersistenceObjectIdentifier();
+											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
+											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
+												// instead of $this->parties[$mParty]:  $listPartyForTooMuch could be used with the same result
+											$listOfVoteDifferences[$this->area[$i]][$j]['difference'] = ($usedVotesOfMParty - $votesToGetASeat) * 100 / $usedVotesOfMParty;
+
+
+		//     - Stimmen im betreffenden SB jeweis für beide Parteien
+		//     - vorläufige Sitze in diesem SB der partyWithTooMuchSeats
+											$j++;
+											break;
+										}
+									}
+								}
+							}
+
+						}
+					}
+
+				}
+
+			}
+//print_r('<br>$listOfVoteDifferences: ');
+//print_r($listOfVoteDifferences);
+//			usort($listOfVoteDifferences[$this->area[$i]], 'compareForListOfVoteDifferences');
+			usort($listOfVoteDifferences[$this->area[$i]], function($valueA, $valueB){
+				$a = $valueA['difference'];
+				$b = $valueB['difference'];
+				if ($a == $b) {
+					return 0;
+				}
+				return ($a > $b) ? +1 : -1;
+			});
+		}
+//print_r('<br>$listOfVoteDifferences 2: ');
+//print_r($listOfVoteDifferences);
+		$this->listOfVoteDifferences = $listOfVoteDifferences;
+		
 	}
 	
 		/**
@@ -370,23 +482,6 @@ $x=1;
 //		array_unique($this->parties);
 	}
 	
-}
-	
-/**
- * Get sorted list of vote differences
- *
- * @return array Sorted list of vote differences
- */
-function compareForListOfVoteDifferences($valueA, $valueB){
-
-	$a = $valueA['difference'];
-	$b = $valueB['difference'];
-
-	if ($a == $b) {
-		return 0;
-	}
-
-	return ($a > $b) ? +1 : -1;
 }
 
 ?>

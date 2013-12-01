@@ -282,5 +282,14 @@ class SupervisoryBoard {
 //		$this->parties = array_merge($this->parties, $partiesOfList);
 		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
 	}
+	
+	/**
+	 * Get the Persistence_Object_Identifier of this supervisory board
+	 *
+	 * @return string The Persistence_Object_Identifier of this list of candidates
+	 */
+	public function getPersistenceObjectIdentifier() {
+		return $this->Persistence_Object_Identifier;
+	}
 }
 ?>
