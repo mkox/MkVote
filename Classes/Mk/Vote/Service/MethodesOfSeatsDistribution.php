@@ -24,7 +24,9 @@ class MethodesOfSeatsDistribution{
 				//	$votesOfList = $getVotes['international'];
 					$votesOfList = $getVotes[$area];
 				} else {
-					$votesOfList = $value['votes'];
+//					$votesOfList = $value['votes'];
+					$votesOfList = $value->getVotes();
+					$votesOfList = $votesOfList[$area];
 				}
 			//	$resultList[$counter]['dividedValue'] = $value['votes']['international'] / $divisor;
 //print_r('<br>$votesOfList: ');

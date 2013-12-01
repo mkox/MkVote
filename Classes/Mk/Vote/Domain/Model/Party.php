@@ -34,30 +34,12 @@ class Party {
 	 */
 	protected $votes = array('regional' => 0, 'international' => 0);
 	
-//	/**
-//	 * @var array
-//	 * @Flow\Transient
-//	 */
-//	protected $seats = array('regional' => 0, 'international' => 0);
-	
 	/**
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats = array('regional' => array('first' => 0), 
-						'international' => array('first' => 0));
-	
-	/**
-	 * @var array
-	 * @Flow\Transient
-	 */
-	protected $seatsCorrected = array('regional' => 0, 'international' => 0);
-	
-	/**
-	 * @var array
-	 * @Flow\Transient
-	 */
-	protected $seatsDifference = array('regional' => 0, 'international' => 0);
+	protected $seats = array('regional' => array('first' => 0, 'corrected' => 0, 'difference' => 0), 
+						'international' => array('first' => 0, 'corrected' => 0, 'difference' => 0));
 
 	/**
 	 * Constructs this party
@@ -138,10 +120,11 @@ class Party {
 	 *
 	 * @param int $seats The Party's seats
 	 * @param string $area The area of the votes
+	 * @param string $context The context: first, corrected, difference, toCorrect
 	 * @return void
 	 */
 	public function setSeats($seats, $area, $context) {
-		$this->seats[$area][$context] += $seats;
+			$this->seats[$area][$context] += $seats;
 	}
 	
 	/**
@@ -152,34 +135,6 @@ class Party {
 	public function getPersistenceObjectIdentifier() {
 		return $this->Persistence_Object_Identifier;
 	}
-	
-//	/**
-//	 * Get the Party's corrected seats
-//	 *
-//	 * @return array The Party's corrected seats
-//	 */
-//	public function getSeatsCorrected() {
-//		return $this->seatsCorrected;
-//	}
-//
-//	/**
-//	 * Sets this Party's corrected seats
-//	 *
-//	 * @param string $xxxx The Party's name
-//	 * @return void
-//	 */
-//	public function setSeatsCorrected($xxxx) {
-////		$this->name = $name;
-//	}
-//	
-//	/**
-//	 * Get the Party's difference of seats
-//	 *
-//	 * @return array The Party's difference of seats
-//	 */
-//	public function getSeatsDifference() {
-//		return $this->seatsDifference;
-//	}
 
 }
 ?>

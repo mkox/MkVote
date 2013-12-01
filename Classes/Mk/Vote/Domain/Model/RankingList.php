@@ -184,6 +184,7 @@ class RankingList {
 //print_r('<br><br>$this->parties->findAll() in calculateSeatsDistribution():');
 //\Doctrine\Common\Util\Debug::dump($this->parties->findAll());
 //print_r('<br><br>');
+	$this->tooManyOrTooLessSeats();
 $x=1;
 //			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
 //			//print_r($main->votesPerPartyForAllConnectedSB);
@@ -226,7 +227,7 @@ $x=1;
 			$this->setParties($sb);
 		}
 		
-		$this->setAllConnectedSB();
+		$this->setAllConnectedSBstart();
 	}
 	
 	/**
@@ -239,11 +240,11 @@ $x=1;
 	}
 	
 	/**
-	 * Sets data together for all supervisory boards of this ranking list.
+	 * Sets start data together for all supervisory boards of this ranking list.
 	 *
 	 * @return void
 	 */
-	protected function setAllConnectedSB(){
+	protected function setAllConnectedSBstart(){
 		
 		foreach($this->supervisoryBoards as $sb => $value){
 			$votesOfSB = $this->supervisoryBoards[$sb]->getVotes();
@@ -256,7 +257,21 @@ $x=1;
 	}
 	
 	/**
-	 * add in $this->votesPerPartyForAllConnectedSB: seatsCorrected, seatsDifference, seatsDifference
+	 * Sets data together for all supervisory boards of this ranking list.
+	 * See also setAllConnectedSBstart()
+	 *
+	 * @param string $context The context
+	 * @param int $value The value to the context
+	 * @param string $area The area to which context and value belong
+	 * @return void
+	 */
+	protected function setAllConnectedSB($context, $value, $area){
+		$this->allConnectedSB[$area][$context] = $value;
+	}
+	
+	/**
+	 * add in the votes attribute of parties: corrected, difference
+	 * add in $this->allConnectedSB: seatsToCorrect
 	 *
 	 * @return void
 	 */
@@ -264,23 +279,21 @@ $x=1;
 		
 //print_r('<br>in tooManyOrTooLessSeats, before $sainteLague: ');	
 		for($i=0;$i<count($this->area);$i++){
-		//	$sainteLague = $this->voteBySainteLague($this->votesPerPartyForAllConnectedSB, $this->allConnectedSB['international']['votes'], $this->allConnectedSB['international']['seats']);
-			$sainteLague = $this->voteBySainteLague($this->votesPerPartyForAllConnectedSB[$this->area[$i]], $this->allConnectedSB[$this->area[$i]]['votes'], $this->allConnectedSB[$this->area[$i]]['seats'], '', 'tooManyOrTooLessSeats');
-print_r('<br>in tooManyOrTooLessSeats, $sainteLague: ');
-print_r($sainteLague);
+			$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($this->parties, $this->allConnectedSB[$this->area[$i]]['votes'], $this->allConnectedSB[$this->area[$i]]['seats'], $this->area[$i], 'tooManyOrTooLessSeats');
+//print_r('<br><br>in tooManyOrTooLessSeats, $sainteLague: ');
+//print_r($sainteLague);
 
-			foreach($this->votesPerPartyForAllConnectedSB[$this->area[$i]] as $party => $value){
-				if(!isset($this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'])){
-					$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'] = 0;
+			foreach($this->parties as $party){
+
+				$seatsCorrected = $sainteLague[$party->getPersistenceObjectIdentifier()];
+				$party->setSeats($seatsCorrected, $this->area[$i], 'corrected');
+
+				$seats = $party->getSeats();
+				$seatsDifference = $seatsCorrected - $seats[$this->area[$i]]['first'];
+				$party->setSeats($seatsDifference, $this->area[$i], 'difference');
+				if($seatsDifference > 0){
+					$this->setAllConnectedSB('seatsToCorrect', $seatsDifference, $this->area[$i]);
 				}
-			//	$this->votesPerPartyForAllConnectedSB[$party]['seatsCorrected'] = floor($value['votes'] / $votesPerSeat);
-				$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsCorrected'] = $sainteLague[$party];
-				$this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'] = $sainteLague[$party] - $this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seats'];
-				if($this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'] > 0){
-
-					$this->allConnectedSB[$this->area[$i]]['seatsToCorrect'] += $this->votesPerPartyForAllConnectedSB[$this->area[$i]][$party]['seatsDifference'];
-				}
-
 			}
 		}
 		
