@@ -376,12 +376,15 @@ $x=1;
 								foreach($lists as $listForTooMuch){
 									$listPartiesForTooMuch = $listForTooMuch->getParties();
 									$listSeatsForTooMuch = $listForTooMuch->getSeats();
+									$listVotesForTooMuch = $listForTooMuch->getVotes();
 									foreach($listPartiesForTooMuch as $listPartyForTooMuch){
 										if($mParty == $listPartyForTooMuch->getPersistenceObjectIdentifier()){
 		//									$usedVotesOfMParty = $sb['votesPerList'][$mParty]['votes'][$this->area[$i]];
 //											$usedVotesOfMParty = $listVotes[$this->area[$i]];
-											$usedVotesOfMPartyRaw = $listPartyForTooMuch->getVotes();
-											$usedVotesOfMParty = $usedVotesOfMPartyRaw[$this->area[$i]];
+											
+//											$usedVotesOfMPartyRaw = $listPartyForTooMuch->getVotes();
+//											$usedVotesOfMParty = $usedVotesOfMPartyRaw[$this->area[$i]];
+											$usedVotesOfMParty = $listVotesForTooMuch[$this->area[$i]];
 
 
 		//									if($sb['votesPerList'][$mParty]['seats'][$this->area[$i]]['first'] > 1){
