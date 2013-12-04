@@ -53,8 +53,8 @@ class ListOfCandidates {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats = array('regional' => array('first' => 0), 
-						'international' => array('first' => 0));
+	protected $seats = array('regional' => array('first' => 0, 'corrected' => 0), 
+						'international' => array('first' => 0, 'corrected' => 0));
 	
 	/**
 	 * @var array
@@ -146,7 +146,7 @@ class ListOfCandidates {
 	 * @return void
 	 */
 	public function setSeats($seats, $area, $mode) {
-		$this->seats[$area][$mode] = $seats;
+		$this->seats[$area][$mode] += $seats;
 	}
 	
 	/**

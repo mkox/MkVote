@@ -38,8 +38,8 @@ class Party {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $seats = array('regional' => array('first' => 0, 'corrected' => 0, 'difference' => 0), 
-						'international' => array('first' => 0, 'corrected' => 0, 'difference' => 0));
+	protected $seats = array('regional' => array('first' => 0, 'corrected' => 0, 'differenceCounter' => 0), 
+						'international' => array('first' => 0, 'corrected' => 0, 'differenceCounter' => 0));
 
 	/**
 	 * Constructs this party
@@ -120,7 +120,7 @@ class Party {
 	 *
 	 * @param int $seats The Party's seats
 	 * @param string $area The area of the votes
-	 * @param string $context The context: first, corrected, difference, toCorrect
+	 * @param string $context The context: first, corrected, differenceCounter
 	 * @return void
 	 */
 	public function setSeats($seats, $area, $context) {

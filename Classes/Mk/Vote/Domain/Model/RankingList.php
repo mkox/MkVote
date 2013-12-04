@@ -167,52 +167,11 @@ class RankingList {
 	 */
 	public function calculateSeatsDistribution(){
 		
-//	$startData = $this->addBasicsToStartData();
-//	$this->addBasicsToStartData();
-			//print_r('<pre>' . $startArray . '</pre>');
-			//print_r($startArray);
-			//$votesPerPartyForAllConnectedSB = $main->votesPerPartyForAllConnectedSB($startArray);
-			//print_r('<br>$votesPerPartyForAllConnectedSB: ');
-			//print_r($votesPerPartyForAllConnectedSB);
-//	$sbList = $this->beforeListCompare($startData);
 	$this->beforeListCompare();
-//$myObjectInstance = $this->objectManager->get('Mk\Vote\Domain\Model\Party');
-
-//print_r('<br><br>$this->parties in calculateSeatsDistribution():');
-//\Doctrine\Common\Util\Debug::dump($this->parties);
-//$theParties = $this->parties->findAll();
-//print_r('<br><br>$this->parties->findAll() in calculateSeatsDistribution():');
-//\Doctrine\Common\Util\Debug::dump($this->parties->findAll());
-//print_r('<br><br>');
 	$this->tooManyOrTooLessSeats();
 	$this->setListOfVoteDifferences();
 	$this->setFilteredListOfVoteDifferences();
 $x=1;
-//			//print_r('<br>$main->votesPerPartyForAllConnectedSB: ');
-//			//print_r($main->votesPerPartyForAllConnectedSB);
-//print_r('<br>$sbList: ');
-//print_r($sbList);
-//	$this->beforeListCompare2($sbList);
-//			//print_r($main->votesPerPartyForAllConnectedSB);
-//			//print_r('<br>$main->allConnectedSB: ');
-//			//print_r($main->allConnectedSB);
-//	$this->tooManyOrTooLessSeats();
-//print_r('<br>$this->allConnectedSB: ');
-//print_r($this->allConnectedSB);
-//print_r('<br>after tooManyOrTooLessSeats(), $this->votesPerPartyForAllConnectedSB: ');
-//print_r($this->votesPerPartyForAllConnectedSB);
-//	$listOfVoteDifferences = $this->setListOfVoteDifferences($sbList);
-//			//print_r('<br>$listOfVoteDifferences: ');			
-//			//print_r($listOfVoteDifferences);
-//	$filteredVoteDifferences = $this->setFilteredListOfVoteDifferences($listOfVoteDifferences, $sbList);
-//print_r('<br>$filteredVoteDifferences: ');			
-//print_r($filteredVoteDifferences);
-//print_r('<br>$this->listOfVotesFilteredInBothAreas: ');			
-//print_r($this->listOfVotesFilteredInBothAreas);
-			//$changeSeats = $main->correctionOfSeatDistribution($filteredVoteDifferences, $sbList);
-			//print_r('<br>$correctionOfSeatDistribution: ');			
-			//print_r($correctionOfSeatDistribution);
-		
 	}
 	
 	/**
@@ -221,10 +180,9 @@ $x=1;
 	 * @return void
 	 */
 	protected function beforeListCompare(){
-		$this->setIdAsKeyForSupervisoryBoards();
+//		$this->setIdAsKeyForSupervisoryBoards();
 		foreach($this->supervisoryBoards as $sb){
 			
-//			$this->supervisoryBoards[$sb]->basicCalculations();
 			$sb->basicCalculations();
 			$this->setParties($sb);
 		}
@@ -294,7 +252,7 @@ $x=1;
 				$seatsDifference = $seatsCorrected - $seats[$this->area[$i]]['first'];
 //print_r('<br>$seatsDifference: ');
 //print_r($seatsDifference);
-				$party->setSeats($seatsDifference, $this->area[$i], 'difference');
+				$party->setSeats($seatsDifference, $this->area[$i], 'differenceCounter');
 				if($seatsDifference > 0){
 					$this->setAllConnectedSB('seatsToCorrect', $seatsDifference, $this->area[$i]);
 				}
@@ -327,9 +285,9 @@ $x=1;
 
 			foreach($this->parties as $party){
 				$seats = $party->getSeats();
-				if($seats[$this->area[$i]]['difference'] > 0){
+				if($seats[$this->area[$i]]['differenceCounter'] > 0){
 					$partiesWithTooFewSeats[] = $party->getPersistenceObjectIdentifier();
-				} else if($seats[$this->area[$i]]['difference'] < 0){
+				} else if($seats[$this->area[$i]]['differenceCounter'] < 0){
 					$partiesWithTooMuchSeats[] = $party->getPersistenceObjectIdentifier();
 				}
 			}
@@ -397,9 +355,13 @@ $x=1;
 											}
 
 											$listOfVoteDifferences[$this->area[$i]][$j]['sbid'] = $sb->getPersistenceObjectIdentifier();
-											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
-											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
+//											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
+//											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
+											$listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'] = $listParty;
+											$listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates'] = $list;
+											$listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party'] = $this->parties[$mParty]; 
 												// instead of $this->parties[$mParty]:  $listPartyForTooMuch could be used with the same result
+											$listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates'] = $listForTooMuch;
 											$listOfVoteDifferences[$this->area[$i]][$j]['difference'] = ($usedVotesOfMParty - $votesToGetASeat) * 100 / $usedVotesOfMParty;
 
 
@@ -452,7 +414,7 @@ $x=1;
 	 */
 	protected function setFilteredListOfVoteDifferences() {
 		$filteredListOfVoteDifferences = array();
-		$sbList = $this->transferFirstSeatsToCorrectedSeats();
+		$this->transferFirstSeatsToCorrectedSeats();
 		
 		for($i=0;$i<count($this->area);$i++){
 			$seatsToCorrect[$this->area[$i]] = $this->allConnectedSB[$this->area[$i]]['seatsToCorrect'];
@@ -460,43 +422,32 @@ $x=1;
 //				$seatsToCorrect[$this->area[$i]] += $this->allConnectedSB['regional']['seatsToCorrect']; // needed for later changes, when same item remains in both areas.
 //			}
 
-//			$votesPerPartyForAllConnectedSB[$this->area[$i]] = $this->votesPerPartyForAllConnectedSB[$this->area[$i]]; 
-//			$votesPerPartyForAllConnectedSB = $this->cloneParties();
-			$clonedParties = $this->cloneParties();
-
-//print_r('x210');
-/*
 			for($j=0;$j<count($this->listOfVoteDifferences[$this->area[$i]]);$j++){
-//print_r('x220');
+
 				if($seatsToCorrect[$this->area[$i]] > 0){
 
-//					$partyWithTooFewSeats = $listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats']['name'];
-					$partyWithTooFewSeats = $listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'];
-					$idOfPartyWithTooFewSeats = $partyWithTooFewSeats->getPersistenceObjectIdentifier();
-//					$partyWithTooMuchSeats = $listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats']['name'];
-					$partyWithTooMuchSeats = $listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'];
-					$idOfPartyWithTooMuchSeats = $partyWithTooMuchSeats->getPersistenceObjectIdentifier();
-					$sbid = $listOfVoteDifferences[$this->area[$i]][$j]['sbid'];
+					$partyWithTooFewSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'];
+					$partyWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party'];
+					$sbid = $this->listOfVoteDifferences[$this->area[$i]][$j]['sbid'];
 					
-					if($sbList['supervisoryBoards'][$sbid]['votesPerList'][$partyWithTooMuchSeats]['seats'][$this->area[$i]]['corrected'] > 0){
-						if($votesPerPartyForAllConnectedSB[$this->area[$i]][$partyWithTooFewSeats]['seatsDifference'] > 0){
-							if($votesPerPartyForAllConnectedSB[$this->area[$i]][$partyWithTooMuchSeats]['seatsDifference'] < 0){
-//print_r('x230');								
+					$seatsOfListWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates']->getSeats();
+					if($seatsOfListWithTooMuchSeats[$this->area[$i]]['corrected'] > 0){
+						$seatsOfPartyWithTooFewSeats = $partyWithTooFewSeats->getSeats();
+						if($seatsOfPartyWithTooFewSeats[$this->area[$i]]['differenceCounter'] > 0){
+							$seatsOfPartyWithTooMuchSeats = $partyWithTooMuchSeats->getSeats();
+							if($seatsOfPartyWithTooMuchSeats[$this->area[$i]]['differenceCounter'] < 0){
+							
 								$internationalIsInRegional = 0;
 								if($this->area[$i] == 'international'){
-//print_r('<br>$filteredListOfVoteDifferences[regional]: ');	
-//print_r($filteredListOfVoteDifferences['regional']);
-//break;
+
 									for($k=0;$k<count($filteredListOfVoteDifferences['regional']);$k++){
 										$regionalFilteredItem = $filteredListOfVoteDifferences['regional'][$k];
-//print_r('<br>$regionalFilteredItem: ');	
-//print_r($regionalFilteredItem);
 
 										if(($regionalFilteredItem['sbid'] == $sbid)
-											&& ($regionalFilteredItem['partyWithTooFewSeats'] == $partyWithTooFewSeats)
-											&& ($regionalFilteredItem['partyWithTooMuchSeats'] == $partyWithTooMuchSeats)
+											&& ($regionalFilteredItem['tooFewSeats']['party'] == $partyWithTooFewSeats)
+											&& ($regionalFilteredItem['tooMuchSeats']['party'] == $partyWithTooMuchSeats)
 											){
-											$this->listOfVotesFilteredInBothAreas = $listOfVoteDifferences[$this->area[$i]][$j];
+											$this->listOfVotesFilteredInBothAreas[] = $this->listOfVoteDifferences[$this->area[$i]][$j];
 											$internationalIsInRegional = 1;
 											break;
 										} else {
@@ -506,45 +457,42 @@ $x=1;
 									}
 									
 								}
-//print_r('x240');								
+							
 								if($internationalIsInRegional == 0){
-//print_r('x250');									
-									$listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 1;
-									$filteredListOfVoteDifferences[$this->area[$i]][] = $listOfVoteDifferences[$this->area[$i]][$j];
+									
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 1;
+									$filteredListOfVoteDifferences[$this->area[$i]][] = $this->listOfVoteDifferences[$this->area[$i]][$j];
 
 									$seatsToCorrect[$this->area[$i]] -= 1;
-									$sbList['supervisoryBoards'][$sbid]['votesPerList'][$partyWithTooMuchSeats]['seats'][$this->area[$i]]['corrected'] -= 1;
-									$sbList['supervisoryBoards'][$sbid]['votesPerList'][$partyWithTooFewSeats]['seats'][$this->area[$i]]['corrected'] += 1;
-									$votesPerPartyForAllConnectedSB[$this->area[$i]][$partyWithTooMuchSeats]['seatsDifference'] += 1;
-									$votesPerPartyForAllConnectedSB[$this->area[$i]][$partyWithTooFewSeats]['seatsDifference'] -= 1;
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates']->setSeats(-1, $this->area[$i], 'corrected');
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates']->setSeats(1, $this->area[$i], 'corrected');
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party']->setSeats(1, $this->area[$i], 'differenceCounter');
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party']->setSeats(-1, $this->area[$i], 'differenceCounter');
 								}
 							} else {
 								// If partyWithTooMuchSeats has NOT more seats than it should have any more; it has already given the seats that where too much.
-								$listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 4;
+								$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 4;
 							}
 						} else {							
 							// If partyWithTooFewSeats has NOT too few seats now; it already got additional seats.
-							$listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 3;
+							$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 3;
 						}
 					} else {
 						// If partyWithTooMuchSeats has NOT at least 1 seat in this SB for this area
-						$listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 2;
+						$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 2;
 					}
 
 				} else {
-					$listOfVoteDifferences2[$this->area[$i]] = array_slice($listOfVoteDifferences[$this->area[$i]], 0, $j);
+					$this->listOfVoteDifferences[$this->area[$i]] = array_slice($this->listOfVoteDifferences[$this->area[$i]], 0, $j);
 					break;
 				}
 
 			}
-*/
+
 		}
-//print_r('<br>at end of filterListOfVoteDifferences, $sbList: ');
-//print_r($sbList);
-		
 //print_r('<br>at end of filterListOfVoteDifferences, $listOfVoteDifferences2: ');
 //print_r($listOfVoteDifferences2);
-//		return $filteredListOfVoteDifferences;
+		$this->filteredListOfVoteDifferences = $filteredListOfVoteDifferences;
 
 	}
 	
@@ -570,18 +518,18 @@ $x=1;
 		
 	}
 	
-	/**
-	 * Get the list of the parties connected with this ranking list
-	 *
-	 * @return array The list of cloned parties connected with this ranking list
-	 */
-	public function cloneParties() {
-		$clonedParties = array();
-		foreach($this->parties as $partyKey => $party){
-			$clonedParties[$partyKey] = $party;
-		}
-		return $clonedParties;
-	}
+//	/**
+//	 * Get the list of the parties connected with this ranking list
+//	 *
+//	 * @return array The list of cloned parties connected with this ranking list
+//	 */
+//	public function cloneParties() {
+//		$clonedParties = array();
+//		foreach($this->parties as $partyKey => $party){
+//			$clonedParties[$partyKey] = $party;
+//		}
+//		return $clonedParties;
+//	}
 	
 	/**
 	 * Get the list of the parties connected with this ranking list
@@ -606,17 +554,17 @@ $x=1;
 //		array_unique($this->parties);
 	}
 	
-	/**
-	 * Set Persistence_Object_Identifier of each SupervisoryBoard as array key.
-	 *
-	 */
-	public function setIdAsKeyForSupervisoryBoards() {
-		$supervisoryBoards = array();
-		for($i=0;$i<count($this->supervisoryBoards);$i++){
-			$supervisoryBoards[$this->supervisoryBoards[$i]->getPersistenceObjectIdentifier()] = $this->supervisoryBoards[$i];
-		}
-		$this->supervisoryBoards = $supervisoryBoards;
-	}
+//	/**
+//	 * Set Persistence_Object_Identifier of each SupervisoryBoard as array key.
+//	 *
+//	 */
+//	public function setIdAsKeyForSupervisoryBoards() {
+//		$supervisoryBoards = array();
+//		for($i=0;$i<count($this->supervisoryBoards);$i++){
+//			$supervisoryBoards[$this->supervisoryBoards[$i]->getPersistenceObjectIdentifier()] = $this->supervisoryBoards[$i];
+//		}
+//		$this->supervisoryBoards = $supervisoryBoards;
+//	}
 	
 }
 
