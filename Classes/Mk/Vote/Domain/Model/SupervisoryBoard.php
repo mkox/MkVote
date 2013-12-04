@@ -185,6 +185,8 @@ class SupervisoryBoard {
 	 */
 	public function basicCalculations(){
 		
+		$this->setIdAsKeyForListsOfCandidates();
+		
 		$votesPerSBInternational = 0;
 		$votesPerSBRegional = 0;
 		foreach($this->listsOfCandidates as $list){
@@ -281,6 +283,18 @@ class SupervisoryBoard {
 		$partiesOfList = $list->getParties();
 //		$this->parties = array_merge($this->parties, $partiesOfList);
 		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
+	}
+	
+	/**
+	 * Set Persistence_Object_Identifier of each ListOfCandidates as array key.
+	 *
+	 */
+	public function setIdAsKeyForListsOfCandidates() {
+		$listsOfCandidates = array();
+		for($i=0;$i<count($this->listsOfCandidates);$i++){
+			$listsOfCandidates[$this->listsOfCandidates[$i]->getPersistenceObjectIdentifier()] = $this->listsOfCandidates[$i];
+		}
+		$this->listsOfCandidates = $listsOfCandidates;
 	}
 	
 	/**

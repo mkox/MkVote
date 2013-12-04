@@ -218,5 +218,14 @@ class ListOfCandidates {
 		}
 	}
 
+	/**
+	 * Get the Persistence_Object_Identifier of this list of candidates
+	 *
+	 * @return string The Persistence_Object_Identifier of this list of candidates
+	 */
+	public function getPersistenceObjectIdentifier() {
+		return $this->Persistence_Object_Identifier;
+	}
+	
 }
 ?>
