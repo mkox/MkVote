@@ -45,7 +45,6 @@
 						<ul>
 							<f:for each="{area}" as="voteDifference">
 								<li>
-									Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
 									List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
 									List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 									<strong>Difference: {voteDifference.difference} %</strong>
@@ -65,7 +64,7 @@
 			<ol>
 				<f:for each="{area}" as="voteDifference">
 					<li>
-						Supervisory Board: {voteDifference.sbid}<br>
+						Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
 						List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
 						Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
 						List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
@@ -79,13 +78,13 @@
 	<h2>Full list of Vote Differences:</h2>
 	Here you find information why some vote differences between candidate lists of a supervisory board do not result in a redestribution of seats.<br>
 	(At the moment in a list can only be one party.)
-	<f:for each="{rankingList.filteredListOfVoteDifferences}" as="area" key="areaKey">
+	<f:for each="{rankingList.listOfVoteDifferences}" as="area" key="areaKey">
 		<li>
 			<h3>{areaKey}:</h3>
 			<ol>
 				<f:for each="{area}" as="voteDifference">
 					<li>
-						Supervisory Board: {voteDifference.sbid}<br>
+						Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
 						List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
 						Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
 						List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>

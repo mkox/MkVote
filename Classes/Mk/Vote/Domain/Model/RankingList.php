@@ -406,7 +406,7 @@ $x=1;
 	 * @return string The filtered list of vote differences
 	 */
 	public function getFilteredListOfVoteDifferences() {
-		return $this->listOfVoteDifferences;
+		return $this->filteredListOfVoteDifferences;
 	}
 
 	/**
