@@ -15,114 +15,135 @@
 		</tr>
 
 	</table>
+	<br><br>
+	<f:render partial="ContentTableForRankinglist" />
 	
-	<h2>For all supervisory boards of this ranking list together:</h2>
-	<f:for each="{rankingList.allConnectedSB}" as="area" key="areaKey">
-		<li>
-			<h3>{areaKey}:</h3>
-				Votes: {area.votes}<br>
-				Seats: {area.seats}<br>
-				Seats to correct: {area.seatsToCorrect}<br>
-		</li>
-	</f:for>
+	<div id="allConnectedSB">
+		<h2>For all supervisory boards of this ranking list together:</h2>
+		<ul>
+			<f:for each="{rankingList.allConnectedSB}" as="area" key="areaKey">
+				<li>
+					<h3>{areaKey}:</h3>
+						Votes: {area.votes}<br>
+						Seats: {area.seats}<br>
+						Seats to correct: {area.seatsToCorrect}<br>
+				</li>
+			</f:for>
+		</ul>
+	</div>
 	
-	<h2>Parties with values for all supervisory boards of this ranking list together:</h2>
-	<ul>
-		<f:for each="{rankingList.parties}" as="party">
-			<li>
-				Name: {party.name}<br>
-				<f:for each="{party.votes}" as="area" key="areaKey">
-					Votes {areaKey}: {area}<br>
-				</f:for>
-				<f:for each="{party.seats}" as="area" key="areaKey">
-					Seats {areaKey}:<br>
-					&nbsp;&nbsp;&nbsp;&nbsp; first: {area.first}<br>
-					&nbsp;&nbsp;&nbsp;&nbsp; corrected: {area.corrected}<br>
-				</f:for>
-			</li>
-		</f:for>
-	</ul>
+	<div id="parties">
+		<h2>Parties with values for all supervisory boards of this ranking list together:</h2>
+		<ul>
+			<f:for each="{rankingList.parties}" as="party">
+				<li>
+					Name: {party.name}<br>
+					<f:for each="{party.votes}" as="area" key="areaKey">
+						Votes {areaKey}: {area}<br>
+					</f:for>
+					<f:for each="{party.seats}" as="area" key="areaKey">
+						Seats {areaKey}:<br>
+						&nbsp;&nbsp;&nbsp;&nbsp; first: {area.first}<br>
+						&nbsp;&nbsp;&nbsp;&nbsp; corrected: {area.corrected}<br>
+					</f:for>
+				</li>
+			</f:for>
+		</ul>
+	</div>
 	
-	<h2>Supervisory Boards:</h2>
-	<ol id="supervisoryBoards">
-		<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
-			<li class="supervisoryBoard">
-				<div class="sb-main">
-					Name of supervisory board: {sBoard.name}<br>
-					Seats: {sBoard.seats}<br>
-					<h3>Lists of Candidates:</h3>
-					(At the moment in a list can only be one party.)
-					<ul>
-						<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
-							<li>
-								Name of List: {listOfCandidates.name}<br>
-								Name of Party: {listOfCandidates.parties.0.name}<br>
-								Votes regional: {listOfCandidates.votes.regional}<br>
-								Votes international: {listOfCandidates.votes.international}<br>
-								Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
-								Seats regional, after correction: {listOfCandidates.seats.regional.corrected}<br>
-								Seats international, before correction: {listOfCandidates.seats.international.first}<br>
-								Seats international, after correction: {listOfCandidates.seats.international.corrected}<br>
-							</li>
-						</f:for>
-					</ul>
-				</div>
-				<div class="voteDifferences">
-					<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
-						<h4>{areaKey}:</h4>
+	<div id="supervisoryBoards">
+		<h2>Supervisory Boards:</h2>
+		<ol>
+			<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
+				<li class="supervisoryBoard">
+					<div class="sb-main">
+						Name of supervisory board: {sBoard.name}<br>
+						Seats: {sBoard.seats}<br>
+						<h3>Lists of Candidates:</h3>
+						(At the moment in a list can only be one party.)
 						<ul>
-							<f:for each="{area}" as="voteDifference">
+							<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
 								<li>
-									List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-									List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-									<strong>Difference: {voteDifference.difference} %</strong>
+									Name of List: {listOfCandidates.name}<br>
+									Name of Party: {listOfCandidates.parties.0.name}<br>
+									Votes regional: {listOfCandidates.votes.regional}<br>
+									Votes international: {listOfCandidates.votes.international}<br>
+									Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
+									Seats regional, after correction: {listOfCandidates.seats.regional.corrected}<br>
+									Seats international, before correction: {listOfCandidates.seats.international.first}<br>
+									Seats international, after correction: {listOfCandidates.seats.international.corrected}<br>
 								</li>
 							</f:for>
 						</ul>
+					</div>
+					<div class="voteDifferences">
+						<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
+							<h4>{areaKey}:</h4>
+							<ul>
+								<f:for each="{area}" as="voteDifference">
+									<li>
+										List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+										List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+										<strong>Difference: {voteDifference.difference} %</strong>
+									</li>
+								</f:for>
+							</ul>
+						</f:for>
+					</div>
+				</li>
+			</f:for>
+		</ol>
+		<div class="clear"></div>
+	</div>
+	
+	<br><br>
+	<f:render partial="ContentTableForRankinglist" />
+	<br>
+	
+	<div id="filteredListOfVoteDifferences">
+		<h2>Filtered Lists of Vote Differences:</h2>
+		(At the moment in a list can only be one party.)
+		<f:for each="{rankingList.filteredListOfVoteDifferences}" as="area" key="areaKey">
+			<li>
+				<h3>{areaKey}:</h3>
+				<ol>
+					<f:for each="{area}" as="voteDifference">
+						<li>
+							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
+							List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
+							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
+							<strong>Difference: {voteDifference.difference} %</strong>
+						</li>
 					</f:for>
-				</div>
+				</ol>
 			</li>
 		</f:for>
-	</ol>
-	<h2>Filtered Lists of Vote Differences:</h2>
-	(At the moment in a list can only be one party.)
-	<f:for each="{rankingList.filteredListOfVoteDifferences}" as="area" key="areaKey">
-		<li>
-			<h3>{areaKey}:</h3>
-			<ol>
-				<f:for each="{area}" as="voteDifference">
-					<li>
-						Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
-						List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-						Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
-						List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-						Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
-						<strong>Difference: {voteDifference.difference} %</strong>
-					</li>
-				</f:for>
-			</ol>
-		</li>
-	</f:for>
-	<h2>Full list of Vote Differences:</h2>
-	Here you find information why some vote differences between candidate lists of a supervisory board do not result in a redestribution of seats.<br>
-	(At the moment in a list can only be one party.)
-	<f:for each="{rankingList.listOfVoteDifferences}" as="area" key="areaKey">
-		<li>
-			<h3>{areaKey}:</h3>
-			<ol>
-				<f:for each="{area}" as="voteDifference">
-					<li>
-						Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
-						List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-						Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
-						List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-						Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
-						<strong>Difference: {voteDifference.difference} %</strong><br>
-						<strong>Filtering information: {voteDifference.filterStatus}</strong>
-					</li>
-				</f:for>
-			</ol>
-		</li>
-	</f:for>
+	</div>
+	
+	<div id="listOfVoteDifferences">
+		<h2>Full list of Vote Differences:</h2>
+		Here you find information why some vote differences between candidate lists of a supervisory board do not result in a redestribution of seats.<br>
+		(At the moment in a list can only be one party.)
+		<f:for each="{rankingList.listOfVoteDifferences}" as="area" key="areaKey">
+			<li>
+				<h3>{areaKey}:</h3>
+				<ol>
+					<f:for each="{area}" as="voteDifference">
+						<li>
+							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
+							List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
+							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
+							<strong>Difference: {voteDifference.difference} %</strong><br>
+							<strong>Filtering information: {voteDifference.filterStatus}</strong>
+						</li>
+					</f:for>
+				</ol>
+			</li>
+		</f:for>
+	</div>
 </f:section>
 
