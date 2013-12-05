@@ -171,6 +171,7 @@ class RankingList {
 	$this->tooManyOrTooLessSeats();
 	$this->setListOfVoteDifferences();
 	$this->setFilteredListOfVoteDifferences();
+	$this->addVoteDifferencesToSBs();
 $x=1;
 	}
 	
@@ -355,6 +356,7 @@ $x=1;
 											}
 
 											$listOfVoteDifferences[$this->area[$i]][$j]['sbid'] = $sb->getPersistenceObjectIdentifier();
+											$listOfVoteDifferences[$this->area[$i]][$j]['supervisoryBoard'] = $sb;
 //											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
 //											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
 											$listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'] = $listParty;
@@ -509,6 +511,26 @@ $x=1;
 				for($i=0;$i<count($this->area);$i++){
 //					[$this->area[$i]]['corrected'] = $rankingList['supervisoryBoards'][$sb]['votesPerList'][$list]['seats'][$this->area[$i]]['first'];
 					$list->setSeats($seats[$this->area[$i]]['first'], $this->area[$i], 'corrected');
+				}
+			}
+		}
+//		return $rankingList;
+		
+	}
+	
+	/**
+	 * Add vote differences to the supervisory boards of a rankinglist.
+	 *
+	 * @return void
+	 */
+	protected function addVoteDifferencesToSBs(){
+		
+		foreach($this->supervisoryBoards as $sb){
+			for($i=0;$i<count($this->area);$i++){
+				foreach($this->filteredListOfVoteDifferences[$this->area[$i]] as $voteDifference){
+					if($sb == $voteDifference['supervisoryBoard']){
+						$sb->setVoteDifference($voteDifference, $this->area[$i]);
+					}
 				}
 			}
 		}

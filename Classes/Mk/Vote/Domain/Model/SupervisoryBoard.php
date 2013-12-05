@@ -67,6 +67,12 @@ class SupervisoryBoard {
 	protected $parties = array();
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $voteDifferences = array();
+	
+	/**
 	 * Constructs this supervisory board
 	 */
 	public function __construct() {
@@ -283,6 +289,25 @@ class SupervisoryBoard {
 		$partiesOfList = $list->getParties();
 //		$this->parties = array_merge($this->parties, $partiesOfList);
 		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
+	}
+	
+	/**
+	 * Get the vote differences of this supervisory board that resulted in a change of seat distribution.
+	 *
+	 * @return array Vote differences of this supervisory board
+	 */
+	public function getVoteDifferences() {
+		return $this->voteDifferences;
+	}
+	
+	/**
+	 * Sets the vote differences of this supervisory board that resulted in a change of seat distribution.
+	 * 
+	 * @param array A vote difference of this supervisory board
+	 * @return void
+	 */
+	public function setVoteDifference($voteDifference, $area) {
+		$this->voteDifferences[$area][] = $voteDifference;
 	}
 	
 //	/**

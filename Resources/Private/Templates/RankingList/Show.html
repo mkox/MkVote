@@ -19,24 +19,41 @@
 	<ol>
 		<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
 			<li>
-				Name of supervisory board: {sBoard.name}<br>
-				Seats: {sBoard.seats}<br>
-				<h3>Lists of Candidates:</h3>
-				(At the moment in a list can only be one party.)
-				<ul>
-					<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
-						<li>
-							Name of List: {listOfCandidates.name}<br>
-							Name of Party: {listOfCandidates.parties.0.name}<br>
-							Votes regional: {listOfCandidates.votes.regional}<br>
-							Votes international: {listOfCandidates.votes.international}<br>
-							Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
-							Seats regional, after correction: {listOfCandidates.seats.regional.corrected}<br>
-							Seats international, before correction: {listOfCandidates.seats.international.first}<br>
-							Seats international, after correction: {listOfCandidates.seats.international.corrected}<br>
-						</li>
+				<div>
+					Name of supervisory board: {sBoard.name}<br>
+					Seats: {sBoard.seats}<br>
+					<h3>Lists of Candidates:</h3>
+					(At the moment in a list can only be one party.)
+					<ul>
+						<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
+							<li>
+								Name of List: {listOfCandidates.name}<br>
+								Name of Party: {listOfCandidates.parties.0.name}<br>
+								Votes regional: {listOfCandidates.votes.regional}<br>
+								Votes international: {listOfCandidates.votes.international}<br>
+								Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
+								Seats regional, after correction: {listOfCandidates.seats.regional.corrected}<br>
+								Seats international, before correction: {listOfCandidates.seats.international.first}<br>
+								Seats international, after correction: {listOfCandidates.seats.international.corrected}<br>
+							</li>
+						</f:for>
+					</ul>
+				</div>
+				<div>
+					<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
+						<h4>{areaKey}:</h4>
+						<ul>
+							<f:for each="{area}" as="voteDifference">
+								<li>
+									Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
+									List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+									List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+									<strong>Difference: {voteDifference.difference} %</strong>
+								</li>
+							</f:for>
+						</ul>
 					</f:for>
-				</ul>
+				</div>
 			</li>
 		</f:for>
 	</ol>
