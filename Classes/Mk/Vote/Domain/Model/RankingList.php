@@ -355,7 +355,7 @@ $x=1;
 												$usedVotesOfMParty = $usedVotesOfMParty / $listSeatsForTooMuch[$this->area[$i]]['first'];
 											}
 
-											$listOfVoteDifferences[$this->area[$i]][$j]['sbid'] = $sb->getPersistenceObjectIdentifier();
+//											$listOfVoteDifferences[$this->area[$i]][$j]['sbid'] = $sb->getPersistenceObjectIdentifier();
 											$listOfVoteDifferences[$this->area[$i]][$j]['supervisoryBoard'] = $sb;
 //											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
 //											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
@@ -430,7 +430,7 @@ $x=1;
 
 					$partyWithTooFewSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'];
 					$partyWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party'];
-					$sbid = $this->listOfVoteDifferences[$this->area[$i]][$j]['sbid'];
+//					$sbid = $this->listOfVoteDifferences[$this->area[$i]][$j]['sbid'];
 					
 					$seatsOfListWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates']->getSeats();
 					if($seatsOfListWithTooMuchSeats[$this->area[$i]]['corrected'] > 0){
@@ -445,7 +445,8 @@ $x=1;
 									for($k=0;$k<count($filteredListOfVoteDifferences['regional']);$k++){
 										$regionalFilteredItem = $filteredListOfVoteDifferences['regional'][$k];
 
-										if(($regionalFilteredItem['sbid'] == $sbid)
+//										if(($regionalFilteredItem['sbid'] == $sbid)
+										if(($regionalFilteredItem['supervisoryBoard'] == $this->listOfVoteDifferences[$this->area[$i]][$j]['supervisoryBoard'])
 											&& ($regionalFilteredItem['tooFewSeats']['party'] == $partyWithTooFewSeats)
 											&& ($regionalFilteredItem['tooMuchSeats']['party'] == $partyWithTooMuchSeats)
 											){

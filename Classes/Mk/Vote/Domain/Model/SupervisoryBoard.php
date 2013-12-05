@@ -322,13 +322,13 @@ class SupervisoryBoard {
 //		$this->listsOfCandidates = $listsOfCandidates;
 //	}
 	
-	/**
-	 * Get the Persistence_Object_Identifier of this supervisory board
-	 *
-	 * @return string The Persistence_Object_Identifier of this list of candidates
-	 */
-	public function getPersistenceObjectIdentifier() {
-		return $this->Persistence_Object_Identifier;
-	}
+//	/**
+//	 * Get the Persistence_Object_Identifier of this supervisory board
+//	 *
+//	 * @return string The Persistence_Object_Identifier of this list of candidates
+//	 */
+//	public function getPersistenceObjectIdentifier() {
+//		return $this->Persistence_Object_Identifier;
+//	}
 }
 ?>
