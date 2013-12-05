@@ -61,12 +61,12 @@ class StandardController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 //		));
 //	}
 	
-//	/**
-//	 * Shows the ranking lists
-//	 */
-//	public function rankingListsAction() {
-//			$this->view->assign('rankingLists', $this->rankingListRepository->findAll());
-//	}
+	/**
+	 * Shows the ranking lists
+	 */
+	public function rankingListsAction() {
+			$this->view->assign('rankingLists', $this->rankingListRepository->findAll());
+	}
 
 }
 

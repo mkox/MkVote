@@ -490,8 +490,6 @@ $x=1;
 			}
 
 		}
-//print_r('<br>at end of filterListOfVoteDifferences, $listOfVoteDifferences2: ');
-//print_r($listOfVoteDifferences2);
 		$this->filteredListOfVoteDifferences = $filteredListOfVoteDifferences;
 
 	}

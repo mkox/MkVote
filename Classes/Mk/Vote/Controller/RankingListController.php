@@ -12,17 +12,17 @@ use Mk\Vote\Domain\Model\RankingList;
 
 class RankingListController extends ActionController {
 
-//	/**
-//	 * @Flow\Inject
-//	 * @var \Mk\Vote\Domain\Repository\RankingListRepository
-//	 */
-//	protected $rankingListRepository;
+	/**
+	 * @Flow\Inject
+	 * @var \Mk\Vote\Domain\Repository\RankingListRepository
+	 */
+	protected $rankingListRepository;
 	
 //	/**
 //	 * @Flow\Inject
 //	 * @var \Mk\Vote\Domain\Repository\PartyRepository
 //	 */
-	protected $parties;
+//	protected $parties;
 
 	/**
 	 * @return void
@@ -37,9 +37,11 @@ class RankingListController extends ActionController {
 	 */
 	public function showAction(RankingList $rankingList) {
 //		$rankingList->setParties($this->parties);
+		
 		$rankingList->calculateSeatsDistribution();
-		\Doctrine\Common\Util\Debug::dump($rankingList);
-		print_r('<br><br>');
+//		\Doctrine\Common\Util\Debug::dump($rankingList);
+//		print_r('<br><br>');
+		
 //		\Doctrine\Common\Util\Debug::dump($rankingList->getSupervisoryBoards());
 		
 //		$supervisoryBoards = $rankingList->getSupervisoryBoards();

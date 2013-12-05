@@ -7,20 +7,20 @@
 	
 	<ul>
 			<f:for each="{rankingLists}" as="rankingList">
-					<li>
+					<li>ZZZ<br>
 							{rankingList.name}<br>
 							{rankingList.description}<br>
 							<ul>
-								<f:for each="{rankingList.supervisoryBoard}" as="sBoard">
+								<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
 									<li>
 										{sBoard.name}<br>
 										{sBoard.seats}<br>
 										<ul>
-											<f:for each="{sBoard.listOfCandidates}" as="listOfCandidates">
+											<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
 												<li>
 													{listOfCandidates.name}<br>
 													<ul>
-														<f:for each="{listOfCandidates.candidateInList}" as="candidateInList">
+														<f:for each="{listOfCandidates.candidatesInList}" as="candidateInList">
 															<li>
 																{candidateInList.name}<br>
 																{candidateInList.votesRegional}<br>
