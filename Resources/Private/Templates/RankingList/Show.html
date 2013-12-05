@@ -15,6 +15,34 @@
 		</tr>
 
 	</table>
+	
+	<h2>For all supervisory boards of this ranking list together:</h2>
+	<f:for each="{rankingList.allConnectedSB}" as="area" key="areaKey">
+		<li>
+			<h3>{areaKey}:</h3>
+				Votes: {area.votes}<br>
+				Seats: {area.seats}<br>
+				Seats to correct: {area.seatsToCorrect}<br>
+		</li>
+	</f:for>
+	
+	<h2>Parties with values for all supervisory boards of this ranking list together:</h2>
+	<ul>
+		<f:for each="{rankingList.parties}" as="party">
+			<li>
+				Name: {party.name}<br>
+				<f:for each="{party.votes}" as="area" key="areaKey">
+					Votes {areaKey}: {area}<br>
+				</f:for>
+				<f:for each="{party.seats}" as="area" key="areaKey">
+					Seats {areaKey}:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; first: {area.first}<br>
+					&nbsp;&nbsp;&nbsp;&nbsp; corrected: {area.corrected}<br>
+				</f:for>
+			</li>
+		</f:for>
+	</ul>
+	
 	<h2>Supervisory Boards:</h2>
 	<ol id="supervisoryBoards">
 		<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
