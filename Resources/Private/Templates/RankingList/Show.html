@@ -16,10 +16,10 @@
 
 	</table>
 	<h2>Supervisory Boards:</h2>
-	<ol>
+	<ol id="supervisoryBoards">
 		<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
-			<li>
-				<div>
+			<li class="supervisoryBoard">
+				<div class="sb-main">
 					Name of supervisory board: {sBoard.name}<br>
 					Seats: {sBoard.seats}<br>
 					<h3>Lists of Candidates:</h3>
@@ -39,7 +39,7 @@
 						</f:for>
 					</ul>
 				</div>
-				<div>
+				<div class="voteDifferences">
 					<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
 						<h4>{areaKey}:</h4>
 						<ul>

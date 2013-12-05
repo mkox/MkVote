@@ -1,0 +1,18 @@
+/* 
+    Document   : Main
+    Created on : 05.12.2013, 14:25:25
+    Author     : michael
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#supervisoryBoards .supervisoryBoard .sb-main {
+	float: left;
+}
+#supervisoryBoards .supervisoryBoard .voteDifferences {
+	float: right;
+}
+#supervisoryBoards .supervisoryBoard {
+	clear: both;
+	width: 1000px;
+}
