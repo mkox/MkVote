@@ -1,0 +1,55 @@
+##
+# Route to to a ranking list
+
+#-
+#  name: 'ranking list A'
+#  uriPattern: 'Mk.Vote/{rankingList}'
+#  defaults:
+#    '@package':    'Mk.Vote'
+#    '@controller': 'RankingList'
+#    '@action':     'show'
+#    '@format':     'html'
+#  routeParts:
+#    rankingList:
+#      objectType: 'Mk\Vote\Domain\Model\RankingList'
+
+
+##
+# Route to to a ranking list
+
+#-
+#  name: 'ranking list'
+##  uriPattern: 'Mk.Vote/@controller/{RankingList}/{@action}'
+##  uriPattern: 'Mk.Vote/{RankingList}/{@action}'
+#  uriPattern: 'Mk.Vote/{rankingList}/{@action}'
+##  uriPattern: 'Mk.Vote/xyz'
+##  uriPattern: 'Mk.Vote/{@controller}/{@action}/{rankingList}'
+##  uriPattern: 'Mk.Vote/RankingList/show/{rankingList}'
+#  defaults:
+#    '@package':    'Mk.Vote'
+#    '@controller': 'RankingList'
+#    '@action':     'show'
+#    '@format':     'html'
+##  appendExceedingArguments: true
+#  routeParts:
+#    rankingList:
+#      objectType: 'Mk\Vote\Domain\Model\RankingList'
+##      uriPattern: '{persistence_object_identifier}'
+#      
+##      uriPattern: '{Persistence_Object_Identifier}'
+#      uriPattern: '{name}'
+
+##
+# Route for overview view.
+
+-
+  name: 'overview'
+  uriPattern: ''
+  defaults:
+    '@package':    'Mk.Vote'
+    '@controller': 'Standard'
+    '@action':     'index'
+    '@format':     'html'
+  appendExceedingArguments: true
+
+

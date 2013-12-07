@@ -23,6 +23,11 @@ class RankingListController extends ActionController {
 //	 * @var \Mk\Vote\Domain\Repository\PartyRepository
 //	 */
 //	protected $parties;
+	
+	/**
+	 * @var array $arguments
+	 */
+	protected $arguments;
 
 	/**
 	 * @return void
@@ -36,9 +41,14 @@ class RankingListController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(RankingList $rankingList) {
+		
+		$this->setArguments();
+print_r('<br>$this->arguments: ');
+print_r($this->arguments);
+		
 //		$rankingList->setParties($this->parties);
 		
-		$rankingList->calculateSeatsDistribution();
+		$rankingList->calculateSeatsDistribution($this->arguments);
 //		\Doctrine\Common\Util\Debug::dump($rankingList);
 //		print_r('<br><br>');
 		
@@ -94,6 +104,15 @@ class RankingListController extends ActionController {
 		$this->rankingListRepository->remove($rankingList);
 		$this->addFlashMessage('Deleted a ranking list.');
 		$this->redirect('index');
+	}
+	
+	/**
+	* set arguments
+	*
+	* @return void
+	*/
+	public function setArguments() {
+			$this->arguments = $this->request->getArguments();
 	}
 
 }

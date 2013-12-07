@@ -165,6 +165,10 @@ class ListOfCandidates {
 	 * @return void
 	 */
 	public function setVotes() {
+		for($i=0;$i<count($this->area);$i++){
+			$this->votes[$this->area[$i]] = 0; // is useful, after setVotes() has already been used with getAllVotesOfARankinglist()
+												// alternative: do not call setVotes() after createNewStartRankingListFromOld() has been used
+		}
 		foreach($this->candidatesInList as $candidate => $cvalue){
 			for($i=0;$i<count($this->area);$i++){
 				if($this->area[$i] == 'regional'){
@@ -176,9 +180,21 @@ class ListOfCandidates {
 			}
 		}
 	}
-//	public function setVotes($votes, $area) {
-//		$this->votes[$area] += $votes;
-//	}
+
+	/**
+	 * add a new key 'original' to the votes array, 
+	 * copy existing data to this place,
+	 * add percentages of this list in relation to all votes of its supervisory board.
+	 *
+	 * @param array $percentages
+	 * @return void
+	 */
+	public function setVotesOriginal($percentages) {
+//		$this->votes['original']['regional']['sum'] = $this->votes['regional'];
+//		$this->votes['original']['international']['sum'] = $this->votes['international'];
+		$this->votes['original']['regional']['percentage'] = $percentages['regional'];
+		$this->votes['original']['international']['percentage'] = $percentages['international'];
+	}
 	
 	/**
 	 * Adds the votes of a party of this list to the total votes of a party 

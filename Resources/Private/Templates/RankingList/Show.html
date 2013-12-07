@@ -18,6 +18,18 @@
 	</table>
 	
 	<br><br>
+	
+	<f:form action="show" addQueryString="1">
+		<f:form.select name="startData" options="{
+				0: 'standart start data', 
+				1: 'start data 1', 
+				2: 'start data 2', 
+				3: 'start data 3', 
+				4: 'start data 4'
+			}" />
+		<f:form.submit value="Send" />
+	</f:form>
+	
 	<f:render partial="ContentTableForRankinglist" />
 	
 	<div id="allConnectedSB">
