@@ -262,17 +262,20 @@ $x=1;
 //print_r($sainteLague);
 
 			foreach($this->parties as $party){
+					$partyId = $party->getPersistenceObjectIdentifier();
+				if(isset($sainteLague[$partyId])){
+	//				$seatsCorrected = $sainteLague[$party->getPersistenceObjectIdentifier()];
+					$seatsCorrected = $sainteLague[$partyId];
+					$party->setSeats($seatsCorrected, $this->area[$i], 'corrected');
 
-				$seatsCorrected = $sainteLague[$party->getPersistenceObjectIdentifier()];
-				$party->setSeats($seatsCorrected, $this->area[$i], 'corrected');
-
-				$seats = $party->getSeats();
-				$seatsDifference = $seatsCorrected - $seats[$this->area[$i]]['first'];
-//print_r('<br>$seatsDifference: ');
-//print_r($seatsDifference);
-				$party->setSeats($seatsDifference, $this->area[$i], 'differenceCounter');
-				if($seatsDifference > 0){
-					$this->setAllConnectedSB('seatsToCorrect', $seatsDifference, $this->area[$i]);
+					$seats = $party->getSeats();
+					$seatsDifference = $seatsCorrected - $seats[$this->area[$i]]['first'];
+	//print_r('<br>$seatsDifference: ');
+	//print_r($seatsDifference);
+					$party->setSeats($seatsDifference, $this->area[$i], 'differenceCounter');
+					if($seatsDifference > 0){
+						$this->setAllConnectedSB('seatsToCorrect', $seatsDifference, $this->area[$i]);
+					}
 				}
 			}
 		}
@@ -597,7 +600,8 @@ $x=1;
 	 * @return void 
 	 */
 	public function setParty($party) {
-		$this->parties[] = $party;
+//		$this->parties[] = $party;
+		$this->parties[$party->getPersistenceObjectIdentifier()] = $party;
 	}
 	
 //	/**
@@ -641,6 +645,14 @@ $x=1;
 		
 		$this->setVotesOfRankingListAndParties();
 		$this->originalPartyPercentageData();
+		foreach($this->supervisoryBoards as $sb){
+			foreach($sb->getListsOfCandidates() as $list){
+				$sb->setParties($list);
+			}
+			$this->setParties($sb);
+		}
+		$cloneNames = $this->findCloneParties($changeData);
+		$this->addPartiesForChangeData($changeData, $cloneNames);
 		
 ////		$listNames = array(); // instead of ...Names later rather ...Numbers
 //		$partyNames = array(); // instead of ...Names later rather ...Numbers
@@ -760,27 +772,75 @@ $x=1;
 //
 //	}
 	
-	
 	/**
-	 * Unsets $parties in a rankinglist and the supervisory boards of this ranking list.
+	 * Find clone parties
 	 *
-	 * @return void
+	 * @param array $changeData
+	 * @return array $cloneNames
 	 */
-	protected function addPartiesForChangeData(){
+	protected function findCloneParties($changeData){
 		
 //		$listNames = array(); // instead of ...Names later rather ...Numbers
 		$partyNames = array(); // instead of ...Names later rather ...Numbers
 		$cloneNames = array();
 		for($i=0;$i<count($changeData);$i++){
-			if(in_array($changeData[$i][1], $listNames)){
+			if(in_array($changeData[$i][1], $partyNames)){
 				$cloneNames[] = $changeData[$i][0];
 			} else{
 //				$listNames[] = $changeData[$i][1];
 				$partyNames[] = $changeData[$i][1];
 			}
 		}
+		return $cloneNames;
+	}
+	
+	/**
+	 * Add parties for change data.
+	 *
+	 * @return void
+	 */
+	protected function addPartiesForChangeData($changeData, $cloneNames){
+		
+////		$listNames = array(); // instead of ...Names later rather ...Numbers
+//		$partyNames = array(); // instead of ...Names later rather ...Numbers
+//		$cloneNames = array();
+//		for($i=0;$i<count($changeData);$i++){
+//			if(in_array($changeData[$i][1], $partyNames)){
+//				$cloneNames[] = $changeData[$i][0];
+//			} else{
+////				$listNames[] = $changeData[$i][1];
+//				$partyNames[] = $changeData[$i][1];
+//			}
+//		}
 		
 		for($i=0;$i<count($changeData);$i++){
+
+			if(in_array($changeData[$i][0], $cloneNames)){
+
+//			foreach($sb->getListsOfCandidates() as $list){
+				foreach($this->parties as $party){
+					if($party->getName() == $changeData[$i][1]){
+//						$newList = $sb->getListsOfCandidates[] = clone $list;
+						$newParty = clone $party;
+						$this->setParty($newParty);
+						$newParty->setName($changeData[$i][0]); // makes sense as long as in a list there is only 1 party
+
+				//$votesPerListOfTheSB[$list->getName()] = ...
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Add lists of candidates for change data.
+	 *
+	 * @return void
+	 */
+	protected function addListsOfCandidatesForChangeData($changeData, $cloneNames){
+		
+		for($i=0;$i<count($changeData);$i++){
+
 			if(in_array($changeData[$i][0], $cloneNames)){
 
 //			foreach($sb->getListsOfCandidates() as $list){

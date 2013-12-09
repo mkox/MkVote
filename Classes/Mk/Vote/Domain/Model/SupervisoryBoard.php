@@ -277,13 +277,13 @@ class SupervisoryBoard {
 	}
 	
 	/**
-	 * Sets the votes of this supervisory board
+	 * Sets the parties of this supervisory board
 	 * WORKS NOT GOOD ENOUGH, when a party is in 2 or more lists of this supervisory board.
 	 *		This also would not make sense (so in this method is no filtering), but so far is not prevented from happening.
 	 *
 	 * @return void
 	 */
-	protected function setParties($list) {
+	public function setParties($list) {
 		$partiesOfList = $list->getParties();
 //		$this->parties = array_merge($this->parties, $partiesOfList);
 		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
