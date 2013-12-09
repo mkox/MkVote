@@ -36,9 +36,13 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		
 		$startArrayObject = new \Mk\Vote\Service\Setup\startArray1;
 		$startArray = $startArrayObject->getContent();
+		
+		$adjustStartData = 0;
 		$adjustData = new \Mk\Vote\Service\adjustData;
-		$changeData = $adjustData->chooseStartArray(1, 4);
-		$startArray = $adjustData->createNewStartArrayFromOld($startArray, $changeData);
+		if($adjustStartData == 1){
+			$changeData = $adjustData->chooseStartArray(1, 4);
+			$startArray = $adjustData->createNewStartArrayFromOld($startArray, $changeData);
+		}
 		$startArray = $adjustData->addListNameAsPartyName($startArray);
 		
 		$this->setParties($startArray);
@@ -121,13 +125,13 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 									//to be done: accept candidate party only, if it is among the parties of the list of this candididate
 									}
 									
-									$singleListOfCandidates->getCandidateInList()->add($candidateInList);
+									$singleListOfCandidates->getCandidatesInList()->add($candidateInList);
 									
 									
 								}
 							}
 						}
-						$supervisoryBoard->getListOfCandidates()->add($singleListOfCandidates);
+						$supervisoryBoard->getListsOfCandidates()->add($singleListOfCandidates);
 					}
 				}
 				
@@ -138,7 +142,7 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 			
 			$supervisoryBoard->setRankingList($rankingList);
 			
-			$rankingList->getSupervisoryBoard()->add($supervisoryBoard);
+			$rankingList->getSupervisoryBoards()->add($supervisoryBoard);
 		}
 
 //print_r('<br>$rankingList:<br>');
@@ -195,8 +199,8 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		
 	}
 	
-		/**
-	 * Set parties
+	/**
+	 * Filter parties
 	 *
 	 * @param array $allParties
 	 * @param array $selectedParties

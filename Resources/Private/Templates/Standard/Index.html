@@ -5,13 +5,20 @@
 <f:section name="Content">
 	<h1>Mk.Vote - Central View</h1>
 	<p>Ranking Lists</p>
-	<ul>
-			<f:for each="{rankingLists}" as="rankingList">
-					<li>
-							<f:link.action action="show" controller="RankingList" arguments="{rankingList: rankingList}">{rankingList.name}</f:link.action><br>
-							{rankingList.description}<br>
+	<f:if condition="{rankingLists}">
+		<f:then>
+			<ul>
+					<f:for each="{rankingLists}" as="rankingList">
+							<li>
+									<f:link.action action="show" controller="RankingList" arguments="{rankingList: rankingList}">{rankingList.name}</f:link.action><br>
+									{rankingList.description}<br>
 
-					</li>
-			</f:for>
-	</ul>
+							</li>
+					</f:for>
+			</ul>
+		</f:then>
+		<f:else>
+			So far here is no ranking list. Use the SetupController to create one.
+		</f:else>
+	</f:if>
 </f:section>
