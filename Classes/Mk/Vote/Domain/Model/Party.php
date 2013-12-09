@@ -32,7 +32,10 @@ class Party {
 	 * @var array
 	 * @Flow\Transient
 	 */
-	protected $votes = array('regional' => 0, 'international' => 0);
+	protected $votes = array('regional' => 0, 
+							'international' => 0,
+							'original' => array('regional' => array('sum' => 0),
+												'international' => array('sum' => 0)));
 	
 	/**
 	 * @var array
@@ -125,6 +128,34 @@ class Party {
 	 */
 	public function setSeats($seats, $area, $context) {
 			$this->seats[$area][$context] += $seats;
+	}
+	
+	
+	
+	/**
+	 * Set original percentages of this party in relation to all votes (at the moment only for: all votes of a ranking list).
+	 *
+	 * @param array $percentages
+	 * @return void
+	 */
+	public function setOriginalVotesForPercentages($percentages) {
+		$this->votes['original']['regional']['percentage'] = $percentages['regional'];
+		$this->votes['original']['international']['percentage'] = $percentages['international'];
+	}
+	
+	/**
+	 * Set original votes of this party.
+	 *
+	 * @param int $votes
+	 * @param string $area
+	 * @return void
+	 */
+	public function setOriginalVotesForSum($votes, $area) {
+		if(isset($this->votes['original'][$area]['sum'])){
+			$this->votes['original'][$area]['sum'] += $votes;
+		} else {
+			$this->votes['original'][$area]['sum'] = $votes;
+		}
 	}
 	
 	/**

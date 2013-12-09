@@ -180,21 +180,6 @@ class ListOfCandidates {
 			}
 		}
 	}
-
-	/**
-	 * add a new key 'original' to the votes array, 
-	 * copy existing data to this place,
-	 * add percentages of this list in relation to all votes of its supervisory board.
-	 *
-	 * @param array $percentages
-	 * @return void
-	 */
-	public function setVotesOriginal($percentages) {
-//		$this->votes['original']['regional']['sum'] = $this->votes['regional'];
-//		$this->votes['original']['international']['sum'] = $this->votes['international'];
-		$this->votes['original']['regional']['percentage'] = $percentages['regional'];
-		$this->votes['original']['international']['percentage'] = $percentages['international'];
-	}
 	
 	/**
 	 * Adds the votes of a party of this list to the total votes of a party 
@@ -233,7 +218,7 @@ class ListOfCandidates {
 				// So at the moment it only works with one party in a list of candidates.
 		}
 	}
-
+	
 	/**
 	 * Get the Persistence_Object_Identifier of this list of candidates
 	 *

@@ -10,7 +10,7 @@ class adjustData{
 	 */
 	protected $area = array('regional', 'international');
 	
-	public function chooseStartArray($id, $subId, $startArray){
+	public function chooseStartArray($id, $subId){
 		switch($id){
 			case 1:
 				
@@ -31,11 +31,12 @@ class adjustData{
 							$changeData = $this->changeStartArrayData4();
 							break;
 					}
-					$startArray = $this->createNewStartArrayFromOld($startArray, $changeData);
+//					$startArray = $this->createNewStartArrayFromOld($startArray, $changeData);
 				}
 				break;
 		}
-		return $startArray;
+//		return $startArray;
+		return $changeData;
 	}
 
 //	protected function originalListPercentageData1(){
@@ -106,7 +107,7 @@ class adjustData{
 		return $data;
 	}
 	
-	protected function createNewStartArrayFromOld($startArray, $changeData){
+	public function createNewStartArrayFromOld($startArray, $changeData){
 		
 		$newStartArray = $startArray;
 //		$originalListPercentage = $this->originalListPercentageData1();

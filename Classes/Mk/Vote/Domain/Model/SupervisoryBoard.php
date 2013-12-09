@@ -106,19 +106,7 @@ class SupervisoryBoard {
 	public function getListsOfCandidates() {
 		return $this->listsOfCandidates;
 	}
-
-	/**
-	 * Set additional list of candidates.
-	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
-	 *
-	 * @param object
-	 * @return void 
-	 */
-	public function setListsOfCandidates($listOfCandidates) {
-		$this->listsOfCandidates[] = $listOfCandidates;
-	}
 	
-
 	/**
 	 * Get the Supervisory board's name
 	 *
