@@ -219,6 +219,29 @@ class ListOfCandidates {
 		}
 	}
 	
+
+	
+	/**
+	 * Set additional party.
+	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
+	 *
+	 * @param object
+	 * @return void 
+	 */
+	public function setParty($party) {
+		$this->parties[] = $party;
+	}
+	
+	/**
+	 * Remove all parties.
+	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
+	 *
+	 * @return void 
+	 */
+	public function removeAllParties() {
+		$this->parties = array();
+	}
+	
 	/**
 	 * Get the Persistence_Object_Identifier of this list of candidates
 	 *
