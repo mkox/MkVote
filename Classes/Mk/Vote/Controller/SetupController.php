@@ -137,7 +137,8 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 				
 			}
 
-			$supervisoryBoard->setName('Standard SB name');
+//			$supervisoryBoard->setName('Standard SB name');
+			$supervisoryBoard->setName($startArray['supervisoryBoards'][$sbKey]['name']);
 			$supervisoryBoard->setRegionalCode(1);
 			
 			$supervisoryBoard->setRankingList($rankingList);

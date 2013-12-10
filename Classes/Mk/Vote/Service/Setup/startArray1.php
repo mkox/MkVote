@@ -14,7 +14,7 @@ class startArray1{
 			'description' => 'A description for ranking list A',
 			'supervisoryBoards' => array(
 				'SB1' => array(
-					'id' => 'SB1',
+					'name' => 'SB1',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -184,7 +184,7 @@ class startArray1{
 					)
 				),
 				'SB2' => array(
-					'id' => 'SB2',
+					'name' => 'SB2',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -354,7 +354,7 @@ class startArray1{
 					)
 				),
 				'SB3' => array(
-					'id' => 'SB3',
+					'name' => 'SB3',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -524,7 +524,7 @@ class startArray1{
 					)
 				),
 				'SB4' => array(
-					'id' => 'SB4',
+					'name' => 'SB4',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -694,7 +694,7 @@ class startArray1{
 					)
 				),
 				'SB5' => array(
-					'id' => 'SB5',
+					'name' => 'SB5',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -864,7 +864,7 @@ class startArray1{
 					)
 				),
 				'SB6' => array(
-					'id' => 'SB6',
+					'name' => 'SB6',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -1034,7 +1034,7 @@ class startArray1{
 					)
 				),
 				'SB7' => array(
-					'id' => 'SB7',
+					'name' => 'SB7',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -1204,7 +1204,7 @@ class startArray1{
 					)
 				),
 				'SB8' => array(
-					'id' => 'SB8',
+					'name' => 'SB8',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -1374,7 +1374,7 @@ class startArray1{
 					)
 				),
 				'SB9' => array(
-					'id' => 'SB9',
+					'name' => 'SB9',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(
@@ -1544,7 +1544,7 @@ class startArray1{
 					)
 				),
 				'SB10' => array(
-					'id' => 'SB10',
+					'name' => 'SB10',
 					'seats' => 5,
 					'votesPerList' => array(
 						'A' => array(

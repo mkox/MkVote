@@ -635,7 +635,7 @@ $x=1;
 		$this->originalPartyPercentageData();
 		$cloneNames = $this->findCloneParties($changeData);
 		$this->addPartiesForChangeData($changeData, $cloneNames);
-		$sumOfPercentagesOfParties = $this->getSumOfPercentagesOfParties();
+//		$sumOfPercentagesOfParties = $this->getSumOfPercentagesOfParties();
 		
 		$allVotes = array('regional' => 0, 'international' => 0, 'candidateCounter' => 0, 'candidateCounterRegional' => 0, 'candidateCounterInternational' => 0);
 		foreach($this->supervisoryBoards as $sb){
@@ -768,22 +768,22 @@ $xy = 1;
 		}
 	}
 	
-	/**
-	 * Get sum of percentages of parties.
-	 * This sum is bigger than 100, when cloned parties have been added.
-	 *
-	 * @return float $sum
-	 */
-	protected function getSumOfPercentagesOfParties(){
-		$sum = array('regional' => 0, 'international' => 0);
-		foreach($this->parties as $party){
-			$votes = $party->getVotes();
-			for($i=0;$i<count($this->area);$i++){
-				$sum[$this->area[$i]] += $votes['original'][$this->area[$i]]['percentage'];
-			}
-		}
-		return $sum;
-	}
+//	/**
+//	 * Get sum of percentages of parties.
+//	 * This sum is bigger than 100, when cloned parties have been added.
+//	 *
+//	 * @return float $sum
+//	 */
+//	protected function getSumOfPercentagesOfParties(){
+//		$sum = array('regional' => 0, 'international' => 0);
+//		foreach($this->parties as $party){
+//			$votes = $party->getVotes();
+//			for($i=0;$i<count($this->area);$i++){
+//				$sum[$this->area[$i]] += $votes['original'][$this->area[$i]]['percentage'];
+//			}
+//		}
+//		return $sum;
+//	}
 	
 	protected function originalPartyPercentageData(){
 		
