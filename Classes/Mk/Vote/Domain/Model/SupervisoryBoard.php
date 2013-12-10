@@ -221,7 +221,7 @@ class SupervisoryBoard {
 	 * @return void
 	 */
 	protected function setSeatsOfListsThroughSainteLague(){
-		
+//print_r('<br>Supervisory Board: ' . $this->getName());	
 		$votes = $this->getVotes();
 		for($i=0;$i<count($this->area);$i++){
 			$areaVotes = $votes[$this->area[$i]];
@@ -230,15 +230,23 @@ class SupervisoryBoard {
 			} else {
 				$areaSeats = $this->getInternationalSeats();
 			}
+
 //print_r('<br>in setSeatsOfListsThroughSainteLague(), $areaSeats: ');
 //print_r($areaSeats);
 			$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($this->listsOfCandidates, $areaVotes, $areaSeats, $this->area[$i], '');
-//print_r('<br>$sainteLague:');	
+//print_r('<br>in setSeatsOfListsThroughSainteLague(), $sainteLague:');	
 //print_r($sainteLague);
 			foreach($sainteLague as $list => $seats){
 				foreach($this->listsOfCandidates as $list2 => $value2){
 					if($list == $list2){
+//print_r('<br>');
+//print_r($value2->getName() . ' -- ' . $seats . ' -- ' . $this->area[$i]);
+//print_r('<br>');
 						$this->listsOfCandidates[$list2]->setSeats($seats, $this->area[$i], 'first');
+//print_r($this->listsOfCandidates[$list2]->getSeats());
+//print_r('<br>');
+//print_r($value2->getSeats());
+//print_r('<br>');
 						break;
 					}
 				}

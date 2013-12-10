@@ -369,8 +369,10 @@ $x=1;
 											$usedVotesOfMParty = $listVotesForTooMuch[$this->area[$i]];
 
 
+											$listOfVoteDifferences[$this->area[$i]][$j]['usedVotesOfMParty1'] = $usedVotesOfMParty;
 		//									if($sb['votesPerList'][$mParty]['seats'][$this->area[$i]]['first'] > 1){
-											if($listSeats[$this->area[$i]]['first'] > 1){
+//											if($listSeats[$this->area[$i]]['first'] > 1){
+											if($listSeatsForTooMuch[$this->area[$i]]['first'] > 1){
 
 												$usedVotesOfMParty = $usedVotesOfMParty / $listSeatsForTooMuch[$this->area[$i]]['first'];
 											}
@@ -385,6 +387,11 @@ $x=1;
 												// instead of $this->parties[$mParty]:  $listPartyForTooMuch could be used with the same result
 											$listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates'] = $listForTooMuch;
 											$listOfVoteDifferences[$this->area[$i]][$j]['difference'] = ($usedVotesOfMParty - $votesToGetASeat) * 100 / $usedVotesOfMParty;
+											$listOfVoteDifferences[$this->area[$i]][$j]['votesToGetASeat'] = $votesToGetASeat;
+											$listOfVoteDifferences[$this->area[$i]][$j]['usedVotesOfMParty2'] = $usedVotesOfMParty;
+											$listOfVoteDifferences[$this->area[$i]][$j]['seatsOfAList'] = $seatsOfAList;
+											$listOfVoteDifferences[$this->area[$i]][$j]['seatsOfAListRegional'] = $seatsOfAListRaw['regional']['first'];
+											$listOfVoteDifferences[$this->area[$i]][$j]['seatsOfAListInternational'] = $seatsOfAListRaw['international']['first'];
 
 
 		//     - Stimmen im betreffenden SB jeweis für beide Parteien
