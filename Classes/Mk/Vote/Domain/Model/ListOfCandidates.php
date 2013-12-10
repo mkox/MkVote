@@ -118,7 +118,6 @@ class ListOfCandidates {
 		return $this->candidatesInList;
 	}
 
-
 	/**
 	 * Get the List of candidates's parties
 	 *
@@ -240,6 +239,27 @@ class ListOfCandidates {
 	 */
 	public function removeAllParties() {
 		$this->parties = array();
+	}
+
+	/**
+	 * Set a candidate for this list.
+	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
+	 *
+	 * @param object $candidateInList
+	 * @return void
+	 */
+	public function setCandidateInList($candidateInList) {
+		$this->candidatesInList[] = $candidateInList;
+	}
+	
+	/**
+	 * Remove all candidates.
+	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
+	 *
+	 * @return void 
+	 */
+	public function removeAllCandidates() {
+		$this->candidatesInList = array();
 	}
 	
 	/**
