@@ -106,6 +106,14 @@ class adjustData{
 			4 => array('E', 'D', 30, 30)
 		);
 		
+//		$data = array(
+//			0 => array('A', 'A', 7, 7),
+//			1 => array('B', 'B', 13, 13),
+//			2 => array('C', 'B', 23, 23),
+//			3 => array('D', 'C', 27, 27),
+//			4 => array('E', 'D', 30, 30)
+//		);
+		
 		return $data;
 	}
 	

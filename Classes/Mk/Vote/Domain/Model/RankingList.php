@@ -416,7 +416,7 @@ $x=1;
 
 			}
 //print_r('<br>$listOfVoteDifferences: ');
-//print_r($listOfVoteDifferences);
+//\Doctrine\Common\Util\Debug::dump($listOfVoteDifferences);
 //			usort($listOfVoteDifferences[$this->area[$i]], 'compareForListOfVoteDifferences');
 			usort($listOfVoteDifferences[$this->area[$i]], function($valueA, $valueB){
 				$a = $valueA['difference'];
@@ -646,59 +646,64 @@ $x=1;
 			$this->setParties($sb);
 		}
 		$this->originalPartyPercentageData();
+		
 //		$cloneNames = $this->findCloneParties($changeData);
 //		$this->addPartiesForChangeData($changeData, $cloneNames);
+		
 //		$sumOfPercentagesOfParties = $this->getSumOfPercentagesOfParties();
-		$this->decideIfListsOfCandidatesNeedsToBeCloned($changeData);
+	
+		$cloneMarker = $this->decideIfListsOfCandidatesNeedsToBeCloned($changeData);
+		
 		
 		$allVotes = array('regional' => 0, 'international' => 0, 'candidateCounter' => 0, 'candidateCounterRegional' => 0, 'candidateCounterInternational' => 0);
 		foreach($this->supervisoryBoards as $sb){
-
+							
+			$listsByName = array();
 			foreach($sb->getListsOfCandidates() as $list){
-				$candidatesOfList = $list->getCandidatesInList();
+				$listsByName[$list->getName()] = $list;
+			}
+			
+			foreach($sb->getListsOfCandidates() as $list){
+				
 				for($i=0;$i<count($changeData);$i++){
 					
 					if($list->getName() == $changeData[$i][0]){
-						
-						foreach($sb->getListsOfCandidates() as $list2){
-							if($list2->getName() == $changeData[$i][1]){
-								$oldList = $list2;
-//								$listPair = array($list, $oldList);
-//								$candidatesPair = array($list->getCandidatesInList(), $oldList->getCandidatesInList());
-								break;
-							}
-						}
 						
 						$partiesOfList = $list->getParties();
 						$votesOfParty = $partiesOfList[0]->getVotes();
 						for($j=0;$j<count($this->area);$j++){
 //							if($changeData[$i][2 + $j] != $originalListPercentage[$this->area[$j]][$changeData[$i][1]]){  
 								//an "if" similar to this at the moment makes not much sense because of 2 digits behind the point for the original percentage
-								$candidateCounter = 0;
-//								foreach($list->getCandidatesInList() as $candidate){
-								foreach($list2->getCandidatesInList() as $candidate){
+
+								foreach($list->getCandidatesInList() as $candidate){
 $allVotes['candidateCounter'] += 1;
 									if($this->area[$j] == 'regional'){
 										$oldVotesOfCandidate = $candidate->getVotesRegional();
 									} else {
 										$oldVotesOfCandidate = $candidate->getVotesInternational();
 									}
-									if($votesOfParty['original'][$this->area[$j]]['percentage'] > 0){
-										$votesOfCandidateForArea = round($oldVotesOfCandidate / $votesOfParty['original'][$this->area[$j]]['percentage'] * $changeData[$i][2 + $j]);
+//									if($cloneMarker == 1){
+//										$partyPercentage = $votesOfParty['withChangedData'][$this->area[$j]]['percentage'];
+//									} else {
+//										$partyPercentage = $votesOfParty['original'][$this->area[$j]]['percentage'];
+										$partiesForPercentage = $listsByName[$changeData[$i][1]]->getParties();
+										$votesForPercentage = $partiesForPercentage[0]->getVotes();
+										$partyPercentage = $votesForPercentage['original'][$this->area[$j]]['percentage'];
+//									}
+									if($partyPercentage > 0){
 //										$votesOfCandidateForArea = round($oldVotesOfCandidate / $votesOfParty['original'][$this->area[$j]]['percentage'] * (100 / $sumOfPercentagesOfParties[$this->area[$j]]) * $changeData[$i][2 + $j]);
 //										$votesOfCandidateForArea = $oldVotesOfCandidate;
+//										$votesOfCandidateForArea = round($oldVotesOfCandidate / $votesOfParty['original'][$this->area[$j]]['percentage'] * $changeData[$i][2 + $j]);
+										$votesOfCandidateForArea = round($oldVotesOfCandidate / $partyPercentage * $changeData[$i][2 + $j]);
 									}
 									if($this->area[$j] == 'regional'){
-//										$candidate->setVotesRegional($votesOfCandidateForArea);
+										$candidate->setVotesRegional($votesOfCandidateForArea);
 										// About regional area ($this->area[0]) see also remarks in method originalListPercentageData($startArray).
-										$candidatesOfList[$candidateCounter]->setVotesRegional($votesOfCandidateForArea);
 $allVotes['candidateCounterRegional'] += 1;
 									} else {
-//										$candidate->setVotesInternational($votesOfCandidateForArea);
-										$candidatesOfList[$candidateCounter]->setVotesInternational($votesOfCandidateForArea);
+										$candidate->setVotesInternational($votesOfCandidateForArea);
 $allVotes['candidateCounterInternational'] += 1;
 									}
-									$candidateCounter++;
 $allVotes[$this->area[$j]] += $votesOfCandidateForArea;
 								}
 //							}
@@ -807,8 +812,8 @@ $xy = 1;
 			if($changeData[$i][0] != $changeData[$i][1]){
 				$this->setClonedListsOfCandidatesForSBs($changeData); // This option can later not be used in cases, 
 																	  // where in one listOfCandidates there are candidates from different parties
-//				$this->setVotesAfterChangedData();
-//				$this->setPartyPercentagesAfterChangedData();
+				$this->setVotesAfterChangedData();
+				$this->setPartyPercentagesAfterChangedData();
 				return 1;
 			}
 		}
@@ -955,10 +960,11 @@ $xy = 1;
 		
 		foreach($this->parties as $party){
 			$votesOfParty = $party->getVotes();
+			$votesWithChangedData = array();
 			for($i=0;$i<count($this->area);$i++){
-				$percentages[$this->area[$i]] = round($votesOfParty['original'][$this->area[$i]]['sum'] / $this->votes[$this->area[$i]] * 100, 2);
+				$votesWithChangedData[$this->area[$i]]['percentage'] = $votesOfParty['original'][$this->area[$i]]['sum'] / $this->votesAfterChangedData[$this->area[$i]] * 100;
+				$party->setVotesWithChangedData($votesWithChangedData);
 			}
-			$party->setOriginalVotesForPercentages($percentages);
 		}
 	}
 		
@@ -972,7 +978,7 @@ $xy = 1;
 		foreach($this->parties as $party){
 			$votesOfParty = $party->getVotes();
 			for($i=0;$i<count($this->area);$i++){
-				$votesAfterChangedData[$this->area[$i]] += $votesOfParty['original'][$this->area[$i]]['percentage'];
+				$votesAfterChangedData[$this->area[$i]] += $votesOfParty['original'][$this->area[$i]]['sum'];
 			}
 		}
 		$this->votesAfterChangedData = $votesAfterChangedData;
