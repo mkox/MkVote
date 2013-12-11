@@ -648,18 +648,28 @@ $x=1;
 		foreach($this->supervisoryBoards as $sb){
 
 			foreach($sb->getListsOfCandidates() as $list){
-					
+				$candidatesOfList = $list->getCandidatesInList();
 				for($i=0;$i<count($changeData);$i++){
 					
 					if($list->getName() == $changeData[$i][0]){
+						
+						foreach($sb->getListsOfCandidates() as $list2){
+							if($list2->getName() == $changeData[$i][1]){
+								$oldList = $list2;
+//								$listPair = array($list, $oldList);
+//								$candidatesPair = array($list->getCandidatesInList(), $oldList->getCandidatesInList());
+								break;
+							}
+						}
 						
 						$partiesOfList = $list->getParties();
 						$votesOfParty = $partiesOfList[0]->getVotes();
 						for($j=0;$j<count($this->area);$j++){
 //							if($changeData[$i][2 + $j] != $originalListPercentage[$this->area[$j]][$changeData[$i][1]]){  
 								//an "if" similar to this at the moment makes not much sense because of 2 digits behind the point for the original percentage
-								
-								foreach($list->getCandidatesInList() as $candidate){
+								$candidateCounter = 0;
+//								foreach($list->getCandidatesInList() as $candidate){
+								foreach($list2->getCandidatesInList() as $candidate){
 $allVotes['candidateCounter'] += 1;
 									if($this->area[$j] == 'regional'){
 										$oldVotesOfCandidate = $candidate->getVotesRegional();
@@ -672,13 +682,16 @@ $allVotes['candidateCounter'] += 1;
 //										$votesOfCandidateForArea = $oldVotesOfCandidate;
 									}
 									if($this->area[$j] == 'regional'){
-										$candidate->setVotesRegional($votesOfCandidateForArea);
+//										$candidate->setVotesRegional($votesOfCandidateForArea);
 										// About regional area ($this->area[0]) see also remarks in method originalListPercentageData($startArray).
+										$candidatesOfList[$candidateCounter]->setVotesRegional($votesOfCandidateForArea);
 $allVotes['candidateCounterRegional'] += 1;
 									} else {
-										$candidate->setVotesInternational($votesOfCandidateForArea);
+//										$candidate->setVotesInternational($votesOfCandidateForArea);
+										$candidatesOfList[$candidateCounter]->setVotesInternational($votesOfCandidateForArea);
 $allVotes['candidateCounterInternational'] += 1;
 									}
+									$candidateCounter++;
 $allVotes[$this->area[$j]] += $votesOfCandidateForArea;
 								}
 //							}
