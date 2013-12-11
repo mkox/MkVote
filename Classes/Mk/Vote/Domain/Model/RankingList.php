@@ -98,6 +98,12 @@ class RankingList {
 	protected $votes = array();
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $votesAfterChangedData = array();
+	
+	/**
 	 * @var array $arguments
 	 * @Flow\Transient
 	 */
@@ -640,9 +646,10 @@ $x=1;
 			$this->setParties($sb);
 		}
 		$this->originalPartyPercentageData();
-		$cloneNames = $this->findCloneParties($changeData);
-		$this->addPartiesForChangeData($changeData, $cloneNames);
+//		$cloneNames = $this->findCloneParties($changeData);
+//		$this->addPartiesForChangeData($changeData, $cloneNames);
 //		$sumOfPercentagesOfParties = $this->getSumOfPercentagesOfParties();
+		$this->decideIfListsOfCandidatesNeedsToBeCloned($changeData);
 		
 		$allVotes = array('regional' => 0, 'international' => 0, 'candidateCounter' => 0, 'candidateCounterRegional' => 0, 'candidateCounterInternational' => 0);
 		foreach($this->supervisoryBoards as $sb){
@@ -788,6 +795,103 @@ $xy = 1;
 		}
 	}
 	
+	/**
+	 * Decide if lists of candidates needs to be cloned.
+	 *
+	 * @param array $changeData
+	 * @return void
+	 */
+	protected function decideIfListsOfCandidatesNeedsToBeCloned($changeData){
+		
+		for($i=0;$i<count($changeData);$i++){
+			if($changeData[$i][0] != $changeData[$i][1]){
+				$this->setClonedListsOfCandidatesForSBs($changeData); // This option can later not be used in cases, 
+																	  // where in one listOfCandidates there are candidates from different parties
+//				$this->setVotesAfterChangedData();
+//				$this->setPartyPercentagesAfterChangedData();
+				return 1;
+			}
+		}
+	}
+	
+	/**
+	 * Set cloned listes of candidates for supervisory boards.
+	 *
+	 * @return void
+	 */
+	protected function setClonedListsOfCandidatesForSBs($changeData){
+		
+		$namesOfParties = $this->getNamesOfParties();
+		$hereAddedParties = array();
+		foreach($this->supervisoryBoards as $sb){
+//			$changeData2 = $this->createChangeDataThatHasObjects($changeData, $sb);
+			$lists = array();
+			foreach($sb->getListsOfCandidates() as $list){
+				$lists[$list->getName()] = $list;
+			}
+			$sb->removeAllListsOfCandidates();
+			for($i=0;$i<count($changeData);$i++){
+				$newList = clone $lists[$changeData[$i][1]];
+				$sb->setListOfCandidates($newList);
+				$newList->setName($changeData[$i][0]);
+				$newList->removeAllParties();
+				if(in_array($changeData[$i][0], $namesOfParties)){
+					$oldParties = $lists[$changeData[$i][0]]->getParties();
+//					$newParties = $lists[$changeData[$i][1]]->getParties();
+					$newList->setParty($oldParties[0]);
+//					$newVotes = $newParties[0]->getVotes();
+//					$oldParties[0]->setOriginalVotes($newVotes['original']); // because of the use of percentages in createNewStartRankingListFromOld()
+				} else if(array_key_exists($changeData[$i][0], $hereAddedParties)){
+					$newList->setParty($hereAddedParties[$changeData[$i][0]]);
+				} else {
+					$oldParties = $lists[$changeData[$i][1]]->getParties();
+					$newParty = clone $oldParties[0];
+					$newParty->setName($changeData[$i][0]);
+					$newList->setParty($newParty);
+					$this->setParty($newParty);
+					$hereAddedParties[$changeData[$i][0]] = $newParty;
+				}
+				$oldCandidates = $newList->getCandidatesInList();
+				$newList->removeAllCandidates();
+				foreach($oldCandidates as $oldCandidate){
+					$newList->setCandidateInList(clone $oldCandidate);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get names of parties
+	 *
+	 * @return $names
+	 */
+	protected function getNamesOfParties(){
+		$names = array();
+		foreach($this->parties as $party){
+			$names[] = $party->getName();
+		}
+		return $names;
+	}
+	
+//	/**
+//	 * Create change data that has objects of lists of candidates.
+//	 *
+//	 * @param array $changeData
+//	 * @return $changeData2
+//	 */
+//	protected function createChangeDataThatHasObjects($changeData, $sb){
+//		$lists = array();
+//		foreach($sb->getListsOfCandidates() as $list){
+//			$lists[$list->getName()] = $list;
+//		}
+//		$changeData2 = array();
+//		for($i=0;$i<count($changeData);$i++){
+//			$changeData2[$i][0] = $lists[$changeData[$i][0]];
+//			$changeData2[$i][1] = $lists[$changeData[$i][1]];
+//		}
+//		return $changeData2;
+//	}
+	
 //	/**
 //	 * Get sum of percentages of parties.
 //	 * This sum is bigger than 100, when cloned parties have been added.
@@ -840,6 +944,38 @@ $xy = 1;
 		// can only be used for a rough overview obout what is happening when a party has, in comparison to its international votes, expecially many or few votes.
 		// (More useful is the ability to view and change the [%al] regional votes for a single supervisory board.)
 
+	}
+	
+	/**
+	 * Set party percentages after changed data.
+	 *
+	 * @return void
+	 */
+	protected function setPartyPercentagesAfterChangedData(){
+		
+		foreach($this->parties as $party){
+			$votesOfParty = $party->getVotes();
+			for($i=0;$i<count($this->area);$i++){
+				$percentages[$this->area[$i]] = round($votesOfParty['original'][$this->area[$i]]['sum'] / $this->votes[$this->area[$i]] * 100, 2);
+			}
+			$party->setOriginalVotesForPercentages($percentages);
+		}
+	}
+		
+	/**
+	 * Set $this->votesAfterChangedData
+	 *
+	 * @return void
+	 */
+	protected function setVotesAfterChangedData(){
+		$votesAfterChangedData = array('regional' => 0, 'international' => 0);
+		foreach($this->parties as $party){
+			$votesOfParty = $party->getVotes();
+			for($i=0;$i<count($this->area);$i++){
+				$votesAfterChangedData[$this->area[$i]] += $votesOfParty['original'][$this->area[$i]]['percentage'];
+			}
+		}
+		$this->votesAfterChangedData = $votesAfterChangedData;
 	}
 	
 	/**

@@ -49,11 +49,13 @@ class adjustData{
 		
 		$data = array(
 			0 => array('A', 'A', 7, 8),
-				//$data[0][0]: List/Party of new start array
-				//$data[0][1]: List/Party of old start array
-				//$data[0][2]: Percentage international of new list/party
-				//$data[0][2]: Percentage regional of new list/party
-					//About regional area ($this->area[0]) see also remarks in method originalListPercentageData($startArray).
+				// $data[0][0]: List/Party of new start array
+				// $data[0][1]: List/Party of old start array
+				// $data[0][2]: Percentage international of new list/party
+				// $data[0][3]: Percentage regional of new list/party
+					// About regional area ($this->area[0]) see also remarks in method originalListPercentageData($startArray).
+				// $data[0][0] + $data[0][1]: Instead of the letters that represent names, later it could be IDs (e.g. numbers),
+					// that are different from the name (and are also not Persistence_Object_Identifier).
 			1 => array('B', 'D', 10, 9),
 			2 => array('C', 'B', 15, 17),
 			3 => array('D', 'C', 33, 32),

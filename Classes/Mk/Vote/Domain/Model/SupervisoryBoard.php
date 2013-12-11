@@ -327,6 +327,16 @@ class SupervisoryBoard {
 		$this->listsOfCandidates[] = $listOfCandidates;
 	}
 	
+	/**
+	 * Remove all lists of candidates.
+	 * Is useful while creating a new transient ranking list from the data of a persisted rankinglist.
+	 *
+	 * @return void 
+	 */
+	public function removeAllListsOfCandidates() {
+		$this->listsOfCandidates = array();
+	}
+	
 //	/**
 //	 * Set Persistence_Object_Identifier of each ListOfCandidates as array key.
 //	 *

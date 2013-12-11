@@ -133,6 +133,16 @@ class Party {
 	
 	
 	/**
+	 * Set votes for withChangedData of this party.
+	 *
+	 * @param array $votesWithChangedData
+	 * @return void
+	 */
+	public function setVotesWithChangedData($votesWithChangedData) {
+		$this->votes['withChangedData'] = $votesWithChangedData;
+	}
+	
+	/**
 	 * Set original percentages of this party in relation to all votes (at the moment only for: all votes of a ranking list).
 	 *
 	 * @param array $percentages
