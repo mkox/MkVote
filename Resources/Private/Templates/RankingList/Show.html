@@ -88,18 +88,25 @@
 						</ul>
 					</div>
 					<div class="voteDifferences">
-						<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
-							<h4>{areaKey}:</h4>
-							<ul>
-								<f:for each="{area}" as="voteDifference">
-									<li>
-										List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-										List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-										<strong>Difference: {voteDifference.difference} %</strong>
-									</li>
+						<f:if condition="{sBoard.voteDifferences}">
+							<div class="inner">
+								<p>Vote differences that lead to change of seat distribution:</p>
+								<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
+									<h4>{areaKey}:</h4>
+									<ul>
+										<f:for each="{area}" as="voteDifference">
+											<li>
+												List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+												List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+												<strong>Difference: {voteDifference.difference} %</strong><br>
+											</li>
+										</f:for>
+									</ul>
 								</f:for>
-							</ul>
-						</f:for>
+								<br>
+								<p>(Later here you find also, how the above mentioned difference is calculated; it is not always the pure difference of votes between 2 lists.)</p>
+							</div>
+						</f:if>
 					</div>
 				</li>
 			</f:for>

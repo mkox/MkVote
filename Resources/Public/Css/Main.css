@@ -11,10 +11,20 @@
 }
 #supervisoryBoards .supervisoryBoard .voteDifferences {
 	float: right;
+	padding-top: 100px;
 }
+#supervisoryBoards .supervisoryBoard .voteDifferences .inner {
+	border: 2px solid;
+	padding: 10px;
+	width: 300px;
+}
+#supervisoryBoards .supervisoryBoard .voteDifferences .inner p {
+	margin: 0;
+}
+
 #supervisoryBoards .supervisoryBoard {
 	clear: both;
-	width: 1000px;
+	width: 800px;
 }
 .clear {
 	clear: both;
