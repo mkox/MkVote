@@ -83,8 +83,7 @@
 						<ul>
 							<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
 								<li>
-									Name of List: {listOfCandidates.name}<br>
-									Name of Party: {listOfCandidates.parties.0.name}<br>
+									Name of List/Party: {listOfCandidates.name}<br>
 									Votes regional: {listOfCandidates.votes.regional}<br>
 									Votes international: {listOfCandidates.votes.international}<br>
 									Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
@@ -136,10 +135,8 @@
 					<f:for each="{area}" as="voteDifference">
 						<li>
 							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
-							List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
-							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
+							List/Party with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							List/Party with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
 						</li>
 					</f:for>
@@ -159,18 +156,10 @@
 					<f:for each="{area}" as="voteDifference">
 						<li>
 							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
-							List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
-							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
-							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
+							List/Party with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							List/Party with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
 							<strong>Filtering information: {voteDifference.filterStatus}</strong><br>
-							votesToGetASeat: {voteDifference.votesToGetASeat}<br>
-							usedVotesOfMParty1: {voteDifference.usedVotesOfMParty1}<br>
-							usedVotesOfMParty2: {voteDifference.usedVotesOfMParty2}<br>
-							seatsOfAList: {voteDifference.seatsOfAList}<br>
-							seatsOfAListRegional: {voteDifference.seatsOfAListRegional}<br>
-							seatsOfAListInternational: {voteDifference.seatsOfAListInternational}<br>
 						</li>
 					</f:for>
 				</ol>
