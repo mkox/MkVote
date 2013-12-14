@@ -176,7 +176,15 @@
 												</f:then>
 												<f:else>
 													<f:if condition="{voteDifference.filterStatus} == 4">
-														({voteDifference.filterStatus}) The party with too MUCH seats has NOT more seats than it should have any more; it has already given the seats that where too much.
+														<f:then>
+															({voteDifference.filterStatus}) The party with too MUCH seats has NOT more seats than it should have any more; it has already given the seats that where too much.
+														</f:then>
+														<f:else>
+															<f:if condition="{voteDifference.filterStatus} == 5">
+																({voteDifference.filterStatus}) The party with too FEW seats already got a seat in this supervisory board through the vote-difference-procedure.
+															</f:if>
+																
+														</f:else>
 													</f:if>
 												</f:else>
 											</f:if>
