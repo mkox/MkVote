@@ -15,7 +15,7 @@
 				<f:else>
 					<f:translate id="rankingList.version.standard" source="Main"/>
 				</f:else>
-		</f:if>
+			</f:if>
 		</strong>
 	</div>
 	
@@ -27,7 +27,15 @@
 				3: 'start data 3', 
 				4: 'start data 4'
 			}" />
-		<f:form.submit value="Send" />
+		<f:form.submit value="Send" /><br>
+		With this form the ranking list with the standart start data is modified in 2 ways:
+		<ul>
+			<li>The percentage of the parties can be changed.</li>
+			<li>A party can be copied and used as an other party (e.g. also with other percentage), so that e.g instead of 4 parties there can be 5 parties in a ranking list.</li>
+		</ul>
+		In the future the user can change percentages and add new parties much more freely in a form.
+		<br><br>
+		Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external>
 	</f:form>
 	
 	<f:render partial="ContentTableForRankinglist" />
