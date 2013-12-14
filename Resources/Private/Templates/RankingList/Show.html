@@ -106,7 +106,7 @@
 											<li>
 												List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
 												List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
-												<strong>Difference: {voteDifference.difference} %</strong><br>
+												<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
 											</li>
 										</f:for>
 									</ul>
@@ -140,7 +140,7 @@
 							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
 							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
-							<strong>Difference: {voteDifference.difference} %</strong>
+							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
 						</li>
 					</f:for>
 				</ol>
@@ -163,7 +163,7 @@
 							Party with too few seats: {voteDifference.tooFewSeats.party.name}<br>
 							List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 							Party with too much seats: {voteDifference.tooMuchSeats.party.name}<br>
-							<strong>Difference: {voteDifference.difference} %</strong><br>
+							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
 							<strong>Filtering information: {voteDifference.filterStatus}</strong><br>
 							votesToGetASeat: {voteDifference.votesToGetASeat}<br>
 							usedVotesOfMParty1: {voteDifference.usedVotesOfMParty1}<br>
