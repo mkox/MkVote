@@ -159,7 +159,32 @@
 							List/Party with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
 							List/Party with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
 							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
-							<strong>Filtering information: {voteDifference.filterStatus}</strong><br>
+							<strong>Filtering information: </strong>
+							<f:if condition="{voteDifference.filterStatus} == 1">
+								<f:then>
+									<strong>({voteDifference.filterStatus}) Not filtered!</strong> So here the party with too few seats gets an additional seat.
+								</f:then>
+								<f:else>
+									<f:if condition="{voteDifference.filterStatus} == 2">
+										<f:then>
+											({voteDifference.filterStatus}) The party with too MUCH seats has NOT at least 1 seat in this supervisory board for this area.
+										</f:then>
+										<f:else>
+											<f:if condition="{voteDifference.filterStatus} == 3">
+												<f:then>
+													({voteDifference.filterStatus}) The party with too FEW seats has NOT too few seats now; it already got additional seats.
+												</f:then>
+												<f:else>
+													<f:if condition="{voteDifference.filterStatus} == 4">
+														({voteDifference.filterStatus}) The party with too MUCH seats has NOT more seats than it should have any more; it has already given the seats that where too much.
+													</f:if>
+												</f:else>
+											</f:if>
+										</f:else>
+									</f:if>
+								</f:else>
+							</f:if>
+							<br>
 						</li>
 					</f:for>
 				</ol>

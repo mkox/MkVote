@@ -515,7 +515,7 @@ $x=1;
 							$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 3;
 						}
 					} else {
-						// If partyWithTooMuchSeats has NOT at least 1 seat in this SB for this area
+						// If partyWithTooMuchSeats has NOT at least 1 seat in this SB for this area.
 						$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 2;
 					}
 
