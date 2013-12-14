@@ -1,25 +1,25 @@
 <f:layout name="Default" />
 
-<f:section name="Title">Show ranking list"{rankingList.name}"</f:section>
+<f:section name="Title"><f:translate id="rankingList.show" source="Main"/>: "{rankingList.name}"</f:section>
 
 
 <f:section name="Content">
-	<table>
-		<tr>
-			<th>Name</th>
-			<td>{rankingList.name}</td>
-		</tr>
 	
-		<tr>
-			<th>Description</th>
-			<td>{rankingList.description}</td>
-		</tr>
-
-	</table>
+	<div>
+		<strong>
+			<f:translate id="rankingList.version" source="Main"/>: 
+			<f:if condition="{rankingList.arguments.startData} > 0">
+				<f:then>
+					<f:translate id="rankingList.version.notStandard2" source="Main"/> {rankingList.arguments.startData}
+				</f:then>
+				<f:else>
+					<f:translate id="rankingList.version.standard" source="Main"/>
+				</f:else>
+		</f:if>
+		</strong>
+	</div>
 	
-	<br><br>
-	
-	<f:form action="show" addQueryString="1">
+	<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData'}">
 		<f:form.select name="startData" options="{
 				0: 'standart start data', 
 				1: 'start data 1', 
@@ -52,13 +52,10 @@
 			<f:for each="{rankingList.parties}" as="party">
 				<li>
 					Name: {party.name}<br>
-					<f:for each="{party.votes}" as="area" key="areaKey">
-						Votes {areaKey}: {area}<br>
-					</f:for>
+						Votes regional: {party.votes.regional}<br>
+						Votes international: {party.votes.international}<br>
 					<f:for each="{party.seats}" as="area" key="areaKey">
-						Seats {areaKey}:<br>
-						&nbsp;&nbsp;&nbsp;&nbsp; first: {area.first}<br>
-						&nbsp;&nbsp;&nbsp;&nbsp; corrected: {area.corrected}<br>
+						Seats {areaKey}: first {area.first}, corrected {area.corrected}<br>
 					</f:for>
 				</li>
 			</f:for>

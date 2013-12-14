@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" source-language="en" datatype="plaintext">
+		<body>
+			<trans-unit id="lang">
+				<source>en</source>
+				<target>en</target>
+			</trans-unit>
+			<trans-unit id="rankingList.rankingList">
+				<source>Ranking List</source>
+				<target>Ranking List</target>
+			</trans-unit>
+			<trans-unit id="rankingList.show">
+				<source>Show ranking list</source>
+				<target>Show ranking list</target>
+			</trans-unit>
+			<trans-unit id="rankingList.version">
+				<source>Version of this ranking list</source>
+				<target>Version of this ranking list</target>
+			</trans-unit>
+			<trans-unit id="rankingList.version.standard">
+				<source></source>
+				<target>standart start data</target>
+			</trans-unit>
+			<trans-unit id="rankingList.version.notStandard">
+				<source>start data {0}</source>
+				<target>start data {0}</target>
+			</trans-unit>
+			<trans-unit id="rankingList.version.notStandard2">
+				<source>start data</source>
+				<target>start data</target>
+			</trans-unit>
+			<trans-unit id="search.label">
+				<source>Media search</source>
+				<target>Media search</target>
+			</trans-unit>
+			<trans-unit id="proxsys.connection.failed">
+				<source>No connection to ProxSys server: No connection to {0}.</source>
+				<target>No connection to ProxSys server: No connection to {0}.</target>
+			</trans-unit>
+			<trans-unit id="try.later.again">
+				<source>Please try again later.</source>
+				<target>Please try again later.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

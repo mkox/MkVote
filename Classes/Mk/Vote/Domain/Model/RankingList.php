@@ -27,6 +27,7 @@ class RankingList {
 	 * The supervisory board
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\SupervisoryBoard>
 	 * @ORM\OneToMany(mappedBy="rankingList")
+	 * @ORM\OrderBy({"name" = "ASC"})
 	 */
 	protected $supervisoryBoards;
 
@@ -881,12 +882,21 @@ $x=1;
 //	}
 	
 	/**
-	* set arguments
+	* Get arguments
+	*
+	* @return array Arguments
+	*/
+	public function getArguments() {
+		return $this->arguments;
+	}
+	
+	/**
+	* Set arguments
 	*
 	* @return void
 	*/
 	public function setArguments($arguments) {
-			$this->arguments = $arguments;
+		$this->arguments = $arguments;
 	}
 	
 }

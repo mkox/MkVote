@@ -27,6 +27,7 @@ class SupervisoryBoard {
 	 * The list of candidates
 	 * @var \Doctrine\Common\Collections\Collection<\Mk\Vote\Domain\Model\ListOfCandidates>
 	 * @ORM\OneToMany(mappedBy="supervisoryBoard")
+	 * @ORM\OrderBy({"name" = "ASC"})
 	 */
 	protected $listsOfCandidates;
 
