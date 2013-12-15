@@ -30,18 +30,6 @@
 				<source>start data</source>
 				<target>start data</target>
 			</trans-unit>
-			<trans-unit id="search.label">
-				<source>Media search</source>
-				<target>Media search</target>
-			</trans-unit>
-			<trans-unit id="proxsys.connection.failed">
-				<source>No connection to ProxSys server: No connection to {0}.</source>
-				<target>No connection to ProxSys server: No connection to {0}.</target>
-			</trans-unit>
-			<trans-unit id="try.later.again">
-				<source>Please try again later.</source>
-				<target>Please try again later.</target>
-			</trans-unit>
 		</body>
 	</file>
 </xliff>
