@@ -208,7 +208,7 @@ class adjustData{
 	 * Makes out of the list-name $list also the party-name $list (a temporary solution)
 	 * 
 	 * @param array $startArray
-	 * @return array $data
+	 * @return array $startArray
 	 */
 	public function addListNameAsPartyName($startArray) {
 		

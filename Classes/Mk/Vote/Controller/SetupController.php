@@ -48,29 +48,6 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		$this->setParties($startArray);
         $this->persistenceManager->persistAll();
         $allParties = $this->partyRepository->findAll();
-        
-//$allPartiesCount = $this->partyRepository->countAll();
-//print_r('y $allPartiesCount: ');
-//\Doctrine\Common\Util\Debug::dump($allPartiesCount);
-//        
-//        $allParties = $this->partyRepository->findAll();
-//print_r('<br><br>y $allParties: ');
-//\Doctrine\Common\Util\Debug::dump($allParties);
-////\TYPO3\Flow\var_dump($allParties);
-//
-//        foreach ($allParties as $key => $value) {
-//            print_r('<br>MMM-$key: ');
-//            print_r(\Doctrine\Common\Util\Debug::dump($key));
-//            print_r('<br>MMM-$value: ');
-//            print_r(\Doctrine\Common\Util\Debug::dump($value));
-//            print_r('<br>MMM-$value->getName(): ');
-//            print_r($value->getName());
-//            print_r('<br>');
-////            print_r('<br>' . $key . '<br>' . $value);
-////            print_r('<br>' . $allParties->$key->getName());
-//        }
-//
-//exit();
 		
 		$rankingList = new \Mk\Vote\Domain\Model\RankingList();
 		$rankingList->setName($startArray['name']);
@@ -137,7 +114,6 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 				
 			}
 
-//			$supervisoryBoard->setName('Standard SB name');
 			$supervisoryBoard->setName($startArray['supervisoryBoards'][$sbKey]['name']);
 			$supervisoryBoard->setRegionalCode(1);
 			
@@ -146,20 +122,8 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 			$rankingList->getSupervisoryBoards()->add($supervisoryBoard);
 		}
 
-//print_r('<br>$rankingList:<br>');
-//\Doctrine\Common\Util\Debug::dump($rankingList);
-
 		$this->rankingListRepository->add($rankingList);
                 $this->persistenceManager->persistAll();
-//		$this->redirect('info1');
-
-//exit;
-	}
-	
-	/**
-	 * @return void
-	 */
-	public function info1Action() {
 	}
         
 	/**
@@ -228,33 +192,6 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		}
 		return $filteredParties;
 	}
-	
-	/**
-	 * test1 action
-	 *
-	 * @return void
-	 */
-	public function test1Action() {
-		$startArrayObject = new \Mk\Vote\Service\Setup\startArray1;
-		$startArray = $startArrayObject->getContent();
-		$rankingList = new \Mk\Vote\Domain\Model\RankingList();
-		$rankingList->setName($startArray['name']);
-		$rankingList->setDescription($startArray['description']);
-print_r('<br>$rankingList:<br>');
-\Doctrine\Common\Util\Debug::dump($rankingList);
-xdebug_start_code_coverage();		
-		$this->rankingListRepository->add($rankingList);
-print_r('<br> xdebug_get_function_stack() 50:');
-var_dump(xdebug_get_function_stack());
-//$abc->grt = 'zzz20';
-//htr
-print_r('<br>xdebug_get_code_coverage() 50:');
-var_dump(xdebug_get_code_coverage());
-	}
-	
-
-	
 
 }
-
 ?>
