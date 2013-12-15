@@ -40,12 +40,6 @@ class CandidateInList {
 	 * @var integer
 	 */
 	protected $votesRegional;
-	
-//	/**
-//	 * @var array
-//	 * @Flow\Transient
-//	 */
-//	protected $votes;
 
 	/**
 	 * @ORM\ManyToMany
@@ -145,31 +139,6 @@ class CandidateInList {
 	public function getParties() {
 		return $this->parties;
 	}
-	
-	
-//	/**
-//	 * Get the votes of the votes of a candidates
-//	 *
-//	 * @return array The votes of a candidates
-//	 */
-//	public function getVotes() {
-//		return $this->votes;
-//	}
-//	
-//	/**
-//	 * add a new key 'original' to the votes array, 
-//	 * copy existing data to this place,
-//	 * add percentages of this candidate in relation to all votes of an area (at the moment: an area of a ranking list).
-//	 *
-//	 * @param array $percentages
-//	 * @return void
-//	 */
-//	public function setVotesOriginal($percentages) {
-////		$this->votes['original']['regional']['sum'] = $this->votes['regional'];
-////		$this->votes['original']['international']['sum'] = $this->votes['international'];
-//		$this->votes['original']['regional']['percentage'] = $percentages['regional'];
-//		$this->votes['original']['international']['percentage'] = $percentages['international'];
-//	}
 
 }
 ?>

@@ -190,8 +190,6 @@ class SupervisoryBoard {
 	 */
 	public function basicCalculations(){
 		
-//		$this->setIdAsKeyForListsOfCandidates();
-		
 		$votesPerSBInternational = 0;
 		$votesPerSBRegional = 0;
 		foreach($this->listsOfCandidates as $list){
@@ -222,7 +220,7 @@ class SupervisoryBoard {
 	 * @return void
 	 */
 	protected function setSeatsOfListsThroughSainteLague(){
-//print_r('<br>Supervisory Board: ' . $this->getName());	
+	
 		$votes = $this->getVotes();
 		for($i=0;$i<count($this->area);$i++){
 			$areaVotes = $votes[$this->area[$i]];
@@ -232,22 +230,12 @@ class SupervisoryBoard {
 				$areaSeats = $this->getInternationalSeats();
 			}
 
-//print_r('<br>in setSeatsOfListsThroughSainteLague(), $areaSeats: ');
-//print_r($areaSeats);
 			$sainteLague = \Mk\Vote\Service\MethodesOfSeatsDistribution::voteBySainteLague($this->listsOfCandidates, $areaVotes, $areaSeats, $this->area[$i], '');
-//print_r('<br>in setSeatsOfListsThroughSainteLague(), $sainteLague:');	
-//print_r($sainteLague);
+
 			foreach($sainteLague as $list => $seats){
 				foreach($this->listsOfCandidates as $list2 => $value2){
 					if($list == $list2){
-//print_r('<br>');
-//print_r($value2->getName() . ' -- ' . $seats . ' -- ' . $this->area[$i]);
-//print_r('<br>');
 						$this->listsOfCandidates[$list2]->setSeats($seats, $this->area[$i], 'first');
-//print_r($this->listsOfCandidates[$list2]->getSeats());
-//print_r('<br>');
-//print_r($value2->getSeats());
-//print_r('<br>');
 						break;
 					}
 				}
@@ -294,7 +282,6 @@ class SupervisoryBoard {
 	 */
 	public function setParties($list) {
 		$partiesOfList = $list->getParties();
-//		$this->parties = array_merge($this->parties, $partiesOfList);
 		$this->parties[$partiesOfList[0]->getPersistenceObjectIdentifier()] = $partiesOfList[0]; // must be changed when there is more than 1 Party
 	}
 	
@@ -337,26 +324,5 @@ class SupervisoryBoard {
 	public function removeAllListsOfCandidates() {
 		$this->listsOfCandidates = array();
 	}
-	
-//	/**
-//	 * Set Persistence_Object_Identifier of each ListOfCandidates as array key.
-//	 *
-//	 */
-//	public function setIdAsKeyForListsOfCandidates() {
-//		$listsOfCandidates = array();
-//		for($i=0;$i<count($this->listsOfCandidates);$i++){
-//			$listsOfCandidates[$this->listsOfCandidates[$i]->getPersistenceObjectIdentifier()] = $this->listsOfCandidates[$i];
-//		}
-//		$this->listsOfCandidates = $listsOfCandidates;
-//	}
-	
-//	/**
-//	 * Get the Persistence_Object_Identifier of this supervisory board
-//	 *
-//	 * @return string The Persistence_Object_Identifier of this list of candidates
-//	 */
-//	public function getPersistenceObjectIdentifier() {
-//		return $this->Persistence_Object_Identifier;
-//	}
 }
 ?>
