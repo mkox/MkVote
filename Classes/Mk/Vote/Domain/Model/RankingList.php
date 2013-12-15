@@ -181,14 +181,12 @@ class RankingList {
 	/**
 	 * Calculates the distribution of seats
 	 *
-	 * @param string $xxxx The Ranking list's name
+	 * @param array $arguments The arguments
 	 * @return void
 	 */
 	public function calculateSeatsDistribution($arguments){
 		
 	$this->setArguments($arguments);
-print_r('<br>$this->arguments in RankingList.php: ');
-print_r($this->arguments);
 		
 	$this->beforeListCompare();
 	$this->tooManyOrTooLessSeats();

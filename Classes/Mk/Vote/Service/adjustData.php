@@ -1,7 +1,9 @@
 <?php
 namespace Mk\Vote\Service;
 
-// Especially for adjusted data that might be stored in a database.
+/**
+ * Especially for adjusted data that might be stored in a database.
+ */
 class adjustData{
 	
 	/**
@@ -13,8 +15,6 @@ class adjustData{
 	public function chooseStartArray($id, $subId){
 		switch($id){
 			case 1:
-				
-				//include('startArray1.php');
 
 				if($subId > 0){
 					switch($subId){
@@ -31,20 +31,18 @@ class adjustData{
 							$changeData = $this->changeStartArrayData4();
 							break;
 					}
-//					$startArray = $this->createNewStartArrayFromOld($startArray, $changeData);
 				}
 				break;
 		}
-//		return $startArray;
 		return $changeData;
 	}
-
-//	protected function originalListPercentageData1(){
-//		$data = array('A'=>7, 'B'=>15, 'C'=>38, 'D'=>40);
-//		return $data;
-//	}
 	
 	//original: 7, 15, 38, 40
+	/**
+	 * Change data 1 for start array
+	 * 
+	 * @return array $data
+	 */
 	protected function changeStartArrayData1(){
 		
 		$data = array(
@@ -64,6 +62,11 @@ class adjustData{
 		return $data;
 	}
 	
+	/**
+	 * Change data 2 for start array
+	 * 
+	 * @return array $data
+	 */
 	protected function changeStartArrayData2(){
 		
 		$data = array(
@@ -76,6 +79,11 @@ class adjustData{
 		return $data;
 	}
 	
+	/**
+	 * Change data 3 for start array
+	 * 
+	 * @return array $data
+	 */
 	protected function changeStartArrayData3(){
 		
 		$data = array(
@@ -88,15 +96,12 @@ class adjustData{
 		return $data;
 	}
 	
+	/**
+	 * Change data 4 for start array
+	 * 
+	 * @return array $data
+	 */
 	protected function changeStartArrayData4(){
-		
-//		$data = array(
-//			0 => array('A', 'A', 7, 10),
-//			1 => array('B', 'D', 13, 10),
-//			2 => array('C', 'B', 23, 20),
-//			3 => array('D', 'C', 27, 29),
-//			4 => array('E', 'D', 30, 31)
-//		);
 
 		$data = array(
 			0 => array('A', 'A', 7, 7),
@@ -106,25 +111,20 @@ class adjustData{
 			4 => array('E', 'D', 30, 30)
 		);
 		
-//		$data = array(
-//			0 => array('A', 'A', 7, 7),
-//			1 => array('B', 'B', 13, 13),
-//			2 => array('C', 'B', 23, 23),
-//			3 => array('D', 'C', 27, 27),
-//			4 => array('E', 'D', 30, 30)
-//		);
-		
 		return $data;
 	}
 	
+	/**
+	 * create new start array from old
+	 * 
+	 * @param array $startArray
+	 * @param array $changeData
+	 * @return array $newStartArray
+	 */
 	public function createNewStartArrayFromOld($startArray, $changeData){
 		
 		$newStartArray = $startArray;
-//		$originalListPercentage = $this->originalListPercentageData1();
 		$originalListPercentage = $this->originalListPercentageData($startArray);
-//print_r('<br>$originalListPercentage: ');
-//print_r($originalListPercentage);
-//		$originalListPercentage = $originalListPercentage['international'];
 		foreach($startArray['supervisoryBoards'] as $sb => $value){
 			$newStartArray['supervisoryBoards'][$sb]['votesPerList'] = array();
 
@@ -138,10 +138,6 @@ class adjustData{
 						if($changeData[$i][2 + $j] != $originalListPercentage[$this->area[$j]][$changeData[$i][1]]){
 							foreach($newStartArray['supervisoryBoards'][$sb]['votesPerList'][$changeData[$i][0]]['candidates'] as $candidate => $cValue){
 
-//								$newStartArray['supervisoryBoards'][$sb]['votesPerList'][$changeData[$i][0]]['candidates'][$candidate]['votes']['international'] = round(($cValue['votes']['international'] / $originalListPercentage[$changeData[$i][1]] * 100) * ($changeData[$i][2] / 100));
-//								$newStartArray['supervisoryBoards'][$sb]['votesPerList'][$changeData[$i][0]]['candidates'][$candidate]['votes']['regional'] = round(($cValue['votes']['regional'] / $originalListPercentage[$changeData[$i][1]] * 100) * ($changeData[$i][2] / 100));
-								
-//								$newStartArray['supervisoryBoards'][$sb]['votesPerList'][$changeData[$i][0]]['candidates'][$candidate]['votes'][$this->area[$j]] = round(($cValue['votes'][$this->area[$j]] / $originalListPercentage[$this->area[$j]][$changeData[$i][1]] * 100) * ($changeData[$i][2] / 100));
 								$newStartArray['supervisoryBoards'][$sb]['votesPerList'][$changeData[$i][0]]['candidates'][$candidate]['votes'][$this->area[$j]] = 
 										round(($cValue['votes'][$this->area[$j]] / $originalListPercentage[$this->area[$j]][$changeData[$i][1]] * 100) * ($changeData[$i][2 + $j] / 100));
 								// About regional area ($this->area[0]) see also remarks in method originalListPercentageData($startArray).
@@ -155,10 +151,15 @@ class adjustData{
 		return $newStartArray;
 	}
 	
+	/**
+	 * Get original percentage data of the original list.
+	 * 
+	 * @param array $startArray
+	 * @return array $sharePerList
+	 */
 	protected function originalListPercentageData($startArray){
 		$votesOriginal = $this->dataOfallConnectedSBofOriginal($startArray);
-//print_r('<br>$votesOriginal: ');
-//print_r($votesOriginal);
+
 		$sharePerList = array();
 		$sharePerList['international'] = array();
 		$sharePerList['regional'] = array();
@@ -171,11 +172,16 @@ class adjustData{
 		// here there is a ranking list with several supervisory boards, and each company can have its headquarters in a different country. So here the %ages for the ranking list
 		// can only be used for a rough overview obout what is happening when a party has, in comparison to its international votes, expecially many or few votes.
 		// (More useful is the ability to view and change the [%al] regional votes for a single supervisory board.)
-//print_r('<br>$sharePerList: ');
-//print_r($sharePerList);
+
 		return $sharePerList;
 	}
 	
+	/**
+	 * Get get data of all connected supervisory boards from the original.
+	 * 
+	 * @param array $startArray
+	 * @return array $data
+	 */
 	protected function dataOfallConnectedSBofOriginal($startArray){
 		$data = array();
 		for($i=0;$i<count($this->area);$i++){
@@ -198,7 +204,12 @@ class adjustData{
 		return $data;
 	}
 	
-	// Makes out of the list-name $list also the party-name $list (a temporary solution)
+	/**
+	 * Makes out of the list-name $list also the party-name $list (a temporary solution)
+	 * 
+	 * @param array $startArray
+	 * @return array $data
+	 */
 	public function addListNameAsPartyName($startArray) {
 		
 		foreach($startArray['supervisoryBoards'] as $sb => $value){

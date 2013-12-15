@@ -9,7 +9,7 @@ class startArray1{
 	
 	public function getContent(){
 
-		$startArray = array(
+		$startArray = array( // later JSON will be used instead of an array
 			'name' => 'Ranking list A',
 			'description' => 'A description for ranking list A',
 			'supervisoryBoards' => array(

@@ -18,12 +18,6 @@ class RankingListController extends ActionController {
 	 */
 	protected $rankingListRepository;
 	
-//	/**
-//	 * @Flow\Inject
-//	 * @var \Mk\Vote\Domain\Repository\PartyRepository
-//	 */
-//	protected $parties;
-	
 	/**
 	 * @var array $arguments
 	 */
@@ -43,22 +37,7 @@ class RankingListController extends ActionController {
 	public function showAction(RankingList $rankingList) {
 		
 		$this->setArguments();
-print_r('<br>$this->arguments: ');
-print_r($this->arguments);
-		
-//		$rankingList->setParties($this->parties);
-		
 		$rankingList->calculateSeatsDistribution($this->arguments);
-//		\Doctrine\Common\Util\Debug::dump($rankingList);
-//		print_r('<br><br>');
-		
-//		\Doctrine\Common\Util\Debug::dump($rankingList->getSupervisoryBoards());
-		
-//		$supervisoryBoards = $rankingList->getSupervisoryBoards();
-//		\Doctrine\Common\Util\Debug::dump($supervisoryBoards[0]);
-//		$listsOfCandidates = $supervisoryBoards[0]->getListsOfCandidates();
-//		print_r('<br><br>A List of Candidates: ');
-//		\Doctrine\Common\Util\Debug::dump($listsOfCandidates[0]);
 		$this->view->assign('rankingList', $rankingList);
 	}
 
