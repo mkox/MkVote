@@ -454,9 +454,6 @@ $x=1;
 		
 		for($i=0;$i<count($this->area);$i++){
 			$seatsToCorrect[$this->area[$i]] = $this->allConnectedSB[$this->area[$i]]['seatsToCorrect'];
-//			if($this->area[$i] == 'international'){
-//				$seatsToCorrect[$this->area[$i]] += $this->allConnectedSB['regional']['seatsToCorrect']; // needed for later changes, when same item remains in both areas.
-//			}
 
 			for($j=0;$j<count($this->listOfVoteDifferences[$this->area[$i]]);$j++){
 
@@ -464,61 +461,29 @@ $x=1;
 
 					$partyWithTooFewSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'];
 					$partyWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party'];
-//					$sbid = $this->listOfVoteDifferences[$this->area[$i]][$j]['sbid'];
 					
 					$seatsOfListWithTooMuchSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['listOfCandidates']->getSeats();
 					if($seatsOfListWithTooMuchSeats[$this->area[$i]]['corrected'] > 0){
 						$seatsOfPartyWithTooFewSeats = $partyWithTooFewSeats->getSeats();
 						if($seatsOfPartyWithTooFewSeats[$this->area[$i]]['differenceCounter'] > 0){
-//if($partyWithTooFewSeats->getName() == 'B'){
-//print_r('<br>differenceCounter Party B, ' . $this->area[$i]  . ':');
-//print_r($seatsOfPartyWithTooFewSeats[$this->area[$i]]['differenceCounter']);
-//print_r('<br>');
-//}	
-//							$seatsOfListWithTooFewSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates']->getSeats();
-//							if(!($seatsOfListWithTooFewSeats[$this->area[$i]]['corrected'] > $seatsOfListWithTooFewSeats[$this->area[$i]]['first'])){
+
 							$seatsOfPartyWithTooMuchSeats = $partyWithTooMuchSeats->getSeats();
 							if($seatsOfPartyWithTooMuchSeats[$this->area[$i]]['differenceCounter'] < 0){
-
-								$internationalIsInRegional = 0;
+								
+								$seatsOfListWithTooFewSeats = $this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates']->getSeats();
 								if($this->area[$i] == 'international'){
-
-//									$seatsOfListWithTooFewSeats = $this->listOfVoteDifferences['international'][$j]['tooFewSeats']['listOfCandidates']->getSeats();
-//									$seatsOfListWithTooFewSeatsFirst = $seatsOfListWithTooFewSeats['regional']['first'] + $seatsOfListWithTooFewSeats['international']['first'];
-//									$seatsOfListWithTooFewSeatsCorrected = $seatsOfListWithTooFewSeats['regional']['corrected'] + $seatsOfListWithTooFewSeats['international']['corrected'];
-//									if($seatsOfListWithTooFewSeatsCorrected > $seatsOfListWithTooFewSeatsFirst){
-////										$internationalIsInRegional = 1;
-//										$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 5;
-//											// The party with too FEW seats already got a seat in this supervisory board through the vote-difference-procedure.
-//										continue;
-//									} 
-									
-//									else {
-//									
-//										for($k=0;$k<count($filteredListOfVoteDifferences['regional']);$k++){
-//											$regionalFilteredItem = $filteredListOfVoteDifferences['regional'][$k];
-//
-//	//										if(($regionalFilteredItem['sbid'] == $sbid)
-//											if(($regionalFilteredItem['supervisoryBoard'] == $this->listOfVoteDifferences[$this->area[$i]][$j]['supervisoryBoard'])
-//												&& ($regionalFilteredItem['tooFewSeats']['party'] == $partyWithTooFewSeats)
-//												&& ($regionalFilteredItem['tooMuchSeats']['party'] == $partyWithTooMuchSeats)
-//												){
-//												$this->listOfVotesFilteredInBothAreas[] = $this->listOfVoteDifferences[$this->area[$i]][$j];
-//												$internationalIsInRegional = 1;
-//												break;
-//											} else {
-//												continue;
-//											}
-//
-//										}
-//									}
-
+									$seatsOfListWithTooFewSeatsFirst = $seatsOfListWithTooFewSeats['regional']['first'] + $seatsOfListWithTooFewSeats['international']['first'];
+									$seatsOfListWithTooFewSeatsCorrected = $seatsOfListWithTooFewSeats['regional']['corrected'] + $seatsOfListWithTooFewSeats['international']['corrected'];
+								} else {
+									$seatsOfListWithTooFewSeatsFirst = $seatsOfListWithTooFewSeats[$this->area[$i]]['first'];
+									$seatsOfListWithTooFewSeatsCorrected = $seatsOfListWithTooFewSeats[$this->area[$i]]['corrected'];
 								}
+								if($seatsOfListWithTooFewSeatsCorrected > $seatsOfListWithTooFewSeatsFirst){
+									$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 5;
+										// The party with too FEW seats already got a seat in this supervisory board through the vote-difference-procedure.
+									continue;
+								} 
 
-//								if($internationalIsInRegional == 0){
-//if($partyWithTooFewSeats->getName() == 'B'){
-//print_r('<br>filterStatus: 1');
-//}		
 								$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 1;
 								$filteredListOfVoteDifferences[$this->area[$i]][] = $this->listOfVoteDifferences[$this->area[$i]][$j];
 
@@ -527,12 +492,12 @@ $x=1;
 								$this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates']->setSeats(1, $this->area[$i], 'corrected');
 								$this->listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party']->setSeats(1, $this->area[$i], 'differenceCounter');
 								$this->listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party']->setSeats(-1, $this->area[$i], 'differenceCounter');
-//								}
+
 							} else {
 								// If partyWithTooMuchSeats has NOT more seats than it should have any more; it has already given the seats that where too much.
 								$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 4;
 							}
-//							}
+
 						} else {							
 							// If partyWithTooFewSeats has NOT too few seats now; it already got additional seats.
 							$this->listOfVoteDifferences[$this->area[$i]][$j]['filterStatus'] = 3;
