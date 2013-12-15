@@ -1,11 +1,12 @@
 This application is still in a development state, but some functionality 
-can already be used.
+can already be used, as you can see in the test page http://flow1.michaelkox.de.
+
 It is coded on the base of the PHP-framework TYPO3 Flow (http://flow.typo3.org) 
 and uses the Object Relational Mapper from Doctrine (http://www.doctrine-project.org/).
 
 This application is about a special case of a voting with proportional representation. 
 It is useful, when there is voting for several bodies/boards, but for each board 
-there are only a few seats (e.g. 1-5)  for a defined group that itself is divided 
+there are only a few seats (e.g. 1-5) for a defined group that itself is divided 
 into parties. If votes are counted for every board independently, the biggest and 
 sometimes the middle size parties get more seats than is appropriate in a 
 proportional representation.
@@ -17,7 +18,7 @@ With this application the given data can be changed so that with the same basic
 data different voting scenarios can be tested.
 
 At the moment this application is very close to the needs you find in 
-pages 4 und 8 of http://mitbestimmung.eu/english/versions/co-determination-20121231b.pdf, 
+pages 4 and 8 of http://mitbestimmung.eu/english/versions/co-determination-20121231b.pdf, 
 later it could become more general.
 
 For a new installation of this application: With the SetupController you can add 
