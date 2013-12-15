@@ -20,7 +20,7 @@
 			</trans-unit>
 			<trans-unit id="rankingList.version.standard">
 				<source></source>
-				<target>standart start data</target>
+				<target>standard start data</target>
 			</trans-unit>
 			<trans-unit id="rankingList.version.notStandard">
 				<source>start data {0}</source>

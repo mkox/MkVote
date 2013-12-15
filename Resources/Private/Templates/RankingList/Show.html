@@ -5,6 +5,15 @@
 
 <f:section name="Content">
 	
+	<div>Basic info to a rankinglist:</div>
+	<ul>
+		<li>Such a ranking list is useful, when there is voting for several bodies/boards, but for each board there are only a few seats (e.g. 1-5) 
+			for a defined group that itself is divided into parties. If votes are counted for every board independently, the biggest and sometimes the middle size parties 
+			get more seats than is appropriate in a proportional representation.</li>
+		<li>For several boards (here always 10 at the moment) the votes of all boards are in addition counted together for each party, so that 
+			based on a ranking list a part of the seats go to an other party, so that the distribution of seats is nearer to a proportional representation.</li>
+	</ul>
+	
 	<div>
 		<strong>
 			<f:translate id="rankingList.version" source="Main"/>: 
@@ -18,30 +27,29 @@
 			</f:if>
 		</strong>
 	</div>
-	
 	<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData'}">
 		<f:form.select name="startData" options="{
-				0: 'standart start data', 
+				0: 'standard start data', 
 				1: 'start data 1', 
 				2: 'start data 2', 
 				3: 'start data 3', 
 				4: 'start data 4'
 			}" />
 		<f:form.submit value="Send" /><br>
-		With this form the ranking list with the standart start data is modified in 2 ways:
+		With this form the ranking list with the standard start data is modified in 2 ways:
 		<ul>
 			<li>The percentage of the parties can be changed.</li>
 			<li>A party can be copied and used as an other party (e.g. also with other percentage), so that e.g instead of 4 parties there can be 5 parties in a ranking list.</li>
 		</ul>
 		In the future the user can change percentages and add new parties much more freely in a form.
 		<br><br>
-		Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external>
+		Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external> in the Readme.txt.
 	</f:form>
 	<br>
 	<f:render partial="ContentTableForRankinglist" />
 	
 	<div id="allConnectedSB">
-		<h2>For all supervisory boards of this ranking list together:</h2>
+		<h2>Votes and seats for all supervisory boards of this ranking list together:</h2>
 		<ul>
 			<f:for each="{rankingList.allConnectedSB}" as="area" key="areaKey">
 				<li>
@@ -55,7 +63,7 @@
 	</div>
 	
 	<div id="parties">
-		<h2>Parties with values for all supervisory boards of this ranking list together:</h2>
+		<h2>Parties with votes and seats for all supervisory boards of this ranking list together:</h2>
 		<ul>
 			<f:for each="{rankingList.parties}" as="party">
 				<li>
@@ -126,7 +134,7 @@
 	<br>
 	
 	<div id="filteredListOfVoteDifferences">
-		<h2>Filtered Lists of Vote Differences:</h2>
+		<h2>Filtered Ranking List with Vote Differences:</h2>
 		(At the moment in a list can only be one party.)
 		<f:for each="{rankingList.filteredListOfVoteDifferences}" as="area" key="areaKey">
 			<li>
@@ -146,7 +154,7 @@
 	</div>
 	
 	<div id="listOfVoteDifferences">
-		<h2>Full list of Vote Differences:</h2>
+		<h2>Full Ranking List with Vote Differences:</h2>
 		Here you find information why some vote differences between candidate lists of a supervisory board do not result in a redestribution of seats.<br>
 		(At the moment in a list can only be one party.)
 		<f:for each="{rankingList.listOfVoteDifferences}" as="area" key="areaKey">
