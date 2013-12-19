@@ -46,7 +46,7 @@
 		Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external> in the Readme.txt.
 	</f:form>
 	<br>
-	<f:render partial="ContentTableForRankinglist" />
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
 	
 	<div id="allConnectedSB">
 		<h2>Votes and seats for all supervisory boards of this ranking list together:</h2>
@@ -130,7 +130,7 @@
 	</div>
 	
 	<br><br>
-	<f:render partial="ContentTableForRankinglist" />
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
 	<br>
 	
 	<div id="filteredListOfVoteDifferences">
@@ -207,6 +207,6 @@
 			</li>
 		</f:for>
 	</div>
-	<f:render partial="ContentTableForRankinglist" />
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
 </f:section>
 

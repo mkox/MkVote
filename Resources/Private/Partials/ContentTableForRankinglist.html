@@ -1,10 +1,8 @@
 <div id="tableOfContent">
-	<script>
-		document.write("<strong>Overview:</strong><br>");
-		document.write("<a href='" + document.URL + "#allConnectedSB'>Votes and seats for all supervisory boards of this ranking list together</a><br>");
-		document.write("<a href='" + document.URL + "#parties'>Parties with votes and seats for all supervisory boards of this ranking list together</a><br>");
-		document.write("<a href='" + document.URL + "#supervisoryBoards'>Supervisory Boards</a><br>");
-		document.write("<a href='" + document.URL + "#filteredListOfVoteDifferences'>Filtered Ranking List with Vote Differences</a><br>");
-		document.write("<a href='" + document.URL + "#listOfVoteDifferences'>Full Ranking List with Vote Differences</a><br>");
-	</script>
+	<strong>Overview:</strong><br>
+	<f:link.action action="show" arguments="{rankingList:'{rankingList}'}" section="allConnectedSB">Votes and seats for all supervisory boards of this ranking list together</f:link.action><br>
+	<f:link.action action="show" arguments="{rankingList:'{rankingList}'}" section="parties">Parties with votes and seats for all supervisory boards of this ranking list together</f:link.action><br>
+	<f:link.action action="show" arguments="{rankingList:'{rankingList}'}" section="supervisoryBoards">Supervisory Boards</f:link.action><br>
+	<f:link.action action="show" arguments="{rankingList:'{rankingList}'}" section="filteredListOfVoteDifferences">Filtered Ranking List with Vote Differences</f:link.action><br>
+	<f:link.action action="show" arguments="{rankingList:'{rankingList}'}" section="listOfVoteDifferences">Full Ranking List with Vote Differences</f:link.action><br>
 </div>
