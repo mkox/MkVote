@@ -1,4 +1,3 @@
-
 -
   name: 'overview'
   uriPattern: ''
@@ -8,5 +7,21 @@
     '@action':     'index'
     '@format':     'html'
   appendExceedingArguments: true
-
-
+  
+##
+# Route to to a ranking list
+-
+  name: 'ranking list'
+#  uriPattern: '{@package}/{rankingList}/{@action}'
+  uriPattern: '{rankingList}/{@action}'
+  
+  defaults:
+    '@package':    'Mk.Vote'
+    '@controller': 'RankingList'
+    '@action':     'show'
+    '@format':     'html'
+#  appendExceedingArguments: true
+  routeParts:
+    rankingList:
+      objectType: 'Mk\Vote\Domain\Model\RankingList'
+      uriPattern: '{name}'
