@@ -36,9 +36,16 @@ class RankingListController extends ActionController {
 	 */
 	public function showAction(RankingList $rankingList) {
 		
+//		$startArrayObject = new \Mk\Vote\Service\Setup\startArray1;
+//		$startArray = $startArrayObject->getContent();
+//		$je1 = json_encode($startArray);
+		
 		$this->setArguments();
 		$rankingList->calculateSeatsDistribution($this->arguments);
+//$rankingList->setArrayOfBasicData();
+//$je1 = json_encode($rankingList->getBasicData());
 		$this->view->assign('rankingList', $rankingList);
+//		$this->view->assign('je1', $je1);
 	}
 
 	/**

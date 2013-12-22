@@ -93,6 +93,12 @@ class RankingList {
 	protected $votesAfterChangedData = array();
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $basicData;
+	
+	/**
 	 * @var array $arguments
 	 * @Flow\Transient
 	 */
@@ -766,6 +772,54 @@ class RankingList {
 			}
 		}
 		$this->votes = $allVotes;
+	}
+	
+	/**
+	 * Sets array of basic data.
+	 * This is the base from which a JSON file will be created.
+	 *
+	 * @return void
+	 */
+	public function setArrayOfBasicData(){
+		
+		$basicData = array();
+		$basicData['formatVersion'] = '1.0';
+		$basicData['name'] = $this->getName();
+		$basicData['description'] = $this->getDescription();
+		$basicData['supervisoryBoards'] = array();
+		$i=0;
+		foreach($this->supervisoryBoards as $sb){
+			$basicData['supervisoryBoards'][$i]['name'] = $sb->getName();
+			$basicData['supervisoryBoards'][$i]['seats'] = $sb->getSeats();
+			$basicData['supervisoryBoards'][$i]['listsOfCandidates'] = array();
+			$j=0;
+			foreach($sb->getListsOfCandidates() as $list){
+				$basicData['supervisoryBoards'][$i]['listsOfCandidates'][$j]['name'] = $list->getName();
+				$k=0;
+				foreach($list->getParties() as $party){ //At the moment: when later using this data, it must be changed from array to comma-separated string
+					$basicData['supervisoryBoards'][$i]['listsOfCandidates'][$j]['parties'][$k]['name'] = $party->getName();
+					$k++;
+				}
+				$k=0;
+				foreach($list->getCandidatesInList() as $candidate){
+					$basicData['supervisoryBoards'][$i]['listsOfCandidates'][$j]['candidate'][$k]['votes']['regional'] = $candidate->getVotesRegional();
+					$basicData['supervisoryBoards'][$i]['listsOfCandidates'][$j]['candidate'][$k]['votes']['international'] = $candidate->getVotesInternational();
+					$k++;
+				}
+				$j++;
+			}
+			$i++;
+		}
+		$this->basicData = $basicData;
+	}
+	
+	/**
+	* Get array of basic data.
+	*
+	* @return array basic data for ranking list
+	*/
+	public function getBasicData() {
+		return $this->basicData;
 	}
 	
 	/**
