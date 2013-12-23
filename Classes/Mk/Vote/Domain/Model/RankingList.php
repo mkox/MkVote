@@ -99,6 +99,12 @@ class RankingList {
 	protected $basicData;
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $nameAndPercentageOfParties;
+	
+	/**
 	 * @var array $arguments
 	 * @Flow\Transient
 	 */
@@ -197,6 +203,9 @@ class RankingList {
 			
 			$sb->basicCalculations();
 			$this->setParties($sb);
+		}
+		if(!$this->nameAndPercentageOfParties){
+			$this->originalPartyPercentageData();
 		}
 		
 		$this->setAllConnectedSBstart();
@@ -551,6 +560,7 @@ class RankingList {
 			if($this->arguments['startData'] != 0){
 				$adjustData = new \Mk\Vote\Service\adjustData;
 				$changeData = $adjustData->chooseStartArray(1, $this->arguments['startData']);
+				$this->setNameAndPercentageOfParties('changed', $changeData);
 				$this->createNewStartRankingListFromOld($changeData);
 			}
 		}
@@ -693,15 +703,31 @@ class RankingList {
 		return $names;
 	}
 	
+	/**
+	 * Set original percentage data for each party.
+	 *
+	 * @return void
+	 */
 	protected function originalPartyPercentageData(){
 		
+		if(!$this->votes){
+			$this->setAllVotes();
+		}
 		foreach($this->parties as $party){
 			$percentages = array();
 			$votesOfParty = $party->getVotes();
 			for($i=0;$i<count($this->area);$i++){
-				$percentages[$this->area[$i]] = round($votesOfParty['original'][$this->area[$i]]['sum'] / $this->votes[$this->area[$i]] * 100, 2);
+				if($votesOfParty['original'][$this->area[$i]]['sum']){
+					$voteSum = $votesOfParty['original'][$this->area[$i]]['sum'];
+				} else {
+					$voteSum = $votesOfParty[$this->area[$i]];
+				}
+				$percentages[$this->area[$i]] = round($voteSum / $this->votes[$this->area[$i]] * 100, 2);
 			}
 			$party->setOriginalVotesForPercentages($percentages);
+		}
+		if(!$this->nameAndPercentageOfParties){
+			$this->setNameAndPercentageOfParties('original', array());
 		}
 
 		
@@ -775,6 +801,23 @@ class RankingList {
 	}
 	
 	/**
+	 * Sets all votes of a ranking list, counted from the votes of supervisory boards
+	 *
+	 * @return void
+	 */
+	protected function setAllVotes(){
+		$allVotes = array('regional' => 0, 'international' => 0);
+
+		foreach($this->supervisoryBoards as $sb){
+			$votes = $sb->getVotes();
+			for($i=0;$i<count($this->area);$i++){
+				$allVotes[$this->area[$i]] += $votes[$this->area[$i]];
+			}
+		}
+		$this->votes = $allVotes;
+	}
+	
+	/**
 	 * Sets array of basic data.
 	 * This is the base from which a JSON file will be created.
 	 *
@@ -820,6 +863,42 @@ class RankingList {
 	*/
 	public function getBasicData() {
 		return $this->basicData;
+	}
+	
+	/**
+	 * Set name and vote percentages of parties.
+	 * Used to put it as actual data in a form.
+	 * 
+	 * @param string $mode Possible modes: "original","changed"
+	 * @param array $changeData
+	 * @return void
+	 */
+	protected function setNameAndPercentageOfParties($mode, $changeData){
+		$nameAndPercentage = array();
+		if($mode == 'changed'){
+			$nameAndPercentage = $changeData;
+		} else {
+			$i=0;
+			foreach($this->parties as $party){
+				$nameAndPercentage[$i][0] = $party->getName();
+				$nameAndPercentage[$i][1] = $party->getName();
+				$votes = $party->getVotes();
+				$nameAndPercentage[$i][2] = $votes['original']['international']['percentage'];
+				$nameAndPercentage[$i][3] = $votes['original']['regional']['percentage'];
+				$i++;
+			}
+		}
+		$this->nameAndPercentageOfParties = $nameAndPercentage;
+	}
+	
+	/**
+	 * Get name and vote percentages of parties.
+	 * Used to put it as actual data in a form.
+	 * 
+	 * @return array Name and percentages of parties
+	 */
+	public function getNameAndPercentageOfParties(){
+		return $this->nameAndPercentageOfParties;
 	}
 	
 	/**
