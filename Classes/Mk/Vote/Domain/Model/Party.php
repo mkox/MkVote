@@ -21,6 +21,12 @@ class Party {
 	 * @var string
 	 */
 	protected $name;
+	
+	/**
+	 * The alias for the name (needed when later the name will be limited to letters (ascii), numbers, '_' and '-')
+	 * @var string
+	 */
+	protected $alias;
 
 	/**
 	 * The parent party
