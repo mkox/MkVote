@@ -105,6 +105,12 @@ class RankingList {
 	protected $nameAndPercentageOfParties;
 	
 	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $partyNames;
+	
+	/**
 	 * Only used for a short while, later in settings
 	 * @var int
 	 * @Flow\Transient
@@ -926,19 +932,24 @@ class RankingList {
 	 * @return void
 	 */
 	public function setPartiesForPercentageForm(){
-		$partiesForPercentageForm = array();
-		$this->setAlreadyUsedPartyNames();
-		for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
+		$this->setPartyNames();
+		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
+			$partiesForPercentageForm = array();
+			$this->setAlreadyUsedPartyNames();
+			for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
 
-			if(isset($this->nameAndPercentageOfParties[$i])){
-				$partiesForPercentageForm[$i] = $this->nameAndPercentageOfParties[$i];
-			} else {
-				$partyName = $this->chooseNameOfParty($i);
-				$partiesForPercentageForm[$i] = array($partyName, $partyName, 0, 0);
+				if(isset($this->nameAndPercentageOfParties[$i])){
+					$partiesForPercentageForm[$i] = $this->nameAndPercentageOfParties[$i];
+				} else {
+					$partyName = $this->chooseNameOfParty($i);
+					$partiesForPercentageForm[$i] = array($partyName, $partyName, 0, 0);
+				}
+
 			}
-
+			$this->partiesForPercentageForm = $partiesForPercentageForm;
+		} else {
+			$this->partiesForPercentageForm = $this->nameAndPercentageOfParties;
 		}
-		$this->partiesForPercentageForm = $partiesForPercentageForm;
 	}
 	
 	/**
@@ -982,6 +993,28 @@ class RankingList {
 			$alreadyUsedPartyNames[] = $this->nameAndPercentageOfParties[$i][1];
 		}
 		$this->alreadyUsedPartyNames = array_unique($alreadyUsedPartyNames);
+	}
+	
+	/**
+	 * Set party names.
+	 * 
+	 * @return void
+	 */
+	private function setPartyNames(){
+		$partyNames = array();
+		for($i=0; $i<count($this->nameAndPercentageOfParties); $i++){
+			$partyNames[$this->nameAndPercentageOfParties[$i][0]] = $this->nameAndPercentageOfParties[$i][0];
+		}
+		$this->partyNames = $partyNames;
+	}
+	
+	/**
+	 * Get party names.
+	 * 
+	 * @return array
+	 */
+	public function getPartyNames(){
+		return $this->partyNames;
 	}
 	
 	/**
