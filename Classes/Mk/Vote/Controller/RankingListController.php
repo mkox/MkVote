@@ -44,6 +44,7 @@ class RankingListController extends ActionController {
 		$rankingList->calculateSeatsDistribution($this->arguments);
 //$rankingList->setArrayOfBasicData();
 //$je1 = json_encode($rankingList->getBasicData());
+		$rankingList->setPartiesForPercentageForm();
 		$this->view->assign('rankingList', $rankingList);
 //		$this->view->assign('je1', $je1);
 	}

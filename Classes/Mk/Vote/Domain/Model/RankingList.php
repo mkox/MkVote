@@ -105,6 +105,25 @@ class RankingList {
 	protected $nameAndPercentageOfParties;
 	
 	/**
+	 * Only used for a short while, later in settings
+	 * @var int
+	 * @Flow\Transient
+	 */
+	protected $numberOfPartiesForPercentageForm = 8;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $partiesForPercentageForm;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
+	protected $alreadyUsedPartyNames;
+	
+	/**
 	 * @var array $arguments
 	 * @Flow\Transient
 	 */
@@ -899,6 +918,70 @@ class RankingList {
 	 */
 	public function getNameAndPercentageOfParties(){
 		return $this->nameAndPercentageOfParties;
+	}
+	
+	/**
+	 * Set parties for percentage form.
+	 * 
+	 * @return void
+	 */
+	public function setPartiesForPercentageForm(){
+		$partiesForPercentageForm = array();
+		$this->setAlreadyUsedPartyNames();
+		for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
+
+			if(isset($this->nameAndPercentageOfParties[$i])){
+				$partiesForPercentageForm[$i] = $this->nameAndPercentageOfParties[$i];
+			} else {
+				$partyName = $this->chooseNameOfParty($i);
+				$partiesForPercentageForm[$i] = array($partyName, $partyName, 0, 0);
+			}
+
+		}
+		$this->partiesForPercentageForm = $partiesForPercentageForm;
+	}
+	
+	/**
+	 * Get parties for percentage form.
+	 * 
+	 * @return void
+	 */
+	public function getPartiesForPercentageForm(){
+		return $this->partiesForPercentageForm;
+	}
+	
+	/**
+	 * Return name of party.
+	 * 
+	 * @var $partyIndex The index of the party
+	 * @return string Name of party
+	 */
+	protected function chooseNameOfParty($partyIndex){
+		$partyNames = array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+		for($i=$partyIndex; $i<count($partyNames); $i++){
+			if(!in_array($partyNames[$i], $this->alreadyUsedPartyNames)){
+				$partyName = $partyNames[$i];
+				break;
+			}
+		}
+		if(!$partyName){
+			$partyName = 'ZZ' . $partyIndex;
+		}
+		return $partyName;
+	}
+	
+	/**
+	 * Set array of already used party names.
+	 * 
+	 * @return void
+	 */
+	protected function setAlreadyUsedPartyNames(){
+		$alreadyUsedPartyNames = array();
+		for($i=0; $i<count($this->nameAndPercentageOfParties); $i++){
+			$alreadyUsedPartyNames[] = $this->nameAndPercentageOfParties[$i][0];
+			$alreadyUsedPartyNames[] = $this->nameAndPercentageOfParties[$i][1];
+		}
+		$this->alreadyUsedPartyNames = array_unique($alreadyUsedPartyNames);
 	}
 	
 	/**

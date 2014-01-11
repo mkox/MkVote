@@ -5,46 +5,56 @@
 
 <f:section name="Content">
 	<div>je1:<br>{je1}</div>
-	<div>Basic info to a rankinglist:</div>
-	<ul>
-		<li>Such a ranking list is useful, when there is voting for several bodies/boards, but for each board there are only a few seats (e.g. 1-5) 
-			for a defined group that itself is divided into parties. If votes are counted for every board independently, the biggest and sometimes the middle size parties 
-			get more seats than is appropriate in a proportional representation.</li>
-		<li>For several boards (here always 10 at the moment) the votes of all boards are in addition counted together for each party, so that 
-			based on a ranking list a part of the seats go to an other party, so that the distribution of seats is nearer to a proportional representation.</li>
-	</ul>
-	
-	<div>
-		<strong>
-			<f:translate id="rankingList.version" source="Main"/>: 
-			<f:if condition="{rankingList.arguments.startData} > 0">
-				<f:then>
-					<f:translate id="rankingList.version.notStandard2" source="Main"/> {rankingList.arguments.startData}
-				</f:then>
-				<f:else>
-					<f:translate id="rankingList.version.standard" source="Main"/>
-				</f:else>
-			</f:if>
-		</strong>
+	<div id="top-area">
+		<div id="start-basics">
+			<div>Basic info to a rankinglist:</div>
+			<ul>
+				<li>Such a ranking list is useful, when there is voting for several bodies/boards, but for each board there are only a few seats (e.g. 1-5) 
+					for a defined group that itself is divided into parties. If votes are counted for every board independently, the biggest and sometimes the middle size parties 
+					get more seats than is appropriate in a proportional representation.</li>
+				<li>For several boards (here always 10 at the moment) the votes of all boards are in addition counted together for each party, so that 
+					based on a ranking list a part of the seats go to an other party, so that the distribution of seats is nearer to a proportional representation.</li>
+			</ul>
+
+			<div>
+				<strong>
+					<f:translate id="rankingList.version" source="Main"/>: 
+					<f:if condition="{rankingList.arguments.startData} > 0">
+						<f:then>
+							<f:translate id="rankingList.version.notStandard2" source="Main"/> {rankingList.arguments.startData}
+						</f:then>
+						<f:else>
+							<f:translate id="rankingList.version.standard" source="Main"/>
+						</f:else>
+					</f:if>
+				</strong>
+			</div>
+			<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData'}">
+				<f:form.select name="startData" options="{
+						0: 'standard start data', 
+						1: 'start data 1', 
+						2: 'start data 2', 
+						3: 'start data 3', 
+						4: 'start data 4'
+					}" />
+				<f:form.submit value="Send" /><br>
+				With this form the ranking list with the standard start data is modified in 2 ways:
+				<ul>
+					<li>The percentage of the parties can be changed.</li>
+					<li>A party can be copied and used as an other party (e.g. also with other percentage), so that e.g instead of 4 parties there can be 5 parties in a ranking list.</li>
+				</ul>
+				In the future the user can change percentages and add new parties much more freely in a form.
+				<br><br>
+				Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external> in the Readme.txt.
+			</f:form>
+		</div>
+		<div id="insert-percentages">
+			<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData'}">
+				
+				<f:form.submit value="Send" /><br>
+			</f:form>
+		</div>
 	</div>
-	<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData'}">
-		<f:form.select name="startData" options="{
-				0: 'standard start data', 
-				1: 'start data 1', 
-				2: 'start data 2', 
-				3: 'start data 3', 
-				4: 'start data 4'
-			}" />
-		<f:form.submit value="Send" /><br>
-		With this form the ranking list with the standard start data is modified in 2 ways:
-		<ul>
-			<li>The percentage of the parties can be changed.</li>
-			<li>A party can be copied and used as an other party (e.g. also with other percentage), so that e.g instead of 4 parties there can be 5 parties in a ranking list.</li>
-		</ul>
-		In the future the user can change percentages and add new parties much more freely in a form.
-		<br><br>
-		Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external> in the Readme.txt.
-	</f:form>
 	<br>
 	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
 	
