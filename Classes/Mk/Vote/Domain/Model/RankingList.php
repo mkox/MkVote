@@ -587,8 +587,38 @@ class RankingList {
 				$changeData = $adjustData->chooseStartArray(1, $this->arguments['startData']);
 				$this->setNameAndPercentageOfParties('changed', $changeData);
 				$this->createNewStartRankingListFromOld($changeData);
-			}
+			}	
+		} else if(isset($this->arguments['changePercentages'])){
+			$changeData = $this->createStartDataFromForm();
+			$this->setNameAndPercentageOfParties('changed', $changeData);
+			$this->createNewStartRankingListFromOld($changeData);
 		}
+//		$this->createStartDataFromForm();
+//		if(isset($this->arguments['startData'])){
+//			if($this->arguments['startData'] != 0){
+//				$adjustData = new \Mk\Vote\Service\adjustData;
+//				$changeData = $adjustData->chooseStartArray(1, $this->arguments['startData']);
+//				$this->setNameAndPercentageOfParties('changed', $changeData);
+//				$this->createNewStartRankingListFromOld($changeData);
+//			}
+//		}
+	}
+	
+	/**
+	 * Create array with change data that was transmitted through form.
+	 *
+	 * @return array with change
+	 */
+	protected function createStartDataFromForm(){
+		$changeData = array();
+			foreach($this->arguments['changePercentages'] as $partyKey => $party){
+				if($party['percent_international'] == 0 && $party['percent_regional'] == 0){
+					continue;
+				}
+				$changeData[] = array($partyKey, $party['baseParty'], $party['percent_international'], $party['percent_regional']);
+//				$changeData[] = array($partyKey, $party['baseParty'], $party['percent_regional'], $party['percent_international']);
+			}
+		return $changeData;
 	}
 	
 	/**
@@ -628,14 +658,17 @@ class RankingList {
 								if($this->area[$j] == 'regional'){
 									$oldVotesOfCandidate = $candidate->getVotesRegional();
 									$partyPercentage = $changeData[$i][5];
+									$keyAdditionForChangeData = 1;
 								} else {
 									$oldVotesOfCandidate = $candidate->getVotesInternational();
 									$partyPercentage = $changeData[$i][4];
+									$keyAdditionForChangeData = 0;
 								}
 
 								if($partyPercentage > 0){
-
-									$votesOfCandidateForArea = round($oldVotesOfCandidate / $partyPercentage * $changeData[$i][2 + $j]);
+									$votesOfCandidateForArea = round($oldVotesOfCandidate / $partyPercentage * $changeData[$i][2 + $keyAdditionForChangeData]);
+								} else {
+									$votesOfCandidateForArea = 0; //especially needed when $partyPercentage is exactly 0
 								}
 								if($this->area[$j] == 'regional'){
 									$candidate->setVotesRegional($votesOfCandidateForArea);
