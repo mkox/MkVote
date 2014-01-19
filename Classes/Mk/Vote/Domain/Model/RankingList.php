@@ -104,11 +104,11 @@ class RankingList {
 	 */
 	protected $nameAndPercentageOfParties;
 	
-	/**
-	 * @var array
-	 * @Flow\Transient
-	 */
-	protected $partyNames;
+//	/**
+//	 * @var array
+//	 * @Flow\Transient
+//	 */
+//	protected $partyNames;
 	
 	/**
 	 * Only used for a short while, later in settings
@@ -622,7 +622,6 @@ class RankingList {
 					continue;
 				}
 				$changeData[] = array($partyKey, $party['baseParty'], $party['percent_international'], $party['percent_regional']);
-//				$changeData[] = array($partyKey, $party['baseParty'], $party['percent_regional'], $party['percent_international']);
 			}
 		return $changeData;
 	}
@@ -971,7 +970,7 @@ class RankingList {
 	 * @return void
 	 */
 	public function setPartiesForPercentageForm(){
-		$this->setPartyNames();
+//		$this->setPartyNames();
 		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
 			$partiesForPercentageForm = array();
 			$this->setAlreadyUsedPartyNames();
@@ -1034,27 +1033,27 @@ class RankingList {
 		$this->alreadyUsedPartyNames = array_unique($alreadyUsedPartyNames);
 	}
 	
-	/**
-	 * Set party names.
-	 * 
-	 * @return void
-	 */
-	private function setPartyNames(){
-		$partyNames = array();
-		for($i=0; $i<count($this->nameAndPercentageOfParties); $i++){
-			$partyNames[$this->nameAndPercentageOfParties[$i][0]] = $this->nameAndPercentageOfParties[$i][0];
-		}
-		$this->partyNames = $partyNames;
-	}
-	
-	/**
-	 * Get party names.
-	 * 
-	 * @return array
-	 */
-	public function getPartyNames(){
-		return $this->partyNames;
-	}
+//	/**
+//	 * Set party names.
+//	 * 
+//	 * @return void
+//	 */
+//	private function setPartyNames(){
+//		$partyNames = array();
+//		for($i=0; $i<count($this->nameAndPercentageOfParties); $i++){
+//			$partyNames[$this->nameAndPercentageOfParties[$i][0]] = $this->nameAndPercentageOfParties[$i][0];
+//		}
+//		$this->partyNames = $partyNames;
+//	}
+//	
+//	/**
+//	 * Get party names.
+//	 * 
+//	 * @return array
+//	 */
+//	public function getPartyNames(){
+//		return $this->partyNames;
+//	}
 	
 	/**
 	 * Set original parties for select box
@@ -1065,9 +1064,9 @@ class RankingList {
 		$parties = array();
 		foreach($this->parties as $party){
 			$party2 = new \stdClass();
-			$party2->key = $party->getName();
+			$party2->value = $party->getName();
 			$votes = $party->getVotes();
-			$party2->value = $party->getName() . ' (' . $votes['original']['international']['percentage'] . '% + ' . 
+			$party2->label = $party->getName() . '   (' . $votes['original']['international']['percentage'] . '%,  ' . 
 				$votes['original']['regional']['percentage'] . '%)';
 			$parties[] = $party2;
 		}

@@ -49,7 +49,7 @@
 			</f:form>
 		</div>
 		<div id="insert-percentages">
-			<f:form action="show" name="changePercentages" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'changePercentages'}">
+			<f:form action="show" name="changePercentages" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData', 1: 'changePercentages'}">
 				<h2>Use other percentages for parties</h2>
 				<ul>
 					<f:for each="{rankingList.partiesForPercentageForm}" as="party" key="partyKey">
@@ -57,7 +57,7 @@
 							{party.0} -- 
 							<f:form.textfield name="changePercentages[{party.0}][percent_international]" value="{party.2}" /> -- 
 							<f:form.textfield name="changePercentages[{party.0}][percent_regional]" value="{party.3}" /> -- 
-							<f:form.select name="changePercentages[{party.0}][baseParty]" value="{party.0}" options="{rankingList.partyNames}" />
+							<f:form.select name="changePercentages[{party.0}][baseParty]" value="{party.1}" options="{rankingList.originalPartiesForSelectBox}" optionValueField="value" optionLabelField="label" />
 						</li>
 					</f:for>
 				</ul>
