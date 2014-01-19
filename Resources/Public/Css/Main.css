@@ -47,6 +47,7 @@
 #insert-percentages form .submit {
 	clear: both;
 	float: left;
+	widht: 60px;
 }
 #insert-percentages form input {
 	width: 40px;
@@ -62,7 +63,7 @@
 	text-align: right;
 }
 #insert-percentages form .international {
-	width: 95px;
+	width: 75px;
 	text-align: right;
 }
 #insert-percentages form .regional {
@@ -70,7 +71,7 @@
 	text-align: right;
 }
 #insert-percentages form .original {
-	width: 170px;
+	width: 150px;
 	text-align: right;
 }
 #insert-percentages form ul {
