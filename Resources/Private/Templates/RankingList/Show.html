@@ -52,19 +52,21 @@
 			<f:form action="show" name="changePercentages" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData', 1: 'changePercentages'}">
 				<h2>Use other percentages for parties</h2>
 				<ul>
+					<li class="labels"><span class="l1">Party</span><span class="l2">inter- national</span><span class="l3">regional</span><span class="l4">original party and %</span></li>
 					<f:for each="{rankingList.partiesForPercentageForm}" as="party" key="partyKey">
 						<li>
-							{party.0} -- 
-							<f:form.textfield name="changePercentages[{party.0}][percent_international]" value="{party.2}" /> -- 
-							<f:form.textfield name="changePercentages[{party.0}][percent_regional]" value="{party.3}" /> -- 
-							<f:form.select name="changePercentages[{party.0}][baseParty]" value="{party.1}" options="{rankingList.originalPartiesForSelectBox}" optionValueField="value" optionLabelField="label" />
+							<div class="name">{party.0}</div>
+							<div class="international"><f:form.textfield name="changePercentages[{party.0}][percent_international]" value="{party.2}" /></div>
+							<div class="regional"><f:form.textfield name="changePercentages[{party.0}][percent_regional]" value="{party.3}" /></div>
+							<div class="original"><f:form.select name="changePercentages[{party.0}][baseParty]" value="{party.1}" options="{rankingList.originalPartiesForSelectBox}" optionValueField="value" optionLabelField="label" /></div>
 						</li>
 					</f:for>
 				</ul>
-				<f:form.submit value="Send" /><br>
+				<f:form.submit class="submit" value="Send" /><br>
 			</f:form>
 		</div>
 	</div>
+	<div class="clear"></div>
 	<br>
 	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
 	

@@ -6,6 +6,20 @@
         Purpose of the stylesheet follows.
 */
 
+#top-area {
+	float: left;
+}
+#start-basics {
+	float: left;
+	width: 500px;
+}
+#insert-percentages {
+	float: right;
+	width: 480px;
+	border: 2px solid;
+	margin-left: 10px;
+	padding: 10px;
+}
 #supervisoryBoards .supervisoryBoard .sb-main {
 	float: left;
 }
@@ -28,4 +42,55 @@
 }
 .clear {
 	clear: both;
+}
+
+#insert-percentages form .submit {
+	clear: both;
+	float: left;
+}
+#insert-percentages form input {
+	width: 40px;
+}
+#insert-percentages form .name,
+#insert-percentages form .international, 
+#insert-percentages form .regional, 
+#insert-percentages form .original {
+	float: left;
+}
+#insert-percentages form .name {
+	width: 45px;
+	text-align: right;
+}
+#insert-percentages form .international {
+	width: 95px;
+	text-align: right;
+}
+#insert-percentages form .regional {
+	width: 97px;
+	text-align: right;
+}
+#insert-percentages form .original {
+	width: 170px;
+	text-align: right;
+}
+#insert-percentages form ul {
+	padding-left: 0;
+}
+#insert-percentages form ul .labels {
+	font-weight: bold;
+	height: 40px;
+	line-height: 40px;
+}
+#insert-percentages form ul .labels span {
+	margin: 0 10px;
+	max-width: 80px;
+	display: inline-block;
+	line-height: 1;
+}
+#insert-percentages form ul .labels span.l4 {
+	max-width: 120px;
+}
+#insert-percentages form ul li {
+	clear: both;
+	list-style-type: none;
 }
