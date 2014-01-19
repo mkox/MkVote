@@ -127,6 +127,12 @@ class RankingList {
 	 * @var array
 	 * @Flow\Transient
 	 */
+	protected $originalPartiesForSelectBox;
+	
+	/**
+	 * @var array
+	 * @Flow\Transient
+	 */
 	protected $alreadyUsedPartyNames;
 	
 	/**
@@ -1048,6 +1054,33 @@ class RankingList {
 	 */
 	public function getPartyNames(){
 		return $this->partyNames;
+	}
+	
+	/**
+	 * Set original parties for select box
+	 *
+	 * @return array
+	 */
+	public function setOriginalPartiesForSelectBox() {
+		$parties = array();
+		foreach($this->parties as $party){
+			$party2 = new \stdClass();
+			$party2->key = $party->getName();
+			$votes = $party->getVotes();
+			$party2->value = $party->getName() . ' (' . $votes['original']['international']['percentage'] . '% + ' . 
+				$votes['original']['regional']['percentage'] . '%)';
+			$parties[] = $party2;
+		}
+		$this->originalPartiesForSelectBox = $parties;
+	}
+	
+	/**
+	 * Get original parties for select box
+	 *
+	 * @return array
+	 */
+	public function getOriginalPartiesForSelectBox() {
+		return $this->originalPartiesForSelectBox;
 	}
 	
 	/**
