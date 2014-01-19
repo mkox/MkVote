@@ -1061,16 +1061,33 @@ class RankingList {
 	 * @return array
 	 */
 	public function setOriginalPartiesForSelectBox() {
+		$originalPartyNames = $this->createListOfOriginalPartyNames();
 		$parties = array();
 		foreach($this->parties as $party){
-			$party2 = new \stdClass();
-			$party2->value = $party->getName();
-			$votes = $party->getVotes();
-			$party2->label = $party->getName() . '   (' . $votes['original']['international']['percentage'] . '%,  ' . 
-				$votes['original']['regional']['percentage'] . '%)';
-			$parties[] = $party2;
+			if(in_array($party->getName(), $originalPartyNames)){
+				$party2 = new \stdClass();
+				$party2->value = $party->getName();
+				$votes = $party->getVotes();
+				$party2->label = $party->getName() . '   (' . $votes['original']['international']['percentage'] . '%,  ' . 
+					$votes['original']['regional']['percentage'] . '%)';
+				$parties[] = $party2;
+			}
 		}
 		$this->originalPartiesForSelectBox = $parties;
+	}
+	
+	/**
+	 * Create array of original party names.
+	 *
+	 * @return array
+	 */
+	protected function createListOfOriginalPartyNames() {
+		$originalPartyNames = array();
+		foreach($this->nameAndPercentageOfParties as $party){
+			$originalPartyNames[] = $party[1];
+		}
+		$originalPartyNames = array_unique($originalPartyNames);
+		return $originalPartyNames;
 	}
 	
 	/**
