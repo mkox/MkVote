@@ -36,14 +36,16 @@ class RankingListController extends ActionController {
 	 */
 	public function showAction(RankingList $rankingList) {
 		
+		/* outcommented lines: later used for json functionality. */
+		
 //		$startArrayObject = new \Mk\Vote\Service\Setup\startArray1;
 //		$startArray = $startArrayObject->getContent();
 //		$je1 = json_encode($startArray);
 		
 		$this->setArguments();
 		$rankingList->calculateSeatsDistribution($this->arguments);
-//$rankingList->setArrayOfBasicData();
-//$je1 = json_encode($rankingList->getBasicData());
+//		$rankingList->setArrayOfBasicData();
+//		$je1 = json_encode($rankingList->getBasicData());
 		$rankingList->setPartiesForPercentageForm();
 		$rankingList->setOriginalPartiesForSelectBox();
 		$this->view->assign('rankingList', $rankingList);

@@ -104,12 +104,6 @@ class RankingList {
 	 */
 	protected $nameAndPercentageOfParties;
 	
-//	/**
-//	 * @var array
-//	 * @Flow\Transient
-//	 */
-//	protected $partyNames;
-	
 	/**
 	 * Only used for a short while, later in settings
 	 * @var int
@@ -229,7 +223,6 @@ class RankingList {
 	 */
 	protected function beforeListCompare(){
 		$this->setStartData();
-//		$this->setIdAsKeyForSupervisoryBoards();
 		foreach($this->supervisoryBoards as $sb){
 			
 			$sb->basicCalculations();
@@ -393,8 +386,6 @@ class RankingList {
 											}
 
 											$listOfVoteDifferences[$this->area[$i]][$j]['supervisoryBoard'] = $sb;
-//											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooFewSeats'] = $listParty;
-//											$listOfVoteDifferences[$this->area[$i]][$j]['partyWithTooMuchSeats'] = $this->parties[$mParty]; 
 											$listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['party'] = $listParty;
 											$listOfVoteDifferences[$this->area[$i]][$j]['tooFewSeats']['listOfCandidates'] = $list;
 											$listOfVoteDifferences[$this->area[$i]][$j]['tooMuchSeats']['party'] = $this->parties[$mParty]; 
@@ -599,15 +590,6 @@ class RankingList {
 			$this->setNameAndPercentageOfParties('changed', $changeData);
 			$this->createNewStartRankingListFromOld($changeData);
 		}
-//		$this->createStartDataFromForm();
-//		if(isset($this->arguments['startData'])){
-//			if($this->arguments['startData'] != 0){
-//				$adjustData = new \Mk\Vote\Service\adjustData;
-//				$changeData = $adjustData->chooseStartArray(1, $this->arguments['startData']);
-//				$this->setNameAndPercentageOfParties('changed', $changeData);
-//				$this->createNewStartRankingListFromOld($changeData);
-//			}
-//		}
 	}
 	
 	/**
@@ -970,7 +952,6 @@ class RankingList {
 	 * @return void
 	 */
 	public function setPartiesForPercentageForm(){
-//		$this->setPartyNames();
 		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
 			$partiesForPercentageForm = array();
 			$this->setAlreadyUsedPartyNames();
@@ -1032,28 +1013,6 @@ class RankingList {
 		}
 		$this->alreadyUsedPartyNames = array_unique($alreadyUsedPartyNames);
 	}
-	
-//	/**
-//	 * Set party names.
-//	 * 
-//	 * @return void
-//	 */
-//	private function setPartyNames(){
-//		$partyNames = array();
-//		for($i=0; $i<count($this->nameAndPercentageOfParties); $i++){
-//			$partyNames[$this->nameAndPercentageOfParties[$i][0]] = $this->nameAndPercentageOfParties[$i][0];
-//		}
-//		$this->partyNames = $partyNames;
-//	}
-//	
-//	/**
-//	 * Get party names.
-//	 * 
-//	 * @return array
-//	 */
-//	public function getPartyNames(){
-//		return $this->partyNames;
-//	}
 	
 	/**
 	 * Set original parties for select box

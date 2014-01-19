@@ -1,5 +1,6 @@
 This application is still in a development state, but some functionality 
-can already be used, as you can see in the test page http://flow1.michaelkox.de.
+can already be used, as you can see in the test page http://flow1.michaelkox.de
+(at the moment best with browser Firefox).
 
 It is coded on the base of the PHP-framework TYPO3 Flow (http://flow.typo3.org) 
 and uses the Object Relational Mapper from Doctrine (http://www.doctrine-project.org/).
