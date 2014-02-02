@@ -111,13 +111,6 @@ class RankingList {
 	protected $nameAndPercentageOfParties;
 	
 	/**
-	 * Only used for a short while, later in settings
-	 * @var int
-	 * @Flow\Transient
-	 */
-	protected $numberOfPartiesForPercentageForm = 8;
-	
-	/**
 	 * @var array
 	 * @Flow\Transient
 	 */
@@ -958,11 +951,9 @@ class RankingList {
 	 * @return void
 	 */
 	public function setPartiesForPercentageForm(){
-//		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
 		if(count($this->nameAndPercentageOfParties) < $this->settings['numberOfPartiesForPercentageForm']){
 			$partiesForPercentageForm = array();
 			$this->setAlreadyUsedPartyNames();
-//			for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
 			for($i=0; $i<$this->settings['numberOfPartiesForPercentageForm']; $i++){
 
 				if(isset($this->nameAndPercentageOfParties[$i])){
