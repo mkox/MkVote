@@ -17,6 +17,12 @@ use Doctrine\ORM\Mapping as ORM;
 class RankingList {
 	
 	/**
+	* @var array
+	* @Flow\Transient
+	*/
+	protected $settings;
+	
+	/**
 	 * The overview
 	 * @var \Mk\Vote\Domain\Model\Overview
 	 * @ORM\ManyToOne(inversedBy="rankingLists")
@@ -952,10 +958,12 @@ class RankingList {
 	 * @return void
 	 */
 	public function setPartiesForPercentageForm(){
-		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
+//		if(count($this->nameAndPercentageOfParties) < $this->numberOfPartiesForPercentageForm){
+		if(count($this->nameAndPercentageOfParties) < $this->settings['numberOfPartiesForPercentageForm']){
 			$partiesForPercentageForm = array();
 			$this->setAlreadyUsedPartyNames();
-			for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
+//			for($i=0; $i<$this->numberOfPartiesForPercentageForm; $i++){
+			for($i=0; $i<$this->settings['numberOfPartiesForPercentageForm']; $i++){
 
 				if(isset($this->nameAndPercentageOfParties[$i])){
 					$partiesForPercentageForm[$i] = $this->nameAndPercentageOfParties[$i];
@@ -1074,6 +1082,16 @@ class RankingList {
 	*/
 	public function setArguments($arguments) {
 		$this->arguments = $arguments;
+	}
+	
+	/**
+	* Inject the settings
+	*
+	* @param array $settings
+	* @return void
+	*/
+	public function injectSettings(array $settings) {
+			$this->settings = $settings;
 	}
 	
 }
