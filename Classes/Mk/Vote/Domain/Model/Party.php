@@ -75,6 +75,25 @@ class Party {
 	public function setName($name) {
 		$this->name = $name;
 	}
+	
+	/**
+	 * Get the Party's alias
+	 *
+	 * @return string The Party's alias
+	 */
+	public function getAlias() {
+		return $this->alias;
+	}
+
+	/**
+	 * Sets this Party's alias
+	 *
+	 * @param string $alias The Party's alias
+	 * @return void
+	 */
+	public function setAlias($alias) {
+		$this->alias = $alias;
+	}
 
 	/**
 	 * Get the Party's parent party

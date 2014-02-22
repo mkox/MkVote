@@ -157,6 +157,7 @@ class SetupController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 		foreach($parties as $pName){
 			$party = new \Mk\Vote\Domain\Model\Party();
 			$party->setName($pName);
+			$party->setAlias('');
 			$party->setParentParty(0);
 			$this->partyRepository->add($party);
 		}
