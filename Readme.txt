@@ -1,3 +1,13 @@
+***********************************************************************
+* This is copied from the project in https://github.com/mkox/Mk.Vote. *
+* The intention of this project here is to create from this code      *
+* a module for Zend Framework 2.                                      *
+* This project still needs some changes to make it work.              *      
+* (The text below is from the original project.)                      *
+***********************************************************************
+
+
+
 This application is still in a development state, but some functionality 
 can already be used, as you can see in the test page http://flow1.michaelkox.de
 (at the moment best with browser Firefox).
