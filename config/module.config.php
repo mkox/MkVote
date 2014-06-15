@@ -1,38 +1,38 @@
 <?php
+
 namespace MkVote;
 
 return array(
     'controllers' => array(
         'invokables' => array(
-            'MkVote\Controller\MkVote' => 'MkVote\Controller\MkVoteController',
+            'MkVote\Controller\Standard' => 'MkVote\Controller\StandardController',
+            'MkVote\Controller\RankingList' => 'MkVote\Controller\RankingListsController',
+            'MkVote\Controller\Setup' => 'MkVote\Controller\SetupController',
         ),
     ),
-    
     'router' => array(
         'routes' => array(
             'mkvote' => array(
-                'type'    => 'segment',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/mkvote[/:action][/:id]',
+                    'route' => '/mkvote[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        'id' => '[0-9]+',
                     ),
                     'defaults' => array(
                         'controller' => 'MkVote\Controller\Standard',
-                        'action'     => 'index',
+                        'action' => 'index',
                     ),
                 ),
             ),
         ),
     ),
-
     'view_manager' => array(
         'template_path_stack' => array(
             'mkvote' => __DIR__ . '/../view',
         ),
     ),
-
     'doctrine' => array(
         'driver' => array(
             __NAMESPACE__ . '_driver' => array(

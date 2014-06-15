@@ -1,0 +1,35 @@
+<f:layout name="Default" />
+
+<f:section name="Title">New ranking list</f:section>
+
+<f:section name="Content">
+	<p>Just fill out the following form to create a new ranking list:</p>
+
+	<f:form action="create" objectName="newRankingList">
+		<ol>
+			<li>
+				<label for="overview">Ranking list</label>
+				<f:form.textfield property="overview" id="overview" />
+			</li>
+		
+			<li>
+				<label for="supervisoryBoard">Ranking list</label>
+				<f:form.textfield property="supervisoryBoard" id="supervisoryBoard" />
+			</li>
+		
+			<li>
+				<label for="name">Ranking list</label>
+				<f:form.textfield property="name" id="name" />
+			</li>
+		
+			<li>
+				<label for="description">Ranking list</label>
+				<f:form.textfield property="description" id="description" />
+			</li>
+		
+			<li>
+				<f:form.submit value="Create" />
+			</li>
+		</ol>
+	</f:form>
+</f:section>

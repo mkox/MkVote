@@ -1,0 +1,234 @@
+<f:layout name="Default" />
+
+<f:section name="Title"><f:translate id="rankingList.show" source="Main"/>: "{rankingList.name}"</f:section>
+
+
+<f:section name="Content">
+	<div>{je1}</div>
+	<div id="top-area">
+		<div id="start-basics">
+			<div>Basic info to a rankinglist:</div>
+			<ul>
+				<li>Such a ranking list is useful, when there is voting for several bodies/boards, but for each board there are only a few seats (e.g. 1-5) 
+					for a defined group that itself is divided into parties. If votes are counted for every board independently, the biggest and sometimes the middle size parties 
+					get more seats than is appropriate in a proportional representation.</li>
+				<li>For several boards (here always 10 at the moment) the votes of all boards are in addition counted together for each party, so that 
+					based on a ranking list a part of the seats go to an other party, so that the distribution of seats is nearer to a proportional representation.</li>
+			</ul>
+
+			<div>
+				<strong>
+					<f:translate id="rankingList.version" source="Main"/>: 
+					<f:if condition="{rankingList.arguments.startData} > 0">
+						<f:then>
+							<f:translate id="rankingList.version.notStandard2" source="Main"/> {rankingList.arguments.startData}
+						</f:then>
+						<f:else>
+							<f:translate id="rankingList.version.standard" source="Main"/>
+						</f:else>
+					</f:if>
+				</strong>
+			</div>
+			<f:form action="show" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData', 1: 'changePercentages'}">
+				<f:form.select name="startData" options="{
+						0: 'standard start data', 
+						1: 'start data 1', 
+						2: 'start data 2', 
+						3: 'start data 3', 
+						4: 'start data 4'
+					}" />
+				<f:form.submit value="Send" /><br>
+				With this form the ranking list with the standard start data is modified in 2 ways:
+				<ul>
+					<li>The percentage of the parties can be changed.</li>
+					<li>A party can be copied and used as an other party (e.g. also with other percentage), so that e.g instead of 4 parties there can be 5 parties in a ranking list.</li>
+				</ul>
+				In the future the user can change percentages and add new parties much more freely in a form.
+				<br><br>
+				Further information on this application see in <f:link.external uri="github.com/mkox/Mk.Vote" defaultScheme="https">https://github.com/mkox/Mk.Vote</f:link.external> in the Readme.txt.
+			</f:form>
+		</div>
+		<div id="insert-percentages">
+			<f:form action="show" name="changePercentages" addQueryString="1" argumentsToBeExcludedFromQueryString="{0: 'startData', 1: 'changePercentages'}">
+				<h2>Use other percentages for parties</h2>
+				<ul>
+					<li class="labels"><span class="l1">Party</span><span class="l2">inter- national</span><span class="l3">regional</span><span class="l4">original party and %</span></li>
+					<f:for each="{rankingList.partiesForPercentageForm}" as="party" key="partyKey">
+						<li>
+							<div class="name">{party.0}</div>
+							<div class="international"><f:form.textfield name="changePercentages[{party.0}][percent_international]" value="{party.2}" /></div>
+							<div class="regional"><f:form.textfield name="changePercentages[{party.0}][percent_regional]" value="{party.3}" /></div>
+							<div class="original"><f:form.select name="changePercentages[{party.0}][baseParty]" value="{party.1}" options="{rankingList.originalPartiesForSelectBox}" optionValueField="value" optionLabelField="label" /></div>
+						</li>
+					</f:for>
+				</ul>
+				<f:form.submit class="submit" value="Send" /><br>
+			</f:form>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<br>
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
+	
+	<div id="allConnectedSB">
+		<h2>Votes and seats for all supervisory boards of this ranking list together:</h2>
+		<ul>
+			<f:for each="{rankingList.allConnectedSB}" as="area" key="areaKey">
+				<li>
+					<h3>{areaKey}:</h3>
+						Votes: {area.votes}<br>
+						Seats: {area.seats}<br>
+						Seats to correct: {area.seatsToCorrect}<br>
+				</li>
+			</f:for>
+		</ul>
+	</div>
+	
+	<div id="parties">
+		<h2>Parties with votes and seats for all supervisory boards of this ranking list together:</h2>
+		<ul>
+			<f:for each="{rankingList.parties}" as="party">
+				<li>
+					Name: {party.name}<br>
+						Votes regional: {party.votes.regional}<br>
+						Votes international: {party.votes.international}<br>
+					<f:for each="{party.seats}" as="area" key="areaKey">
+						Seats {areaKey}: first {area.first}, corrected {area.corrected}<br>
+					</f:for>
+				</li>
+			</f:for>
+		</ul>
+	</div>
+	
+	<div id="supervisoryBoards">
+		<h2>Supervisory Boards:</h2>
+		<ol>
+			<f:for each="{rankingList.supervisoryBoards}" as="sBoard">
+				<li class="supervisoryBoard">
+					<div class="sb-main">
+						Name of supervisory board: {sBoard.name}<br>
+						Seats: {sBoard.seats}<br>
+						<h3>Lists of Candidates:</h3>
+						(At the moment in a list can only be one party.)
+						<ul>
+							<f:for each="{sBoard.listsOfCandidates}" as="listOfCandidates">
+								<li>
+									Name of List/Party: {listOfCandidates.name}<br>
+									Votes regional: {listOfCandidates.votes.regional}<br>
+									Votes international: {listOfCandidates.votes.international}<br>
+									Seats regional, before correction: {listOfCandidates.seats.regional.first}<br>
+									Seats regional, after correction: {listOfCandidates.seats.regional.corrected}<br>
+									Seats international, before correction: {listOfCandidates.seats.international.first}<br>
+									Seats international, after correction: {listOfCandidates.seats.international.corrected}<br>
+								</li>
+							</f:for>
+						</ul>
+					</div>
+					<div class="voteDifferences">
+						<f:if condition="{sBoard.voteDifferences}">
+							<div class="inner">
+								<p>Vote differences that lead to change of seat distribution:</p>
+								<f:for each="{sBoard.voteDifferences}" as="area" key="areaKey">
+									<h4>{areaKey}:</h4>
+									<ul>
+										<f:for each="{area}" as="voteDifference">
+											<li>
+												List with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+												List with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+												<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
+											</li>
+										</f:for>
+									</ul>
+								</f:for>
+								<br>
+								<p>(Later here you find also, how the above mentioned difference is calculated; it is not always the pure difference of votes between 2 lists.)</p>
+							</div>
+						</f:if>
+					</div>
+				</li>
+			</f:for>
+		</ol>
+		<div class="clear"></div>
+	</div>
+	
+	<br><br>
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
+	<br>
+	
+	<div id="filteredListOfVoteDifferences">
+		<h2>Filtered Ranking List with Vote Differences:</h2>
+		(At the moment in a list can only be one party.)
+		<f:for each="{rankingList.filteredListOfVoteDifferences}" as="area" key="areaKey">
+			<li>
+				<h3>{areaKey}:</h3>
+				<ol>
+					<f:for each="{area}" as="voteDifference">
+						<li>
+							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
+							List/Party with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							List/Party with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
+						</li>
+					</f:for>
+				</ol>
+			</li>
+		</f:for>
+	</div>
+	
+	<div id="listOfVoteDifferences">
+		<h2>Full Ranking List with Vote Differences:</h2>
+		Here you find information why some vote differences between candidate lists of a supervisory board do not result in a redestribution of seats.<br>
+		(At the moment in a list can only be one party.)
+		<f:for each="{rankingList.listOfVoteDifferences}" as="area" key="areaKey">
+			<li>
+				<h3>{areaKey}:</h3>
+				<ol>
+					<f:for each="{area}" as="voteDifference">
+						<li>
+							Supervisory Board: {voteDifference.supervisoryBoard.name}<br>
+							List/Party with too few seats: {voteDifference.tooFewSeats.listOfCandidates.name}<br>
+							List/Party with too much seats: {voteDifference.tooMuchSeats.listOfCandidates.name}<br>
+							<strong>Difference: <f:format.printf arguments="{1: '{voteDifference.difference}'}">%01.2f %%</f:format.printf></strong><br>
+							<strong>Filtering information: </strong>
+							<f:if condition="{voteDifference.filterStatus} == 1">
+								<f:then>
+									<strong>({voteDifference.filterStatus}) Not filtered!</strong> So here the party with too few seats gets an additional seat.
+								</f:then>
+								<f:else>
+									<f:if condition="{voteDifference.filterStatus} == 2">
+										<f:then>
+											({voteDifference.filterStatus}) The party with too MUCH seats has NOT at least 1 seat in this supervisory board for this area.
+										</f:then>
+										<f:else>
+											<f:if condition="{voteDifference.filterStatus} == 3">
+												<f:then>
+													({voteDifference.filterStatus}) The party with too FEW seats has NOT too few seats now; it already got additional seats.
+												</f:then>
+												<f:else>
+													<f:if condition="{voteDifference.filterStatus} == 4">
+														<f:then>
+															({voteDifference.filterStatus}) The party with too MUCH seats has NOT more seats than it should have any more; it has already given the seats that where too much.
+														</f:then>
+														<f:else>
+															<f:if condition="{voteDifference.filterStatus} == 5">
+																({voteDifference.filterStatus}) The party with too FEW seats already got a seat in this supervisory board through the vote-difference-procedure.
+															</f:if>
+																
+														</f:else>
+													</f:if>
+												</f:else>
+											</f:if>
+										</f:else>
+									</f:if>
+								</f:else>
+							</f:if>
+							<br>
+						</li>
+					</f:for>
+				</ol>
+			</li>
+		</f:for>
+	</div>
+	<f:render partial="ContentTableForRankinglist" arguments="{_all}" />
+</f:section>
+
